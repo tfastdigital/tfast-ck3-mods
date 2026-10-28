@@ -1,0 +1,310 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Hollow Tide situation         CK3 1.20.x
+# ============================================================================
+#  The Hollow threat as a first-class Situations-window entry, exactly the
+#  way vanilla models the Christian Church or the Great Steppe. The window
+#  shows the current chapter of the crisis for every landed ruler:
+#
+#    Predatory Peace -> Escalation -> The Great Reckoning
+#        -> Aftermath        (the Host withdrew)
+#        -> The Long Dark    (the Reckoning was lost)
+#               -> The Uprising -> Aftermath (the dark breaks)
+#
+#  Phases advance on our own catalysts, fired from the crisis scripts:
+#    catalyst_tfast_sc_escalation  crisis phase 2 begins
+#    catalyst_tfast_sc_reckoning   phase 3 (the Reckoning begins)
+#    catalyst_tfast_sc_aftermath   the Reckoning ends un-lost
+#    catalyst_tfast_sc_dark        a Reckoning the world lost (phase 6)
+#    catalyst_tfast_sc_uprising    the world rises
+#    catalyst_tfast_sc_dawnbreak   the Long Dark breaks
+#    catalyst_tfast_sc_peace       the Hollow stir again after a recovery
+#
+#  No custom GUI: the generic window_situation (the one the debug situation
+#  uses) and our own DDS icons under gfx/interface/icons/situations/tfast_sc.
+#  The situation is unique, never ends, and is started - once - by the
+#  director (tfast_sc_director_yearly_effect), which also covers existing
+#  saves that predate it.
+# ============================================================================
+
+tfast_sc_hollow_tide = {
+	gui_window_name = "window_situation"
+	illustration = "gfx/interface/illustrations/event_scenes/tfast_sc_hollow_omens.dds"
+	situation_group_type = major
+
+	is_unique = yes
+	keep_full_history = yes
+
+	sub_regions = {
+		core = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_core.dds"
+		}
+	}
+
+	participant_groups = {
+		the_roofed_world = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_world.dds"
+			require_realm_in_sub_region = no
+			require_capital_in_sub_region = no
+
+			is_character_valid = {
+				is_landed = yes
+				NOT = { has_character_flag = tfast_sc_hollow_host }
+			}
+
+			map_color = hsv{ 0.37 0.60 0.85 }
+		}
+
+		the_hollow = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+			require_realm_in_sub_region = no
+			require_capital_in_sub_region = no
+
+			is_character_valid = {
+				has_character_flag = tfast_sc_hollow_host
+			}
+
+			map_color = hsv{ 0.99 0.70 0.45 }
+		}
+	}
+
+	start_phase = tfast_sc_tide_peace
+
+	phases = {
+		tfast_sc_tide_peace = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_peace.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_peace_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							monthly_prestige = 0.15
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							monthly_prestige = 0.3
+							dread_gain_mult = 0.1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_escalation = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_escalation = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_tide_escalation = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_escalation.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_escalation_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							levy_size = 0.05
+							stress_gain_mult = 0.1
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							levy_size = 0.1
+							martial = 1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_reckoning = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_reckoning = 100
+					}
+				}
+				tfast_sc_tide_peace = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_peace = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_tide_reckoning = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_reckoning.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_reckoning_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							levy_size = 0.1
+							martial = 1
+							stress_gain_mult = 0.2
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							levy_size = 0.2
+							martial = 2
+							knight_effectiveness_mult = 0.1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_aftermath = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_aftermath = 100
+					}
+				}
+				tfast_sc_tide_dark = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_dark = 100
+					}
+				}
+				tfast_sc_tide_peace = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_peace = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_tide_aftermath = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_aftermath.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_aftermath_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							monthly_income_mult = 0.05
+							monthly_prestige = 0.2
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							levy_size = -0.15
+							monthly_income_mult = -0.1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_peace = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_peace = 100
+					}
+				}
+				tfast_sc_tide_escalation = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_escalation = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_tide_dark = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_dark.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_dark_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							monthly_income_mult = -0.1
+							stress_gain_mult = 0.25
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							levy_size = 0.15
+							dread_gain_mult = 0.25
+							monthly_income_mult = 0.1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_uprising = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_uprising = 100
+					}
+				}
+				tfast_sc_tide_peace = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_peace = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_tide_uprising = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_uprising.dds"
+
+			modifier_sets = {
+				tfast_sc_tide_uprising_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_roofed_world = {
+						character_modifier = {
+							levy_size = 0.15
+							monthly_prestige = 0.3
+							martial = 1
+						}
+					}
+					the_hollow = {
+						character_modifier = {
+							levy_size = -0.1
+							stress_gain_mult = 0.2
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_tide_aftermath = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_dawnbreak = 100
+					}
+				}
+				tfast_sc_tide_peace = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_peace = 100
+					}
+				}
+			}
+		}
+	}
+}

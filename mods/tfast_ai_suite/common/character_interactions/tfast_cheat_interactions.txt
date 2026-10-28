@@ -1,0 +1,889 @@
+﻿# Right-click a character. Open TFAST. The list works like the debug interaction menu.
+# Gold and the other currencies are amount buttons, not a single decision.
+
+tfast_cheat_open = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_open_desc
+	common_interaction = yes
+	icon = icon_gold
+	interface_priority = 100
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			NOT = { has_character_flag = tfast_cheat_open }
+		}
+	}
+
+	on_send = {
+		scope:actor = { add_character_flag = tfast_cheat_open }
+	}
+}
+
+tfast_cheat_close = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_close_desc
+	common_interaction = yes
+	icon = icon_gold
+	interface_priority = 99
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			has_character_flag = tfast_cheat_open
+		}
+	}
+
+	on_send = {
+		scope:actor = { remove_character_flag = tfast_cheat_open }
+	}
+}
+
+tfast_cheat_currency = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_currency_desc
+	common_interaction = yes
+	icon = icon_gold
+	interface_priority = 90
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+	}
+
+	on_send = {
+		scope:recipient = { save_scope_as = tfast_cheat_target }
+		scope:actor = { trigger_event = tfast_cheat.1 }
+	}
+}
+
+tfast_cheat_stress = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_stress_desc
+	common_interaction = yes
+	icon = icon_scheme_befriend
+	interface_priority = 80
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+	}
+
+	on_send = {
+		scope:recipient = {
+			add_stress = -200
+			add_tyranny = -100
+			add_dread = 50
+		}
+	}
+}
+
+tfast_cheat_i_skills = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_skills_desc
+	common_interaction = yes
+	icon = icon_scheme_befriend
+	interface_priority = 79
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+	}
+
+	on_send = {
+		scope:recipient = {
+			add_martial_skill = 4
+			add_diplomacy_skill = 4
+			add_intrigue_skill = 4
+			add_stewardship_skill = 4
+			add_learning_skill = 4
+			add_prowess_skill = 8
+		}
+	}
+}
+
+tfast_cheat_develop = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_develop_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 70
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = {
+			capital_county = { change_development_level = 5 }
+		}
+	}
+}
+
+tfast_cheat_i_golden_age = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_golden_age_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 69
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+	}
+
+	on_send = {
+		scope:recipient = {
+			add_character_modifier = { modifier = tfast_golden_age_modifier years = 20 }
+		}
+	}
+}
+
+tfast_cheat_feudal = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_feudal_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 60
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = { change_government = feudal_government }
+	}
+}
+
+tfast_cheat_imprison = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_imprison_desc
+	common_interaction = yes
+	icon = prison
+	interface_priority = 50
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+		scope:recipient = {
+			NOT = { has_character_flag = tfast_sc_original_child }
+			NOT = { has_character_flag = tfast_sc_dark_twin }
+			NOT = { has_character_flag = tfast_sc_overlord }
+		}
+	}
+
+	on_send = {
+		scope:actor = {
+			imprison = {
+				target = scope:recipient
+				type = dungeon
+			}
+		}
+	}
+}
+
+tfast_cheat_hook = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_hook_desc
+	common_interaction = yes
+	icon = icon_scheme_murder
+	interface_priority = 49
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+	}
+
+	on_send = {
+		scope:actor = {
+			add_hook = {
+				type = strong_hook
+				target = scope:recipient
+			}
+		}
+	}
+}
+
+tfast_cheat_court = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_court_desc
+	common_interaction = yes
+	icon = alliance
+	interface_priority = 48
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+		scope:recipient = { is_ruler = no }
+	}
+
+	on_send = {
+		scope:actor = { add_courtier = scope:recipient }
+	}
+}
+
+tfast_cheat_heir = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_heir_desc
+	common_interaction = yes
+	icon = heir
+	interface_priority = 47
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_child_of = scope:actor }
+	}
+
+	on_send = {
+		scope:actor = { set_designated_heir = scope:recipient }
+	}
+}
+
+tfast_cheat_divorce = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_divorce_desc
+	common_interaction = yes
+	icon = alliance
+	interface_priority = 46
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_married = yes }
+	}
+
+	on_send = {
+		scope:recipient = {
+			primary_spouse = { save_scope_as = tfast_divorce_spouse }
+			divorce = scope:tfast_divorce_spouse
+		}
+	}
+}
+
+tfast_cheat_kill = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_kill_desc
+	common_interaction = yes
+	icon = icon_scheme_murder
+	interface_priority = 40
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+		scope:recipient = {
+			NOT = { has_character_flag = tfast_sc_original_child }
+			NOT = { has_character_flag = tfast_sc_dark_twin }
+			NOT = { has_character_flag = tfast_sc_overlord }
+		}
+	}
+
+	on_send = {
+		scope:recipient = {
+			death = { death_reason = death_disappearance killer = scope:actor }
+		}
+	}
+}
+
+# Vassal tools. Right-click someone under you.
+tfast_vassal_awe = {
+	category = interaction_category_tfast
+	desc = tfast_vassal_awe_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 30
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { target_is_liege_or_above = scope:actor }
+	}
+
+	on_send = {
+		scope:recipient = {
+			add_opinion = {
+				target = scope:actor
+				modifier = tfast_cheat_awe_opinion
+			}
+		}
+	}
+}
+
+tfast_vassal_gold = {
+	category = interaction_category_tfast
+	desc = tfast_vassal_gold_desc
+	common_interaction = yes
+	icon = icon_gold
+	interface_priority = 29
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { target_is_liege_or_above = scope:actor }
+	}
+
+	on_send = {
+		scope:recipient = { add_gold = 1000 }
+	}
+}
+
+tfast_vassal_take_county = {
+	category = interaction_category_tfast
+	desc = tfast_vassal_take_county_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 28
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			target_is_liege_or_above = scope:actor
+			any_held_title = { tier = tier_county }
+		}
+	}
+
+	on_send = {
+		create_title_and_vassal_change = {
+			type = conquest
+			save_scope_as = tfast_take
+			add_claim_on_loss = no
+		}
+		scope:recipient = {
+			random_held_title = {
+				limit = { tier = tier_county }
+				save_scope_as = tfast_taken_title
+			}
+		}
+		scope:tfast_taken_title = {
+			change_title_holder = {
+				holder = scope:actor
+				change = scope:tfast_take
+			}
+		}
+		resolve_title_and_vassal_change = scope:tfast_take
+	}
+}
+
+tfast_auto_on = {
+	category = interaction_category_tfast
+	desc = tfast_auto_on_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 20
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			has_character_flag = tfast_cheat_open
+			NOT = { has_character_flag = tfast_auto_build }
+		}
+		scope:recipient = scope:actor
+	}
+
+	on_send = {
+		scope:actor = {
+			add_character_flag = { flag = tfast_auto_build }
+			add_character_flag = { flag = tfast_auto_council }
+			add_character_flag = { flag = tfast_auto_court }
+			add_character_flag = { flag = tfast_auto_legacy }
+			if = {
+				limit = { NOT = { has_variable = tfast_build_budget } }
+				set_variable = { name = tfast_build_budget value = 500 }
+			}
+			tfast_auto_build_effect = yes
+			tfast_auto_council_effect = yes
+			tfast_auto_court_effect = yes
+			tfast_auto_legacy_effect = yes
+		}
+	}
+}
+
+tfast_auto_off = {
+	category = interaction_category_tfast
+	desc = tfast_auto_off_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 19
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			has_character_flag = tfast_cheat_open
+			has_character_flag = tfast_auto_build
+		}
+		scope:recipient = scope:actor
+	}
+
+	on_send = {
+		scope:actor = {
+			remove_character_flag = tfast_auto_build
+			remove_character_flag = tfast_auto_council
+			remove_character_flag = tfast_auto_court
+			remove_character_flag = tfast_auto_legacy
+		}
+	}
+}
+
+tfast_cheat_tribal = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_tribal_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 59
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			NOT = { has_government = tribal_government }
+		}
+	}
+
+	on_send = {
+		scope:recipient = { change_government = tribal_government }
+	}
+}
+
+tfast_cheat_clan = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_clan_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 58
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			NOT = { has_government = clan_government }
+		}
+	}
+
+	on_send = {
+		scope:recipient = { change_government = clan_government }
+	}
+}
+
+tfast_cheat_admin = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_admin_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 57
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			NOT = { has_government = administrative_government }
+		}
+	}
+
+	on_send = {
+		scope:recipient = { change_government = administrative_government }
+	}
+}
+
+tfast_cheat_i_influence = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_influence_desc
+	common_interaction = yes
+	icon = icon_gold
+	interface_priority = 56
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			government_has_flag = government_is_administrative
+		}
+	}
+
+	on_send = {
+		scope:recipient = { change_influence = 1000 }
+	}
+}
+
+tfast_cheat_i_building_slots = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_building_slots_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 55
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = {
+			every_held_county = {
+				every_county_province = {
+					limit = { building_slots < 10 }
+					add_province_modifier = extra_building_slot
+				}
+			}
+		}
+	}
+}
+
+tfast_cheat_i_develop_realm = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_develop_realm_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 54
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = {
+			every_sub_realm_county = { change_development_level = 1 }
+		}
+	}
+}
+
+tfast_cheat_i_max_maa = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_max_maa_desc
+	common_interaction = yes
+	icon = icon_scheme_murder
+	interface_priority = 53
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { any_maa_regiment = { always = yes } }
+	}
+
+	on_send = {
+		scope:recipient = {
+			every_maa_regiment = { change_maa_regiment_size = 3 }
+		}
+	}
+}
+
+tfast_cheat_i_raise_host = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_raise_host_desc
+	common_interaction = yes
+	icon = icon_scheme_murder
+	interface_priority = 52
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = { tfast_raise_host_effect = yes }
+	}
+}
+
+tfast_cheat_i_instant_build = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_instant_build_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 51
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			any_held_title = { tier = tier_barony }
+		}
+	}
+
+	on_send = {
+		scope:recipient = { tfast_instant_buildings_effect = yes }
+	}
+}
+
+tfast_cheat_claim = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_claim_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 45
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = {
+			primary_title = { save_scope_as = tfast_claim_title }
+		}
+		scope:actor = { add_pressed_claim = scope:tfast_claim_title }
+	}
+}
+
+tfast_cheat_faith = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_faith_desc
+	common_interaction = yes
+	icon = icon_scheme_befriend
+	interface_priority = 44
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+	}
+
+	on_send = {
+		scope:recipient = { set_character_faith = scope:actor.faith }
+	}
+}
+
+tfast_cheat_culture = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_culture_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 43
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+	}
+
+	on_send = {
+		scope:recipient = { set_culture = scope:actor.culture }
+	}
+}
+
+tfast_cheat_impregnate = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_impregnate_desc
+	common_interaction = yes
+	icon = heir
+	interface_priority = 42
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		NOT = { scope:recipient = scope:actor }
+		OR = {
+			AND = {
+				scope:actor = { is_male = yes }
+				scope:recipient = { is_female = yes }
+			}
+			AND = {
+				scope:actor = { is_female = yes }
+				scope:recipient = { is_male = yes }
+			}
+		}
+	}
+
+	on_send = {
+		if = {
+			limit = { scope:recipient = { is_female = yes } }
+			scope:recipient = { make_pregnant = { father = scope:actor } }
+		}
+		else = {
+			scope:actor = { make_pregnant = { father = scope:recipient } }
+		}
+	}
+}
+
+tfast_vassal_friend = {
+	category = interaction_category_tfast
+	desc = tfast_vassal_friend_desc
+	common_interaction = yes
+	icon = icon_scheme_befriend
+	interface_priority = 27
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { target_is_liege_or_above = scope:actor }
+	}
+
+	on_send = {
+		scope:actor = { set_relation_friend = scope:recipient }
+	}
+}
+
+tfast_vassal_direct = {
+	category = interaction_category_tfast
+	desc = tfast_vassal_direct_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 26
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			target_is_liege_or_above = scope:actor
+			NOT = { liege = scope:actor }
+		}
+	}
+
+	on_send = {
+		create_title_and_vassal_change = {
+			type = conquest
+			save_scope_as = tfast_liege_change
+			add_claim_on_loss = no
+		}
+		scope:recipient = {
+			change_liege = {
+				liege = scope:actor
+				change = scope:tfast_liege_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:tfast_liege_change
+	}
+}
+
+tfast_cheat_hollow_legacy = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_hollow_legacy_desc
+	common_interaction = yes
+	icon = heir
+	interface_priority = 15
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = scope:actor
+	}
+
+	on_send = {
+		scope:actor = {
+			dynasty = {
+				add_dynasty_perk = tfast_sc_legacy_1
+				add_dynasty_perk = tfast_sc_legacy_2
+				add_dynasty_perk = tfast_sc_legacy_3
+				add_dynasty_perk = tfast_sc_legacy_4
+				add_dynasty_perk = tfast_sc_legacy_5
+			}
+		}
+	}
+}
+
+tfast_debug_toggle = {
+	category = interaction_category_tfast
+	desc = tfast_debug_toggle_desc
+	common_interaction = yes
+	icon = icon_bg
+	interface_priority = 10
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+	}
+
+	on_send = {
+		if = {
+			limit = { has_global_variable = tfast_debug }
+			remove_global_variable = tfast_debug
+		}
+		else = {
+			set_global_variable = tfast_debug
+		}
+	}
+}

@@ -1,0 +1,40 @@
+# OS noise
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# Editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*~
+
+# CK3 runtime output that never belongs in git
+logs/
+*.log
+crashes/
+*.dmp
+dlc_load.json
+dlc_load.backup.json
+save games/
+*.ck3
+*.ck3.gz
+*.ck3.tmp
+
+# Build / tooling
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+
+# Backups and patches
+*.bak
+*.orig
+*.rej
+*.patch

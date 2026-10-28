@@ -1,0 +1,156 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- player automation (the automation menu)
+#                                                            CK3 1.20.x
+# ============================================================================
+#  Seven automations, each toggled by a character flag from the automation
+#  menu (common/decisions/tfast_sc_auto_decisions.txt). The yearly pass runs
+#  from tfast_sc_player_yearly_effect and only ever does what the matching
+#  decision could have done - same costs, same effects.
+#
+#  It never spends into the ground: every purchase checks a gold floor first.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  Shared building blocks (also called by the decisions)
+# ---------------------------------------------------------------------------
+tfast_sc_rebuild_county_effect = {
+	capital_county = {
+		remove_county_modifier = tfast_sc_raided_modifier
+		add_county_modifier = {
+			modifier = tfast_sc_rebuilding_modifier
+			years = 15
+		}
+		change_development_level = 1
+	}
+}
+
+tfast_sc_tell_the_tale_effect = {
+	add_prestige = 300
+	add_character_modifier = {
+		modifier = tfast_sc_tale_modifier
+		years = 10
+	}
+	trigger_event = { id = tfast_sc.0700 days = { 1 5 } }
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE YEARLY AUTOMATION PASS  (root = the player)
+# ---------------------------------------------------------------------------
+tfast_sc_automation_yearly_effect = {
+	# ------------------------------------------------------------------
+	# 1. Maintain the Wall: fund the upkeep, or patch the stones.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_maintain_wall
+			has_variable = tfast_sc_wall_stage
+			var:tfast_sc_wall_stage >= 2
+			gold >= 300
+		}
+		if = {
+			limit = {
+				has_variable = tfast_sc_wall_upkeep_years
+				var:tfast_sc_wall_upkeep_years < 5
+			}
+			remove_short_term_gold = 100
+			change_variable = { name = tfast_sc_wall_upkeep_years add = 10 }
+		}
+		else_if = {
+			limit = {
+				has_variable = tfast_sc_wall_integrity
+				var:tfast_sc_wall_integrity < 50
+			}
+			remove_short_term_gold = 150
+			tfast_sc_wall_repair_effect = yes
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# 2. Reinforce the Wall when there is coin to spare.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_reinforce_wall
+			has_variable = tfast_sc_wall_stage
+			var:tfast_sc_wall_stage >= 3
+			gold >= 800
+			OR = {
+				NOT = { has_variable = tfast_sc_wall_upgrade_level }
+				var:tfast_sc_wall_upgrade_level < 2
+			}
+		}
+		remove_short_term_gold = 300
+		tfast_sc_wall_reinforce_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# 3. Rebuild what the Host stripped.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_rebuild
+			capital_county = { has_county_modifier = tfast_sc_raided_modifier }
+			gold >= 400
+		}
+		remove_short_term_gold = 150
+		tfast_sc_rebuild_county_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# 4. Tell the Tale when a memory is waiting.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_tale
+			NOT = { has_variable = tfast_sc_auto_tale_recent }
+			OR = {
+				has_variable = tfast_sc_memory_raid_defeated
+				has_variable = tfast_sc_memory_wall_defense
+				has_variable = tfast_sc_memory_raided
+				has_variable = tfast_sc_memory_wall_breached
+			}
+		}
+		set_variable = { name = tfast_sc_auto_tale_recent value = yes years = 5 }
+		tfast_sc_tell_the_tale_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# 5. Rise Against the Hollow while the Long Dark lasts.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_rise
+			tfast_sc_dark_reign_active_trigger = yes
+			NOT = { has_variable = tfast_sc_auto_rise_recent }
+		}
+		set_variable = { name = tfast_sc_auto_rise_recent value = yes years = 2 }
+		tfast_sc_rise_against_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# 6. Break blockades on the wall counties.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_blockade
+			capital_county = { has_county_modifier = tfast_sc_wall_blockade_modifier }
+			gold >= 250
+		}
+		remove_short_term_gold = 100
+		tfast_sc_break_blockade_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# 7. Keep the black companies camped so the Special Mercenaries tab
+	#    can hire them while this war lasts.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_character_flag = tfast_sc_auto_merc
+			is_at_war = yes
+		}
+		tfast_sc_ensure_special_mercs_effect = yes
+	}
+}

@@ -1,0 +1,62 @@
+name: Release
+
+# Push a tag like v1.0.0 and every mod is packaged as its own zip and attached
+# to a GitHub release. Users can then download a single mod without cloning.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate before publishing
+        run: python tools/validate.py
+
+      - name: Package each mod
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cd mods
+          for dir in tfast_*/; do
+            name="${dir%/}"
+            echo "packaging $name"
+            # A user needs the folder and its launcher descriptor, nothing else.
+            zip -r -q "../dist/${name}.zip" "$name" "${name}.mod"
+          done
+          cd ..
+          ls -lh dist
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
+          body: |
+            Download the mods you want below and unzip them into
+
+            ```
+            Documents/Paradox Interactive/Crusader Kings III/mod/
+            ```
+
+            Each zip contains the mod folder **and** its `.mod` launcher file.
+            See [docs/INSTALL.md](docs/INSTALL.md) for the full steps.
+
+            These builds are statically validated. Read
+            [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md) for exactly how much
+            has been played.

@@ -1,0 +1,225 @@
+﻿# ============================================================================
+#  Permanent castles for the Overlord and the Ten
+# ============================================================================
+#  History already seats them the day before 867, 1066 and 1178. This puts
+#  the castle back if a later history line or a war took it, and raises the
+#  holding to a finished castle. One seat each.
+
+tfast_sc_ensure_permanent_seats_effect = {
+	# Every start date: the seats are permanent and are put back if anyone takes them.
+	if = {
+		limit = { always = yes }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_overlord COUNTY = title:c_bornholm AGE = 58 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_vaelor COUNTY = title:c_rugen AGE = 42 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_morvath COUNTY = title:c_isle_of_man AGE = 48 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_kaedryn COUNTY = title:c_osel AGE = 36 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_draven COUNTY = title:c_anglesey AGE = 40 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_tharion COUNTY = title:c_orkney AGE = 50 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_seralyth COUNTY = title:c_gutland AGE = 43 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_nyxara COUNTY = title:c_malta AGE = 34 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_velmora COUNTY = title:c_faereyar AGE = 46 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_eryndra COUNTY = title:c_shetland AGE = 38 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_malethra COUNTY = title:c_canarias AGE = 35 }
+		tfast_sc_ensure_one_seat_effect = { WHO = tfast_sc_vaelith COUNTY = title:c_vestisland AGE = 48 }
+		tfast_sc_raise_crowns_effect = yes
+	}
+	tfast_sc_ensure_wife_effect = yes
+	tfast_sc_raise_parent_skills_effect = yes
+	tfast_sc_raise_child_skills_effect = yes
+	tfast_sc_all_hollow_castles_effect = yes
+}
+
+# Every castle in a Hollow ruler's realm is raised, not just the seat.
+tfast_sc_all_hollow_castles_effect = {
+	every_living_character = {
+		limit = { tfast_sc_hollow_ruler_trigger = yes is_landed = yes }
+		every_sub_realm_barony = {
+			limit = { title_province = { has_holding_type = castle_holding } }
+			title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+		}
+	}
+}
+
+# Vaelith stays his wife, the children's mother, and adult to the eye.
+tfast_sc_ensure_wife_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_overlord
+			character:tfast_sc_overlord = { is_alive = yes }
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes }
+		}
+		character:tfast_sc_vaelith = {
+			if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+			if = { limit = { NOT = { has_trait = organizer } } add_trait = organizer }
+			if = { limit = { NOT = { has_trait = winter_soldier } } add_trait = winter_soldier }
+			if = { limit = { NOT = { has_trait = unyielding_defender } } add_trait = unyielding_defender }
+			if = { limit = { NOT = { has_character_flag = tfast_sc_dark_twin } } add_character_flag = tfast_sc_dark_twin }
+			set_immortal_age = 48
+			if = { limit = { NOT = { has_character_modifier = tfast_sc_overlord_aura_modifier } } add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier } }
+			if = { limit = { NOT = { has_character_modifier = tfast_sc_dark_commander_modifier } } add_character_modifier = { modifier = tfast_sc_dark_commander_modifier } }
+			if = {
+				limit = {
+					exists = character:tfast_sc_darkness
+					NOT = { exists = mother }
+				}
+				set_mother = character:tfast_sc_darkness
+			}
+		}
+		character:tfast_sc_overlord = {
+			if = { limit = { NOT = { has_character_flag = tfast_sc_dark_twin } } add_character_flag = tfast_sc_dark_twin }
+			if = {
+				limit = { NOT = { is_spouse_of = character:tfast_sc_vaelith } }
+				marry = character:tfast_sc_vaelith
+			}
+			if = {
+				limit = {
+					exists = character:tfast_sc_darkness
+					NOT = { exists = mother }
+				}
+				set_mother = character:tfast_sc_darkness
+			}
+		}
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_vaelor }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_morvath }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_kaedryn }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_draven }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_tharion }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_seralyth }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_nyxara }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_velmora }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_eryndra }
+		tfast_sc_remember_mother_effect = { CHILD = tfast_sc_malethra }
+	}
+}
+
+tfast_sc_remember_mother_effect = {
+	if = {
+		limit = {
+			exists = character:$CHILD$
+			character:$CHILD$ = {
+				is_alive = yes
+				NOT = { exists = mother }
+			}
+		}
+		character:$CHILD$ = { set_mother = character:tfast_sc_vaelith }
+	}
+}
+
+# WHO is the history character id. COUNTY is a title scope. AGE is the
+# face the immortal portrait keeps.
+tfast_sc_ensure_one_seat_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes }
+		}
+		character:$WHO$ = {
+			if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+			set_immortal_age = $AGE$
+		}
+		if = {
+			limit = {
+				NOT = { $COUNTY$ = { holder = character:$WHO$ } }
+			}
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = tfast_sc_seat_change
+				add_claim_on_loss = no
+			}
+			$COUNTY$ = {
+				change_title_holder = {
+					holder = character:$WHO$
+					change = scope:tfast_sc_seat_change
+					take_baronies = yes
+				}
+			}
+			resolve_title_and_vassal_change = scope:tfast_sc_seat_change
+			character:$WHO$ = {
+				if = {
+					limit = { exists = liege }
+					create_title_and_vassal_change = {
+						type = independency
+						save_scope_as = tfast_sc_seat_free
+						add_claim_on_loss = no
+					}
+					becomes_independent = { change = scope:tfast_sc_seat_free }
+					resolve_title_and_vassal_change = scope:tfast_sc_seat_free
+				}
+			}
+		}
+		$COUNTY$ = {
+			if = {
+				limit = { NOT = { faith = faith:hollow_faith } }
+				set_county_faith = faith:hollow_faith
+			}
+			if = {
+				limit = { NOT = { has_county_modifier = tfast_sc_stronghold_modifier } }
+				add_county_modifier = { modifier = tfast_sc_stronghold_modifier }
+			}
+			title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+		}
+		character:$WHO$ = {
+			if = {
+				limit = {
+					NOT = { has_government = feudal_government }
+					capital_province = { has_holding_type = castle_holding }
+				}
+				change_government = feudal_government
+			}
+		}
+	}
+}
+
+tfast_sc_raise_permanent_castle_effect = {
+	if = {
+		limit = { NOT = { has_holding_type = castle_holding } }
+		set_holding_type = castle_holding
+	}
+	if = {
+		limit = {
+			has_holding_type = castle_holding
+			NOT = { has_building_or_higher = castle_02 }
+		}
+		add_building = castle_02
+	}
+	if = {
+		limit = {
+			has_holding_type = castle_holding
+			has_building_or_higher = castle_02
+			NOT = { has_building_or_higher = castle_03 }
+		}
+		add_building = castle_03
+	}
+	if = {
+		limit = {
+			has_holding_type = castle_holding
+			has_building_or_higher = castle_03
+			NOT = { has_building_or_higher = castle_04 }
+		}
+		add_building = castle_04
+	}
+	if = {
+		limit = { has_holding_type = castle_holding }
+		tfast_sc_max_building_effect = { CHAIN = curtain_walls }
+		tfast_sc_max_building_effect = { CHAIN = barracks }
+		tfast_sc_max_building_effect = { CHAIN = regimental_grounds }
+		tfast_sc_max_building_effect = { CHAIN = military_camps }
+		tfast_sc_max_building_effect = { CHAIN = stables }
+		tfast_sc_max_building_effect = { CHAIN = smiths }
+		tfast_sc_max_building_effect = { CHAIN = watchtowers }
+		tfast_sc_max_building_effect = { CHAIN = ramparts }
+		tfast_sc_max_building_effect = { CHAIN = hill_forts }
+	}
+}
+
+# Scope is the province. Fills a free slot with the top level of a chain not yet built.
+tfast_sc_max_building_effect = {
+	if = {
+		limit = {
+			free_building_slots > 0
+			NOT = { has_building_or_higher = $CHAIN$_01 }
+		}
+		add_building = $CHAIN$_08
+	}
+}

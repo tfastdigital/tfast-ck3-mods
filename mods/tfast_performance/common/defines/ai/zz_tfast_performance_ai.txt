@@ -1,0 +1,72 @@
+﻿# ============================================================================
+#  TFAST Performance -- lean AI defines                    CK3 1.20.x
+# ============================================================================
+#  A PARTIAL defines override. Only the keys below are declared; everything
+#  else keeps vanilla values. CK3 merges defines at the KEY level across
+#  files, so this file rides alongside 00_ai.txt without replacing it.
+#
+#  WHAT THIS DOES: the AI recalculates its plans less often, weighs fewer
+#  candidates, and searches fewer spouses/diplomatic options. That is the
+#  single largest moddable CPU load in the late game. The trade is real:
+#  the AI becomes lazier and a little dumber. This mod is for slow machines
+#  and huge campaigns, not for difficulty.
+#
+#  CONFLICT NOTE: tfast_smarter_ai tunes the SAME keys the other way. Do not
+#  expect both to apply - whichever file the game merges last wins per key.
+#  This file is named zz_... so it sorts last inside its own load group; if
+#  you want the smarter AI instead, disable this mod.
+#
+#  WHAT THIS DOES NOT DO: it cannot remove the engine cost of thousands of
+#  living characters, large wars, or pathfinding. Pair it with
+#  tfast_lategame (character population) and the game's graphics settings.
+# ============================================================================
+
+NAI = {
+
+	# --- how often the AI recalculates (days between passes) ----------------
+	# Vanilla: { 7 30 14 7 7 7 7 } for unlanded..hegemony tiers.
+	SHORT_TASK_TICK = { 14 90 30 14 14 14 14 }
+
+	# Vanilla: { 30 180 60 30 30 30 30 }
+	MEDIUM_TASK_TICK = { 60 360 120 60 60 60 60 }
+
+	# Vanilla: { 60 1095 180 60 60 60 60 }
+	LONG_TASK_TICK = { 120 1460 360 120 120 120 120 }
+
+	# Vanilla: { 180 720 360 180 180 180 180 }
+	RARE_TASK_TICK = { 360 1460 720 360 360 360 360 }
+
+	# Vanilla: { 180 720 360 180 180 180 180 }
+	STRATEGY_TASK_TICK = { 360 1460 720 360 360 360 360 }
+
+	# --- how many tasks run per tick ---------------------------------------
+	# Vanilla: 128 / 192. Fewer tasks per pass means less CPU each pass.
+	MINIMUM_TASKS_IN_TICK = 96
+	MAX_TASKS_IN_TICK = 128
+
+	# --- how many options each pass may weigh ------------------------------
+	# Vanilla: { 0 0 1 2 3 3 3 }
+	GOALS_PER_TYPE = { 0 0 1 1 2 2 2 }
+
+	# Vanilla: { 0 0 8 16 32 32 32 }
+	MAX_NUMBER_OF_COURTS_TO_SEARCH_FOR_SPOUSES = { 0 0 6 10 20 20 20 }
+
+	# Vanilla: { 0 0 4 8 16 32 64 }
+	MAX_NUMBER_OF_SPOUSE_CANDIDATES = { 0 0 3 6 12 20 40 }
+
+	# Vanilla: { 0 2 4 6 8 10 12 }
+	MAX_NUMBER_OF_DIPLO_VALUES = { 0 2 3 4 6 8 10 }
+
+	# --- military recalcs ---------------------------------------------------
+	# Vanilla: 180 / 360
+	RAISE_LEVIES_COOLDOWN = 360
+	CHECK_ADMIN_ARMIES_COOLDOWN = 720
+
+	# Vanilla: 7 / 14 / 30
+	UPDATE_TARGETS_TICK = 14
+	UPDATE_TARGETS_TICK_LOPSIDED = 21
+	UPDATE_WAR_STANCE_TICK = 45
+
+	# Vanilla: 14
+	UPDATE_SPLIT_MERGE_TICK = 21
+}

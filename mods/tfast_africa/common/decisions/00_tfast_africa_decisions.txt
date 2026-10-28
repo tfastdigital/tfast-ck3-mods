@@ -1,0 +1,389 @@
+﻿# ============================================================================
+#  TFAST Africa -- historical decisions                     CK3 1.20.x
+# ============================================================================
+#  Twelve decisions drawn from documented African history. Every one is a real
+#  institution, practice or event, named as a generic to stay playable across
+#  cultures and dates.
+#
+#  SAFETY CONTRACT (identical to every TFAST mod)
+#    is_ai = no  +  ai_check_interval = 0  -> only the human player ever sees
+#    these, so the AI's economy, wars and balance are untouched.
+#    Additive only: no vanilla file is overwritten.
+#    Every effect, trigger, modifier key and illustration verified against
+#    1.20.0.3.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+# 1. Open the Trans-Saharan Gold Road
+#    Mali and Ghana grew rich moving Wangara gold north against Saharan salt.
+# ---------------------------------------------------------------------------
+tfast_africa_gold_road = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_golden_age.dds" }
+	decision_group_type = major
+	sort_order = 9400
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_africa_is_west_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 300 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_gold_road_tt
+		add_trait = tfast_africa_gold_merchant
+		add_character_modifier = {
+			modifier = tfast_africa_gold_road_modifier
+			years = 25
+		}
+		add_prestige = 300
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 2. Conduct the Silent Trade
+#    Documented practice: goods left at an agreed spot, exchanged without the
+#    two sides ever meeting or sharing a language.
+# ---------------------------------------------------------------------------
+tfast_africa_silent_trade = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9401
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  tfast_africa_is_african_trigger = yes }
+	is_valid = { is_landed = yes }
+
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_africa_silent_trade_tt
+		add_character_modifier = {
+			modifier = tfast_africa_silent_trade_modifier
+			years = 20
+		}
+		add_gold = 150
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 3. Undertake the Great Pilgrimage
+#    Mansa Musa's hajj of 1324 carried so much gold north that it depressed
+#    prices in Cairo for years. Available to Muslim African rulers.
+# ---------------------------------------------------------------------------
+tfast_africa_great_pilgrimage = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9402
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		religion = religion:islam_religion
+		tfast_africa_is_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 500 }
+	cooldown = { days = 7300 }
+
+	effect = {
+		custom_tooltip = tfast_africa_great_pilgrimage_tt
+		add_piety = 500
+		add_prestige = 1000
+		dynasty = { add_dynasty_prestige = 500 }
+		add_character_modifier = {
+			modifier = tfast_africa_pilgrim_modifier
+			years = 30
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 4. Endow a House of Learning
+#    Timbuktu's Sankore mosque and its manuscript libraries drew scholars from
+#    across the Islamic world.
+# ---------------------------------------------------------------------------
+tfast_africa_house_of_learning = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9403
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		learning >= 10
+		tfast_africa_is_west_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 400 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_house_of_learning_tt
+		capital_county = { change_development_level = 1 }
+		add_trait = tfast_africa_scholar_patron
+		add_character_modifier = {
+			modifier = tfast_africa_learning_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 5. Proclaim the Oral Charter
+#    The Kurukan Fuga (c. 1236), the spoken constitution attributed to
+#    Sundiata Keita, set out the rights and duties of the Mande clans.
+# ---------------------------------------------------------------------------
+tfast_africa_oral_charter = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9404
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		tfast_africa_is_west_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 500 }
+	cooldown = { days = 7300 }
+
+	effect = {
+		custom_tooltip = tfast_africa_oral_charter_tt
+		add_legitimacy = 300
+		add_trait = tfast_africa_charter_keeper
+		add_character_modifier = {
+			modifier = tfast_africa_charter_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 6. Raise the Dry-Stone Walls
+#    Great Zimbabwe was built of shaped granite blocks laid without mortar,
+#    between the 11th and 15th centuries.
+# ---------------------------------------------------------------------------
+tfast_africa_dry_stone_walls = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+	decision_group_type = major
+	sort_order = 9405
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  gold >= 400  tfast_africa_is_african_trigger = yes }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 400 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_dry_stone_walls_tt
+		capital_county = { change_development_level = 1 }
+		add_trait = tfast_africa_stone_builder
+		add_character_modifier = {
+			modifier = tfast_africa_walls_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 7. Carve the Rock Churches
+#    The eleven monolithic churches of Lalibela (c. 1200) were cut downward
+#    into the living rock, each from a single block.
+# ---------------------------------------------------------------------------
+tfast_africa_rock_churches = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9406
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		piety >= 300
+		tfast_africa_is_east_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 500 }
+	cooldown = { days = 7300 }
+
+	effect = {
+		custom_tooltip = tfast_africa_rock_churches_tt
+		add_piety = 400
+		add_prestige = 400
+		add_character_modifier = {
+			modifier = tfast_africa_churches_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 8. Assert the Solomonic Line
+#    The Kebra Nagast grounds the Ethiopian dynasty's claim in descent from
+#    Solomon and the Queen of Sheba.
+# ---------------------------------------------------------------------------
+tfast_africa_solomonic_claim = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_legitimacy.dds" }
+	decision_group_type = major
+	sort_order = 9407
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		tfast_africa_is_east_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 600 }
+	cooldown = { days = 7300 }
+
+	effect = {
+		custom_tooltip = tfast_africa_solomonic_claim_tt
+		add_legitimacy = 400
+		dynasty = { add_dynasty_prestige = 800 }
+		add_character_modifier = {
+			modifier = tfast_africa_dynastic_modifier
+			years = 30
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 9. Mint Cowrie Currency
+#    Cowrie shells served as small coin across West Africa for centuries, and
+#    the state's control of their supply was a source of power.
+# ---------------------------------------------------------------------------
+tfast_africa_cowrie_currency = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9408
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  tfast_africa_is_west_african_trigger = yes }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 200 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_cowrie_currency_tt
+		add_character_modifier = {
+			modifier = tfast_africa_currency_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 10. Institute the Age-Grade System
+#     The Gadaa system of the Oromo passed power through generational grades on
+#     a fixed eight-year cycle, rather than by inheritance.
+# ---------------------------------------------------------------------------
+tfast_africa_age_grades = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9409
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  tfast_africa_is_east_african_trigger = yes }
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 300 }
+	cooldown = { days = 7300 }
+
+	effect = {
+		custom_tooltip = tfast_africa_age_grades_tt
+		add_trait = tfast_africa_gadaa_master
+		add_character_modifier = {
+			modifier = tfast_africa_assembly_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 11. Cast the Bronze Heads
+#     Ife and Benin produced brass and bronze heads by the lost-wax method from
+#     the 12th century onward.
+# ---------------------------------------------------------------------------
+tfast_africa_bronze_casting = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9410
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  gold >= 300  tfast_africa_is_west_african_trigger = yes }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 300 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_bronze_casting_tt
+		add_prestige = 300
+		add_character_modifier = {
+			modifier = tfast_africa_court_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 12. Open the Ocean Trade
+#     Kilwa, Mogadishu and the Swahili city-states grew rich on the monsoon
+#     trade in gold, ivory and cloth across the Indian Ocean.
+# ---------------------------------------------------------------------------
+tfast_africa_ocean_trade = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_silk_road.dds" }
+	decision_group_type = major
+	sort_order = 9411
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		capital_county = { is_coastal_county = yes }
+		tfast_africa_is_east_african_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 350 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_africa_ocean_trade_tt
+		add_trait = tfast_africa_ocean_merchant
+		add_character_modifier = {
+			modifier = tfast_africa_trade_modifier
+			years = 25
+		}
+	}
+}

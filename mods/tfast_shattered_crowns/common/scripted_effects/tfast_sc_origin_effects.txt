@@ -1,0 +1,109 @@
+﻿# The twins look for the dark they were born from.
+# Root for the tick is the story owner (Vaelos).
+
+tfast_sc_ensure_origin_story_effect = {
+	if = {
+		limit = {
+			tfast_sc_overlord_valid_trigger = yes
+			NOT = { global_var:tfast_sc_overlord = { has_variable = tfast_sc_origin_story } }
+		}
+		global_var:tfast_sc_overlord = {
+			create_story = {
+				type = tfast_sc_origin
+				save_scope_as = tfast_sc_origin_story
+			}
+			set_variable = { name = tfast_sc_origin_story value = scope:tfast_sc_origin_story }
+			if = {
+				limit = { NOT = { has_variable = tfast_sc_origin_step } }
+				set_variable = { name = tfast_sc_origin_step value = 0 }
+			}
+		}
+	}
+}
+
+tfast_sc_origin_tick_effect = {
+	if = {
+		limit = { NOT = { has_variable = tfast_sc_origin_step } }
+		set_variable = { name = tfast_sc_origin_step value = 0 }
+	}
+	if = {
+		limit = { var:tfast_sc_origin_step = 0 }
+		every_player = {
+			limit = { is_ai = no }
+			trigger_event = { id = tfast_sc.1100 }
+		}
+		set_variable = { name = tfast_sc_origin_step value = 1 }
+	}
+	else_if = {
+		limit = { var:tfast_sc_origin_step = 1 }
+		every_player = {
+			limit = { is_ai = no }
+			trigger_event = { id = tfast_sc.1101 }
+		}
+		set_variable = { name = tfast_sc_origin_step value = 2 }
+	}
+	else_if = {
+		limit = { var:tfast_sc_origin_step = 2 }
+		every_player = {
+			limit = { is_ai = no }
+			trigger_event = { id = tfast_sc.1102 }
+		}
+		set_variable = { name = tfast_sc_origin_step value = 3 }
+	}
+	else_if = {
+		limit = { var:tfast_sc_origin_step = 3 }
+		every_player = {
+			limit = { is_ai = no }
+			trigger_event = { id = tfast_sc.1103 }
+		}
+		set_variable = { name = tfast_sc_origin_step value = 4 }
+	}
+	else = {
+		random = {
+			chance = 10
+			every_player = {
+				limit = { is_ai = no }
+				trigger_event = { id = tfast_sc.1104 }
+			}
+		}
+	}
+}
+
+tfast_sc_origin_owner_death_effect = {
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		make_story_owner = global_var:tfast_sc_overlord
+	}
+	else = {
+		end_story = yes
+	}
+}
+
+# Vaelith raises a host she commands. Once.
+tfast_sc_vaelith_raise_host_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = {
+				is_alive = yes
+				NOT = { has_character_flag = tfast_sc_dark_host_raised }
+			}
+		}
+		character:tfast_sc_vaelith = {
+			add_character_flag = tfast_sc_dark_host_raised
+			if = {
+				limit = { NOT = { has_character_modifier = tfast_sc_dark_commander_modifier } }
+				add_character_modifier = { modifier = tfast_sc_dark_commander_modifier }
+			}
+			spawn_army = {
+				name = tfast_sc_dark_host
+				levies = 2500
+				men_at_arms = {
+					type = light_footmen
+					stacks = 5
+				}
+				location = capital_province
+			}
+		}
+	}
+}

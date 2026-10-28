@@ -1,0 +1,315 @@
+﻿# ============================================================================
+#  TFAST History -- supporting modifiers                         CK3 1.20.x
+# ============================================================================
+#  Character modifiers granted by the historic decisions.
+#
+#  Every key below was verified to exist in game/common/modifiers/ and every
+#  icon was verified to exist in gfx/interface/icons/modifiers/.
+# ============================================================================
+
+
+# Proclaiming a trading league: trade brings coin and goodwill.
+tfast_league_charter_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.15
+	vassal_opinion = 10
+	build_speed = -0.15
+}
+
+
+# A great university draws scholars from across the world.
+tfast_university_modifier = {
+	icon = learning_positive
+	learning = 2
+	monthly_income_mult = 0.05
+	same_faith_opinion = 10
+}
+
+
+# A church council settles doctrine and strengthens the ruler's hand.
+tfast_church_council_modifier = {
+	icon = social_positive
+	monthly_piety_gain_mult = 0.25
+	same_faith_opinion = 15
+	general_opinion = 5
+}
+
+
+# A golden bull: an unassailable legal foundation for your rule.
+tfast_golden_bull_modifier = {
+	icon = diplomacy_positive
+	vassal_opinion = 15
+	monthly_prestige_gain_mult = 0.15
+}
+
+
+# A dynastic union binds crowns together.
+tfast_dynastic_union_modifier = {
+	icon = diplomacy_positive
+	general_opinion = 15
+	levy_size = 0.1
+	monthly_prestige_gain_mult = 0.1
+}
+
+
+# A translation movement brings ancient learning back into the light.
+tfast_translation_modifier = {
+	icon = learning_positive
+	learning = 3
+	monthly_prestige_gain_mult = 0.1
+}
+
+
+# A great charter: vassals are reassured, but your own hand is stayed.
+tfast_great_charter_modifier = {
+	icon = social_positive
+	vassal_opinion = 25
+	levy_size = -0.15
+	monthly_income_mult = 0.1
+}
+
+
+# A foreign guard: elite warriors loyal to the throne alone.
+tfast_foreign_guard_modifier = {
+	icon = social_positive
+	knight_effectiveness_mult = 0.25
+	dread_gain_mult = 0.1
+	levy_size = 0.1
+}
+
+
+# A great cathedral: a monument that preaches your glory for centuries.
+tfast_cathedral_modifier = {
+	icon = learning_positive
+	monthly_piety_gain_mult = 0.3
+	same_faith_opinion = 15
+	vassal_opinion = 5
+}
+
+
+# Embracing iconoclasm: a remade faith, and a remade court.
+tfast_iconoclasm_modifier = {
+	icon = social_positive
+	monthly_piety_gain_mult = 0.2
+	learning = 1
+	stress_loss_mult = 0.15
+}
+
+
+# A hired company of veteran soldiers.
+tfast_condottiere_modifier = {
+	icon = social_positive
+	knight_effectiveness_mult = 0.2
+	levy_size = 0.1
+	monthly_income_mult = -0.05
+}
+
+
+# ---------------------------------------------------------------------------
+#  KOREA -- GORYEO AND JOSEON INSTITUTIONS
+# ---------------------------------------------------------------------------
+
+# The exam halls are open: office follows learning, not birth alone.
+tfast_hist_gwageo_modifier = {
+	icon = learning_positive
+	learning = 2
+	monthly_prestige_gain_mult = 0.1
+	vassal_opinion = 5
+}
+
+# The land is measured and registered; the state finally eats its fill.
+tfast_hist_gwajeon_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.1
+	levy_size = 0.1
+	vassal_opinion = -15
+}
+
+# The Three Censors watch the throne - and everyone else.
+tfast_hist_samsa_modifier = {
+	icon = diplomacy_positive
+	general_opinion = 10
+	monthly_prestige_gain_mult = 0.15
+	vassal_opinion = -5
+}
+
+# The Hall of Worthies: the finest research institution of its age.
+tfast_hist_jiphyeonjeon_modifier = {
+	icon = learning_positive
+	learning = 3
+	monthly_prestige_gain_mult = 0.1
+	same_faith_opinion = 5
+}
+
+# Twenty-eight letters: literacy spreads wherever the court's writ runs.
+tfast_hist_hangul_modifier = {
+	icon = learning_positive
+	learning = 2
+	monthly_prestige_gain_mult = 0.2
+	same_faith_opinion = 10
+}
+
+# A dynasty that keeps its own record argues with the future on its terms.
+tfast_hist_goryeosa_modifier = {
+	icon = learning_positive
+	monthly_prestige_gain_mult = 0.25
+	learning = 1
+}
+
+
+# ---------------------------------------------------------------------------
+#  CHINA -- INVENTIONS AND INSTITUTIONS
+# ---------------------------------------------------------------------------
+
+# The state holds the printing press of money: the first paper currency.
+tfast_hist_jiaozi_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.15
+	vassal_opinion = 5
+	build_speed = -0.1
+}
+
+# One block per character: the empire copies faster than it can be burned.
+tfast_hist_movable_type_modifier = {
+	icon = learning_positive
+	learning = 3
+	monthly_prestige_gain_mult = 0.1
+	same_faith_opinion = 5
+}
+
+# The Commentaries are the orthodoxy: the examinations have one answer.
+tfast_hist_zhuxi_modifier = {
+	icon = learning_positive
+	learning = 2
+	same_faith_opinion = 15
+	vassal_opinion = 5
+}
+
+# Eleven thousand volumes: the state's answer to time itself.
+tfast_hist_yongle_modifier = {
+	icon = learning_positive
+	learning = 3
+	monthly_prestige_gain_mult = 0.15
+}
+
+# Dragon ships beyond the western ocean, and the tribute that follows them.
+tfast_hist_treasure_modifier = {
+	icon = diplomacy_positive
+	monthly_income_mult = 0.1
+	monthly_prestige_gain_mult = 0.2
+	general_opinion = 5
+}
+
+# Every language of the tribute road, written and taught in one hall.
+tfast_hist_translators_modifier = {
+	icon = diplomacy_positive
+	diplomacy = 2
+	monthly_prestige_gain_mult = 0.1
+	same_faith_opinion = 5
+}
+
+
+# ---------------------------------------------------------------------------
+#  ENGLAND
+# ---------------------------------------------------------------------------
+
+# The realm knows what every manor owes - and has not forgiven being counted.
+tfast_hist_domesday_modifier = {
+	icon = social_positive
+	vassal_tax_contribution_mult = 0.1
+	vassal_opinion = -10
+}
+
+# Accounts on rolls, checked on a cloth of checks: the crown's money is
+# written before it is spent.
+tfast_hist_exchequer_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.1
+	build_speed = -0.1
+}
+
+# Accusations are answered by neighbours' verdicts rather than by ordeal.
+tfast_hist_jury_modifier = {
+	icon = diplomacy_positive
+	general_opinion = 10
+	monthly_prestige_gain_mult = 0.1
+	vassal_opinion = 5
+}
+
+# Knights of the shire and burgesses of the towns sit where taxes are granted.
+tfast_hist_parliament_modifier = {
+	icon = diplomacy_positive
+	vassal_opinion = 15
+	general_opinion = 5
+	monthly_income_mult = 0.05
+}
+
+# A brotherhood of twenty-six sworn at Windsor: the realm's highest honour.
+tfast_hist_garter_modifier = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.15
+	monthly_prestige_gain_mult = 0.1
+	general_opinion = 5
+}
+
+# Ships of the crown's own, kept in ordinary.
+tfast_hist_navy_modifier = {
+	icon = martial_positive
+	levy_size = 0.1
+	knight_effectiveness_mult = 0.1
+	monthly_prestige_gain_mult = 0.05
+}
+
+
+# ---------------------------------------------------------------------------
+#  EUROPE
+# ---------------------------------------------------------------------------
+
+# Reformed houses in the realm: prayer, chronicles, and better books.
+tfast_hist_reform_modifier = {
+	icon = learning_positive
+	monthly_piety_gain_mult = 0.25
+	learning = 1
+	vassal_opinion = 5
+}
+
+# Private war is outlawed on holy days, and by degrees on all days.
+tfast_hist_truce_modifier = {
+	icon = social_positive
+	same_faith_opinion = 15
+	monthly_piety_gain_mult = 0.15
+	vassal_opinion = 5
+}
+
+# Cities with their own courts, walls and militias.
+tfast_hist_communes_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.08
+	levy_size = 0.1
+	vassal_opinion = -5
+}
+
+# Safe-conduct for merchants, and a market where the currencies meet.
+tfast_hist_fairs_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.15
+	build_speed = -0.1
+	vassal_opinion = 5
+}
+
+# One ordered code, every case answerable; the crown is bound by what it
+# published.
+tfast_hist_partidas_modifier = {
+	icon = learning_positive
+	monthly_prestige_gain_mult = 0.15
+	vassal_opinion = 10
+	learning = 1
+}
+
+# An oath of mutual defense that has outlasted every power that tested it.
+tfast_hist_league_modifier = {
+	icon = diplomacy_positive
+	levy_size = 0.15
+	general_opinion = 5
+	monthly_prestige_gain_mult = 0.05
+}

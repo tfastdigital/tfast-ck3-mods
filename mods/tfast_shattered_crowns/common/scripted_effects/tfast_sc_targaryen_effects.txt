@@ -1,0 +1,617 @@
+﻿# English culture is created in 1070 (game/common/culture/cultures/00_west_germanic.txt).
+# Before that date the Anglo-Saxon culture is the one that exists, and it does
+# not use the Welsh "ap" name. Names are still set from the English name list.
+tfast_sc_set_targaryen_culture_effect = {
+	if = {
+		limit = {
+			current_date >= 1070.1.1
+			NOT = { culture = culture:english }
+		}
+		set_culture = culture:english
+	}
+	else_if = {
+		limit = {
+			current_date < 1070.1.1
+			NOT = { culture = culture:anglo_saxon }
+		}
+		set_culture = culture:anglo_saxon
+	}
+}
+
+# Marks descendants of Brian. Repeated calls walk one more generation each time,
+# because a parent has to be marked before the child can see the flag.
+tfast_sc_mark_brian_blood_effect = {
+	house:house_british_isles_mathrafal = {
+		every_house_member = {
+			limit = {
+				NOT = { this = character:6358 }
+				NOT = { has_character_flag = tfast_sc_brian_blood }
+				OR = {
+					is_child_of = character:6358
+					is_grandchild_of = character:6358
+					is_great_grandchild_of = character:6358
+					any_parent = {
+						even_if_dead = yes
+						has_character_flag = tfast_sc_brian_blood
+					}
+				}
+			}
+			add_character_flag = tfast_sc_brian_blood
+		}
+	}
+	every_living_character = {
+		limit = {
+			NOT = { this = character:6358 }
+			NOT = { has_character_flag = tfast_sc_brian_blood }
+			OR = {
+				is_child_of = character:6358
+				is_grandchild_of = character:6358
+				is_great_grandchild_of = character:6358
+				any_parent = {
+					even_if_dead = yes
+					has_character_flag = tfast_sc_brian_blood
+				}
+			}
+		}
+		add_character_flag = tfast_sc_brian_blood
+	}
+}
+
+# Targaryen blood (vanilla house Mathrafal, character 6358 renamed Brian).
+# One house. English names. They marry each other. A marriage outside the
+# house is kept only when the children are born into the house: a man keeps
+# a normal marriage, a woman keeps only a matrilineal marriage. If the house
+# has nobody left alive, one brother and one sister are born back into it.
+
+tfast_sc_keep_targaryen_effect = {
+	if = {
+		limit = {
+			exists = character:159076
+			exists = character:tfast_sc_targ_edmund
+			NOT = { character:159076.father = character:tfast_sc_targ_edmund }
+		}
+		character:159076 = { set_father = character:tfast_sc_targ_edmund }
+	}
+	if = {
+		limit = {
+			exists = character:6358
+			character:6358 = { NOT = { has_character_flag = tfast_sc_english_named } }
+		}
+		character:6358 = {
+			change_first_name = Brian
+			tfast_sc_set_targaryen_culture_effect = yes
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+		}
+	}
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_mark_brian_blood_effect = yes
+	tfast_sc_seed_name_counts_effect = yes
+	tfast_sc_one_targaryen_house_effect = yes
+	house:house_british_isles_mathrafal = {
+		every_house_member = {
+			tfast_sc_targaryen_member_effect = yes
+		}
+	}
+	every_living_character = {
+		limit = {
+			has_character_flag = tfast_sc_targaryen
+			NOT = { house = house:house_british_isles_mathrafal }
+		}
+		set_house = house:house_british_isles_mathrafal
+	}
+	tfast_sc_targaryen_intermarry_effect = yes
+	tfast_sc_targaryen_intermarry_effect = yes
+	tfast_sc_targaryen_intermarry_effect = yes
+	tfast_sc_targaryen_realm_flags_effect = yes
+	tfast_sc_hollow_hate_targaryen_effect = yes
+}
+
+# Darkness was killed by a Targaryen, so every Hollow ruler hates every Targaryen.
+tfast_sc_hollow_hate_targaryen_effect = {
+	every_living_character = {
+		limit = {
+			OR = {
+				has_character_flag = tfast_sc_hollow_host
+				has_character_flag = tfast_sc_original_child
+				has_character_flag = tfast_sc_dark_twin
+			}
+		}
+		save_scope_as = targ_hater
+		every_living_character = {
+			limit = { has_character_flag = tfast_sc_targaryen }
+			save_scope_as = targ_victim
+			scope:targ_hater = {
+				if = {
+					limit = { NOT = { has_opinion_modifier = { target = scope:targ_victim modifier = tfast_sc_hates_targaryen_opinion } } }
+					add_opinion = { target = scope:targ_victim modifier = tfast_sc_hates_targaryen_opinion }
+				}
+			}
+		}
+	}
+}
+
+# Root is one member of the house, living or dead.
+tfast_sc_targaryen_member_effect = {
+	if = {
+		limit = { NOT = { has_character_flag = tfast_sc_targaryen } }
+		add_character_flag = tfast_sc_targaryen
+	}
+	if = {
+		limit = { is_alive = yes }
+		tfast_sc_set_targaryen_culture_effect = yes
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { house = house:house_british_isles_mathrafal }
+		}
+		set_house = house:house_british_isles_mathrafal
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { has_character_flag = tfast_sc_english_named }
+		}
+		tfast_sc_give_english_name_effect = yes
+		add_character_flag = tfast_sc_english_named
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { has_character_flag = tfast_sc_targ_face }
+		}
+		add_character_flag = tfast_sc_targ_face
+		if = {
+			limit = { is_female = yes }
+			copy_inheritable_appearance_from = character:tfast_sc_dna_targ_f
+		}
+		else = {
+			copy_inheritable_appearance_from = character:tfast_sc_dna_targ_m
+		}
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			is_married = yes
+			is_female = yes
+			primary_spouse = {
+				NOT = { house = house:house_british_isles_mathrafal }
+				patrilinear_marriage = yes
+			}
+		}
+		primary_spouse = { save_scope_as = targ_bad_spouse }
+		divorce = scope:targ_bad_spouse
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			is_married = yes
+			is_male = yes
+			primary_spouse = {
+				NOT = { house = house:house_british_isles_mathrafal }
+				matrilinear_marriage = yes
+			}
+		}
+		primary_spouse = { save_scope_as = targ_bad_spouse }
+		divorce = scope:targ_bad_spouse
+	}
+}
+
+tfast_sc_give_english_name_effect = {
+	if = {
+		limit = { is_female = yes }
+		random_list = {
+			1 = { tfast_sc_numbered_name_effect = { NAME = Elizabeth } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Margaret } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Eleanor } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Alice } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Matilda } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Joan } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Isabel } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Edith } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Rhaenyra } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Daenerys } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Rhaenys } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Visenya } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Alysanne } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Aemma } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Helaena } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Naerys } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Rhaella } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Alyssa } }
+		}
+	}
+	else = {
+		random_list = {
+			1 = { tfast_sc_numbered_name_effect = { NAME = Brian } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Edward } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Henry } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Richard } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Robert } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Alfred } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = Edmund } }
+			1 = { tfast_sc_numbered_name_effect = { NAME = William } }
+		}
+	}
+}
+
+# Each name is handed out once per number. Names II to X live in localization.
+tfast_sc_numbered_name_effect = {
+	house:house_british_isles_mathrafal = {
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_name_$NAME$ } }
+			set_variable = { name = tfast_sc_name_$NAME$ value = 0 }
+		}
+		change_variable = { name = tfast_sc_name_$NAME$ add = 1 }
+		save_scope_value_as = { name = targ_name_n value = var:tfast_sc_name_$NAME$ }
+	}
+	if = { limit = { scope:targ_name_n = 1 } change_first_name = $NAME$ }
+	else_if = { limit = { scope:targ_name_n = 2 } change_first_name = $NAME$_II }
+	else_if = { limit = { scope:targ_name_n = 3 } change_first_name = $NAME$_III }
+	else_if = { limit = { scope:targ_name_n = 4 } change_first_name = $NAME$_IV }
+	else_if = { limit = { scope:targ_name_n = 5 } change_first_name = $NAME$_V }
+	else_if = { limit = { scope:targ_name_n = 6 } change_first_name = $NAME$_VI }
+	else_if = { limit = { scope:targ_name_n = 7 } change_first_name = $NAME$_VII }
+	else_if = { limit = { scope:targ_name_n = 8 } change_first_name = $NAME$_VIII }
+	else_if = { limit = { scope:targ_name_n = 9 } change_first_name = $NAME$_IX }
+	else = { change_first_name = $NAME$_X }
+}
+
+# Names already used by the line, so the next one gets the next number. Runs once.
+tfast_sc_seed_name_counts_effect = {
+	house:house_british_isles_mathrafal = {
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_names_seeded } }
+			set_variable = { name = tfast_sc_names_seeded value = 1 }
+			set_variable = { name = tfast_sc_name_Brian value = 1 }
+			set_variable = { name = tfast_sc_name_Alfred value = 1 }
+			set_variable = { name = tfast_sc_name_Edward value = 1 }
+			set_variable = { name = tfast_sc_name_Edith value = 1 }
+			set_variable = { name = tfast_sc_name_Edmund value = 1 }
+		}
+	}
+}
+
+# One dynasty, one house: every living member of the dynasty joins the Targaryen house.
+tfast_sc_one_targaryen_house_effect = {
+	character:6358 = {
+		dynasty ?= {
+			every_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { house = house:house_british_isles_mathrafal }
+				}
+				set_house = house:house_british_isles_mathrafal
+			}
+		}
+	}
+}
+
+# Only the dynasty head carries the dynasty flag on a kingdom or empire. Everyone else gets the alternate shield.
+tfast_sc_targaryen_realm_flags_effect = {
+	every_living_character = {
+		limit = {
+			has_character_flag = tfast_sc_targaryen
+			highest_held_title_tier >= tier_kingdom
+		}
+		save_scope_as = targ_holder
+		every_held_title = {
+			limit = { tier >= tier_kingdom }
+			if = {
+				limit = { scope:targ_holder = { is_house_head = yes } }
+				set_coa = scope:targ_holder.dynasty
+			}
+			else = {
+				set_coa = house:tfast_sc_targaryen_realm_house
+			}
+		}
+	}
+}
+
+tfast_sc_targaryen_intermarry_effect = {
+	scope:targ_groom ?= { remove_character_flag = tfast_sc_pair_groom }
+	scope:targ_bride ?= { remove_character_flag = tfast_sc_pair_bride }
+	house:house_british_isles_mathrafal = {
+		random_house_member = {
+			limit = {
+				is_alive = yes
+				is_male = yes
+				is_married = no
+				age >= 16
+			}
+			save_scope_as = targ_groom
+			add_character_flag = tfast_sc_pair_groom
+		}
+		random_house_member = {
+			limit = {
+				is_alive = yes
+				is_female = yes
+				is_married = no
+				age >= 16
+				NOT = { has_character_flag = tfast_sc_pair_groom }
+			}
+			save_scope_as = targ_bride
+			add_character_flag = tfast_sc_pair_bride
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:targ_groom
+			exists = scope:targ_bride
+			scope:targ_groom = { is_alive = yes is_married = no has_character_flag = tfast_sc_pair_groom }
+			scope:targ_bride = { is_alive = yes is_married = no has_character_flag = tfast_sc_pair_bride }
+		}
+		scope:targ_groom = { marry = scope:targ_bride }
+	}
+	scope:targ_groom ?= { remove_character_flag = tfast_sc_pair_groom }
+	scope:targ_bride ?= { remove_character_flag = tfast_sc_pair_bride }
+}
+
+# Called from on_marriage. Root is one spouse, scope:spouse is the other.
+tfast_sc_targaryen_marriage_guard_effect = {
+	if = {
+		limit = {
+			is_female = yes
+			OR = {
+				house = house:house_british_isles_mathrafal
+				has_character_flag = tfast_sc_targaryen
+			}
+			scope:spouse ?= {
+				NOR = {
+					house = house:house_british_isles_mathrafal
+					has_character_flag = tfast_sc_targaryen
+				}
+				patrilinear_marriage = yes
+			}
+		}
+		divorce = scope:spouse
+	}
+	if = {
+		limit = {
+			is_male = yes
+			OR = {
+				house = house:house_british_isles_mathrafal
+				has_character_flag = tfast_sc_targaryen
+			}
+			scope:spouse ?= {
+				NOR = {
+					house = house:house_british_isles_mathrafal
+					has_character_flag = tfast_sc_targaryen
+				}
+				matrilinear_marriage = yes
+			}
+		}
+		divorce = scope:spouse
+	}
+}
+
+# Root is the newborn.
+tfast_sc_targaryen_birth_effect = {
+	if = {
+		limit = {
+			OR = {
+				father ?= { house = house:house_british_isles_mathrafal }
+				mother ?= { house = house:house_british_isles_mathrafal }
+				father ?= { has_character_flag = tfast_sc_targaryen }
+				mother ?= { has_character_flag = tfast_sc_targaryen }
+			}
+		}
+		add_character_flag = tfast_sc_targaryen
+		tfast_sc_set_targaryen_culture_effect = yes
+		set_house = house:house_british_isles_mathrafal
+		tfast_sc_give_english_name_effect = yes
+		add_character_flag = tfast_sc_english_named
+		trigger_event = tfast_sct.0001
+	}
+}
+
+tfast_sct_player_tick_effect = {
+	if = {
+		limit = { has_character_flag = tfast_sc_targaryen }
+		trigger_event = tfast_sct.0010
+	}
+	tfast_sct_heirloom_effect = yes
+}
+
+# The Valyrian steel blade belongs to the current house head only.
+tfast_sct_heirloom_effect = {
+	every_living_character = {
+		limit = {
+			has_character_modifier = tfast_sct_valyrian_blade_modifier
+			NOT = { is_house_head = yes }
+		}
+		remove_character_modifier = tfast_sct_valyrian_blade_modifier
+	}
+	every_living_character = {
+		limit = {
+			has_character_flag = tfast_sc_targaryen
+			is_house_head = yes
+			NOT = { has_character_modifier = tfast_sct_valyrian_blade_modifier }
+		}
+		add_character_modifier = { modifier = tfast_sct_valyrian_blade_modifier }
+		if = {
+			limit = { is_ai = no }
+			trigger_event = tfast_sct.0020
+		}
+	}
+}
+
+# Root is the player. Used when nobody of the house is left alive.
+tfast_sc_restore_targaryen_effect = {
+	if = {
+		limit = {
+			NOT = {
+				house:house_british_isles_mathrafal = {
+					any_house_member = { is_alive = yes }
+				}
+			}
+		}
+		house:house_british_isles_mathrafal = {
+			every_house_member = {
+				limit = {
+					is_alive = no
+					is_male = yes
+					age >= 16
+					NOT = { exists = scope:targ_sire }
+					NAND = {
+						this = character:6358
+						current_date < 1025.1.1
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							current_date < 1025.1.1
+							this = character:6358
+							tfast_sc_in_designated_dynasty_trigger = yes
+						}
+					}
+					save_scope_as = targ_sire
+				}
+			}
+		}
+		if = {
+			limit = { exists = scope:targ_sire }
+			create_character = {
+				name = Edward
+				age = 20
+				gender = male
+				culture = culture:anglo_saxon
+				rite = rite:roman_rite
+				dynasty_house = house:house_british_isles_mathrafal
+				employer = root
+				father = scope:targ_sire
+				save_scope_as = targ_returned_son
+			}
+			create_character = {
+				name = Elizabeth
+				age = 18
+				gender = female
+				culture = culture:anglo_saxon
+				rite = rite:roman_rite
+				dynasty_house = house:house_british_isles_mathrafal
+				employer = root
+				father = scope:targ_sire
+				save_scope_as = targ_returned_daughter
+			}
+		}
+		else = {
+			create_character = {
+				name = Edward
+				age = 20
+				gender = male
+				culture = culture:anglo_saxon
+				rite = rite:roman_rite
+				dynasty_house = house:house_british_isles_mathrafal
+				employer = root
+				save_scope_as = targ_returned_son
+			}
+			create_character = {
+				name = Elizabeth
+				age = 18
+				gender = female
+				culture = culture:anglo_saxon
+				rite = rite:roman_rite
+				dynasty_house = house:house_british_isles_mathrafal
+				employer = root
+				save_scope_as = targ_returned_daughter
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:targ_returned_son
+				exists = scope:targ_returned_daughter
+			}
+			scope:targ_returned_son = {
+				add_character_flag = tfast_sc_targaryen
+				add_character_flag = tfast_sc_english_named
+				add_character_flag = tfast_sc_brian_blood
+				tfast_sc_set_targaryen_culture_effect = yes
+				marry = scope:targ_returned_daughter
+			}
+			scope:targ_returned_daughter = {
+				add_character_flag = tfast_sc_targaryen
+				add_character_flag = tfast_sc_english_named
+				add_character_flag = tfast_sc_brian_blood
+				tfast_sc_set_targaryen_culture_effect = yes
+			}
+		}
+	}
+}
+
+# Living Hollow characters all sit in the one house. Cadet branches are folded back.
+tfast_sc_one_hollow_house_effect = {
+	if = {
+		limit = { exists = character:tfast_sc_overlord }
+		character:tfast_sc_overlord = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_vaelith }
+		character:tfast_sc_vaelith = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_vaelor }
+		character:tfast_sc_vaelor = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_morvath }
+		character:tfast_sc_morvath = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_kaedryn }
+		character:tfast_sc_kaedryn = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_draven }
+		character:tfast_sc_draven = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_tharion }
+		character:tfast_sc_tharion = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_seralyth }
+		character:tfast_sc_seralyth = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_nyxara }
+		character:tfast_sc_nyxara = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_velmora }
+		character:tfast_sc_velmora = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_eryndra }
+		character:tfast_sc_eryndra = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = character:tfast_sc_malethra }
+		character:tfast_sc_malethra = { tfast_sc_fold_into_hollow_house_effect = yes }
+	}
+	if = {
+		limit = { exists = global_var:tfast_sc_overlord }
+		global_var:tfast_sc_overlord = {
+			tfast_sc_fold_into_hollow_house_effect = yes
+			every_child = { tfast_sc_fold_into_hollow_house_effect = yes }
+			primary_spouse ?= { tfast_sc_fold_into_hollow_house_effect = yes }
+		}
+	}
+}
+
+tfast_sc_fold_into_hollow_house_effect = {
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { house = house:tfast_sc_hollow_house }
+		}
+		set_house = house:tfast_sc_hollow_house
+	}
+}

@@ -1,0 +1,190 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- on_action hooks                  CK3 1.20.x
+# ============================================================================
+#  Hooking method is the one the game documents in
+#  game/common/on_action/_on_actions.info ("MODDING INFO" section):
+#
+#    some_vanilla_on_action = {
+#        on_actions = { some_modded_on_action }
+#    }
+#
+#  The vanilla on_action keeps its own trigger/effect blocks untouched (only
+#  one trigger and one effect block are allowed per on_action), while the
+#  chained mod on_action below owns its effects completely.
+#
+#  Hooks:
+#    on_game_start                -> bootstrap the Hollow Dominion
+#    on_game_start_after_lobby    -> capture the designated player dynasty
+#    yearly_playable_pulse        -> yearly Hollow court / player director
+#    on_birth_child               -> prophecy candidate detection
+#    on_death                     -> registry upkeep (Overlord, chosen, Ten)
+# ============================================================================
+
+
+on_game_start = {
+	on_actions = { tfast_sc_on_game_start }
+}
+
+on_game_start_after_lobby = {
+	on_actions = { tfast_sc_on_game_start_after_lobby }
+}
+
+yearly_playable_pulse = {
+	on_actions = { tfast_sc_yearly_playable_tick tfast_sct_world_tick }
+}
+
+# Existing saves do not replay history or on_game_start. A quarter is the
+# soonest vanilla pulse that still only touches playable rulers.
+quarterly_playable_pulse = {
+	on_actions = { tfast_sc_quarterly_playable_tick }
+}
+
+on_birth_child = {
+	on_actions = { tfast_sc_on_birth_child_tick }
+}
+
+on_death = {
+	on_actions = { tfast_sc_on_death_tick }
+}
+
+on_marriage = {
+	on_actions = { tfast_sc_on_marriage_tick }
+}
+
+on_combat_end_winner = {
+	on_actions = { tfast_sc_on_combat_end_winner }
+}
+
+on_war_started = {
+	on_actions = { tfast_sc_on_war_started_tick }
+}
+
+tfast_sc_on_war_started_tick = {
+	effect = {
+		tfast_sc_hollow_war_support_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Mod-owned on_actions
+# ---------------------------------------------------------------------------
+
+tfast_sc_on_game_start = {
+	effect = {
+		tfast_sc_bootstrap_effect = yes
+		tfast_sc_one_hollow_house_effect = yes
+		tfast_sc_keep_targaryen_effect = yes
+	}
+}
+
+tfast_sc_on_game_start_after_lobby = {
+	effect = {
+		tfast_sc_capture_designated_dynasty_effect = yes
+		# Repair in case on_game_start ran before all titles existed.
+		tfast_sc_repair_effect = yes
+		# Hidden gold deposits. Game rules are known only after the lobby.
+		tfast_sc_seed_gold_deposits_effect = yes
+		tfast_sc_seed_other_deposits_effect = yes
+	}
+}
+
+tfast_sc_quarterly_playable_tick = {
+	effect = {
+		if = {
+			limit = { is_ai = no }
+			tfast_sc_ensure_tide_effect = yes
+			tfast_sc_ensure_long_night_effect = yes
+			tfast_sc_seal_hollow_children_effect = yes
+			tfast_sc_ensure_wife_effect = yes
+			tfast_sc_raise_parent_skills_effect = yes
+			tfast_sc_raise_child_skills_effect = yes
+			tfast_sc_ensure_permanent_seats_effect = yes
+			tfast_sc_quiet_courts_effect = yes
+			tfast_sc_upgrade_family_land_effect = yes
+			tfast_sc_one_hollow_house_effect = yes
+			tfast_sc_keep_targaryen_effect = yes
+			tfast_sc_restore_targaryen_effect = yes
+			tfast_sct_player_tick_effect = yes
+			if = {
+				limit = { is_landed = yes }
+				tfast_sc_ensure_special_mercs_effect = yes
+			}
+		}
+	}
+}
+
+tfast_sc_yearly_playable_tick = {
+	effect = {
+		# Hollow characters: yearly court and director bookkeeping.
+		if = {
+			limit = {
+				has_character_flag = tfast_sc_hollow_host
+			}
+			tfast_sc_hollow_yearly_effect = yes
+		}
+		# The human player: designated dynasty capture fallback, prophecy
+		# upkeep, wall upkeep, memory decay.
+		else_if = {
+			limit = {
+				is_ai = no
+			}
+			tfast_sc_player_yearly_effect = yes
+		}
+	}
+}
+
+tfast_sc_on_birth_child_tick = {
+	effect = {
+		# root = the newborn child. Only matters for the designated dynasty.
+		tfast_sc_birth_effect = yes
+		tfast_sc_targaryen_birth_effect = yes
+	}
+}
+
+tfast_sc_on_marriage_tick = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = tfast_sc_original_child
+					scope:spouse ?= { has_character_flag = tfast_sc_original_child }
+				}
+			}
+			divorce = scope:spouse
+		}
+		tfast_sc_targaryen_marriage_guard_effect = yes
+	}
+}
+
+tfast_sc_on_combat_end_winner = {
+	effect = {
+		tfast_sc_raise_wights_effect = yes
+	}
+}
+
+tfast_sc_on_death_tick = {
+	effect = {
+		# The family chest was already taken out of the treasury, so it is not
+		# in the gold the title heir receives. Hand that one pile over once.
+		tfast_sc_pass_family_chest_effect = yes
+		if = {
+			limit = {
+				has_character_flag = tfast_sc_overlord
+			}
+			tfast_sc_overlord_death_effect = yes
+		}
+		else_if = {
+			limit = {
+				has_character_flag = tfast_sc_original_child
+			}
+			tfast_sc_original_child_death_effect = yes
+		}
+		else_if = {
+			limit = {
+				has_variable = tfast_sc_chosen
+			}
+			tfast_sc_chosen_death_effect = yes
+		}
+	}
+}

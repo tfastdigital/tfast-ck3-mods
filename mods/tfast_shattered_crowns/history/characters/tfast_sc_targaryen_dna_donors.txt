@@ -1,0 +1,27 @@
+﻿# DNA donors for the Targaryen look. Born and dead in year 1 so they are never alive.
+tfast_sc_dna_targ_m = {
+	name = "Aerys"
+	dna = tfast_sc_portrait_targaryen_m
+	rite = "roman_rite"
+	culture = "anglo_saxon"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_targ_f = {
+	name = "Rhaella"
+	female = yes
+	dna = tfast_sc_portrait_targaryen_f
+	rite = "roman_rite"
+	culture = "anglo_saxon"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}

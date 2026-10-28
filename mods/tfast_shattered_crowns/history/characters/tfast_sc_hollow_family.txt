@@ -1,0 +1,365 @@
+﻿# The living Overlord, his twin, and the Ten. The year-1 DNA donors stay dead;
+# these are the people who hold the castles.
+#
+# Vaelos and Vaelith are brother and sister, born the same day from the
+# Darkness, before there were humans. They are each other's spouse. The Ten
+# are their children. Darkness herself is dead on the day the twins are born
+# and holds nothing.
+#
+# Bookmark dates read from game/common/bookmarks/bookmarks/00_bookmarks.txt
+# and groups/00_bookmark_groups.txt:
+#   867.1.1    earliest start
+#   1066.9.15
+#   1178.10.1
+# Births use small positive years: the game does not load negative years, so the
+# twins are about 850 years old at 867. They are immortal and stop aging.
+# The children are born a few decades after them.
+
+tfast_sc_overlord = {
+	name = "Vaelos"
+	dynasty_house = tfast_sc_hollow_house
+	dna = tfast_sc_portrait_overlord
+	martial = 100
+	diplomacy = 100
+	intrigue = 100
+	stewardship = 100
+	learning = 100
+	prowess = 100
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = ambitious
+	trait = patient
+	trait = callous
+	trait = education_learning_4
+	mother = tfast_sc_darkness
+	20.1.1 = {
+		birth = "20.1.1"
+		effect = { add_character_flag = tfast_sc_dark_twin }
+	}
+	39.1.1 = {
+		add_spouse = tfast_sc_vaelith
+	}
+}
+
+# Vaelith, twin sister and wife of Vaelos, mother of the Ten. Same birth
+# as him. She holds Vestisland and leads armies.
+tfast_sc_vaelith = {
+	name = "Vaelith"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	mother = tfast_sc_darkness
+	dna = tfast_sc_portrait_vaelith
+	martial = 100
+	diplomacy = 100
+	intrigue = 100
+	stewardship = 100
+	learning = 100
+	prowess = 100
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = ambitious
+	trait = brave
+	trait = callous
+	trait = education_martial_4
+	trait = organizer
+	trait = winter_soldier
+	trait = unyielding_defender
+	20.1.1 = {
+		birth = "20.1.1"
+		effect = { add_character_flag = tfast_sc_dark_twin }
+	}
+}
+
+tfast_sc_vaelor = {
+	name = "Vaelor"
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_vaelor
+	martial = 92
+	diplomacy = 61
+	intrigue = 64
+	stewardship = 58
+	learning = 55
+	prowess = 90
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_vaelor
+	trait = brave
+	trait = wrathful
+	trait = education_martial_4
+	40.1.1 = {
+		birth = "40.1.1"
+	}
+}
+
+tfast_sc_morvath = {
+	name = "Morvath"
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_morvath
+	martial = 70
+	diplomacy = 60
+	intrigue = 74
+	stewardship = 66
+	learning = 90
+	prowess = 68
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_morvath
+	trait = patient
+	trait = callous
+	trait = education_learning_4
+	45.1.1 = {
+		birth = "45.1.1"
+	}
+}
+
+tfast_sc_kaedryn = {
+	name = "Kaedryn"
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_kaedryn
+	martial = 88
+	diplomacy = 63
+	intrigue = 59
+	stewardship = 72
+	learning = 84
+	prowess = 80
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_kaedryn
+	trait = calm
+	trait = sadistic
+	trait = education_martial_4
+	50.1.1 = {
+		birth = "50.1.1"
+	}
+}
+
+tfast_sc_draven = {
+	name = "Draven"
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_draven
+	martial = 64
+	diplomacy = 70
+	intrigue = 91
+	stewardship = 57
+	learning = 73
+	prowess = 69
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_draven
+	trait = deceitful
+	trait = patient
+	trait = education_intrigue_4
+	52.1.1 = {
+		birth = "52.1.1"
+	}
+}
+
+tfast_sc_tharion = {
+	name = "Tharion"
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_tharion
+	martial = 90
+	diplomacy = 52
+	intrigue = 60
+	stewardship = 86
+	learning = 67
+	prowess = 84
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_tharion
+	trait = diligent
+	trait = stubborn
+	trait = education_martial_4
+	55.1.1 = {
+		birth = "55.1.1"
+	}
+}
+
+tfast_sc_seralyth = {
+	name = "Seralyth"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_seralyth
+	martial = 58
+	diplomacy = 68
+	intrigue = 89
+	stewardship = 55
+	learning = 82
+	prowess = 62
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_seralyth
+	trait = vengeful
+	trait = arbitrary
+	trait = education_intrigue_4
+	58.1.1 = {
+		birth = "58.1.1"
+	}
+}
+
+tfast_sc_nyxara = {
+	name = "Nyxara"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_nyxara
+	martial = 54
+	diplomacy = 78
+	intrigue = 90
+	stewardship = 60
+	learning = 71
+	prowess = 63
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_nyxara
+	trait = deceitful
+	trait = gregarious
+	trait = education_intrigue_4
+	60.1.1 = {
+		birth = "60.1.1"
+	}
+}
+
+tfast_sc_velmora = {
+	name = "Velmora"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_velmora
+	martial = 50
+	diplomacy = 72
+	intrigue = 76
+	stewardship = 68
+	learning = 91
+	prowess = 58
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_velmora
+	trait = zealous
+	trait = callous
+	trait = education_learning_4
+	62.1.1 = {
+		birth = "62.1.1"
+	}
+}
+
+tfast_sc_eryndra = {
+	name = "Eryndra"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_eryndra
+	martial = 56
+	diplomacy = 80
+	intrigue = 61
+	stewardship = 90
+	learning = 77
+	prowess = 60
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_eryndra
+	trait = generous
+	trait = diligent
+	trait = education_stewardship_4
+	65.1.1 = {
+		birth = "65.1.1"
+	}
+}
+
+tfast_sc_malethra = {
+	name = "Malethra"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	father = tfast_sc_overlord
+	mother = tfast_sc_vaelith
+	dna = tfast_sc_portrait_malethra
+	martial = 89
+	diplomacy = 55
+	intrigue = 80
+	stewardship = 58
+	learning = 64
+	prowess = 86
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_white_walker
+	trait = tfast_sc_hollow_unwed
+	trait = tfast_sc_blood_malethra
+	trait = wrathful
+	trait = sadistic
+	trait = education_martial_4
+	68.1.1 = {
+		birth = "68.1.1"
+	}
+}
+
+# The dark they were born from. Dead the day the twins take their first breath.
+# She is their mother so the game records them as twins. She holds no seat.
+tfast_sc_darkness = {
+	name = "Darkness"
+	female = yes
+	dynasty_house = tfast_sc_hollow_house
+	dna = tfast_sc_portrait_overlord
+	martial = 10
+	diplomacy = 10
+	intrigue = 10
+	stewardship = 10
+	learning = 10
+	rite = "hollow_rite"
+	culture = tfast_sc_hollow_culture
+	4.1.1 = {
+		birth = "4.1.1"
+	}
+	21.1.1 = {
+		death = {
+			death_reason = death_murder
+			killer = tfast_sc_targ_slayer
+		}
+	}
+}

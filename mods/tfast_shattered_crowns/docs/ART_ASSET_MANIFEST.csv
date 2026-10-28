@@ -1,0 +1,5 @@
+asset_id,intended_use,source_file,converted_file,dimensions,transparency,integration_status,test_status
+tfast_sc_icon_gold,Resource icon,NOT_GENERATED,,,required,POSTPONED,NOT_TESTED
+tfast_sc_evt_survey,Prospecting event,,NOT_GENERATED,,,POSTPONED,NOT_TESTED
+tfast_sc_evt_gold_vein,Discovery event,NOT_GENERATED,,,POSTPONED,NOT_TESTED
+tfast_sc_evt_gold_working,Mine opened event,NOT_GENERATED,,,POSTPONED,NOT_TESTED

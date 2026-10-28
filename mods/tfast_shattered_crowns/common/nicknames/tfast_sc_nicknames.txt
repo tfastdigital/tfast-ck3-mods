@@ -1,0 +1,12 @@
+﻿nick_tfast_sc_overlord = {}
+nick_tfast_sc_vaelith = {}
+nick_tfast_sc_vaelor = {}
+nick_tfast_sc_morvath = {}
+nick_tfast_sc_kaedryn = {}
+nick_tfast_sc_draven = {}
+nick_tfast_sc_tharion = {}
+nick_tfast_sc_seralyth = {}
+nick_tfast_sc_nyxara = {}
+nick_tfast_sc_velmora = {}
+nick_tfast_sc_eryndra = {}
+nick_tfast_sc_malethra = {}

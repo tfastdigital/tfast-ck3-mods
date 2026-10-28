@@ -1,0 +1,138 @@
+﻿# Player only. Resources other than gold, a look across the border,
+# and a family chest that leaves the treasury when it is set aside.
+
+tfast_sc_survey_resource = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9610
+	ai_check_interval = 0
+	cooldown = { days = 730 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		any_held_title = {
+			tier = tier_county
+			tfast_sc_resource_deposit_trigger = yes
+			tfast_sc_deposit_knowledge_below_trigger = { LEVEL = 3 }
+		}
+	}
+	is_valid = { is_landed = yes }
+	cost = { gold = 75 }
+
+	effect = {
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				tfast_sc_resource_deposit_trigger = yes
+				tfast_sc_deposit_knowledge_below_trigger = { LEVEL = 3 }
+			}
+			save_scope_as = tfast_sc_prospect_county
+		}
+		tfast_sc_prospect_resource_effect = yes
+	}
+}
+
+tfast_sc_open_resource_working = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9611
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		any_held_title = {
+			tier = tier_county
+			tfast_sc_resource_deposit_trigger = yes
+			has_variable = tfast_sc_deposit_knowledge
+			var:tfast_sc_deposit_knowledge = 3
+		}
+	}
+	is_valid = { is_landed = yes }
+	cost = { gold = 150 }
+
+	effect = {
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				tfast_sc_resource_deposit_trigger = yes
+				has_variable = tfast_sc_deposit_knowledge
+				var:tfast_sc_deposit_knowledge = 3
+			}
+			save_scope_as = tfast_sc_mine_county
+		}
+		tfast_sc_open_resource_working_effect = yes
+	}
+}
+
+tfast_sc_scout_neighbor = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	decision_group_type = major
+	sort_order = 9612
+	ai_check_interval = 0
+	cooldown = { days = 365 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+	cost = { gold = 50 }
+
+	effect = { tfast_sc_scout_neighbor_effect = yes }
+}
+
+tfast_sc_set_aside_chest = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9620
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		gold >= 200
+	}
+	is_valid = { gold >= 200 }
+	cost = { gold = 200 }
+
+	effect = {
+		if = {
+			limit = { has_variable = tfast_sc_chest }
+			change_variable = { name = tfast_sc_chest add = 200 }
+		}
+		else = {
+			set_variable = { name = tfast_sc_chest value = 200 }
+		}
+	}
+}
+
+tfast_sc_open_chest = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9621
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_variable = tfast_sc_chest
+		var:tfast_sc_chest >= 200
+	}
+	is_valid = {
+		has_variable = tfast_sc_chest
+		var:tfast_sc_chest >= 200
+	}
+
+	effect = {
+		add_gold = 200
+		change_variable = { name = tfast_sc_chest subtract = 200 }
+		if = {
+			limit = { var:tfast_sc_chest <= 0 }
+			remove_variable = tfast_sc_chest
+		}
+	}
+}

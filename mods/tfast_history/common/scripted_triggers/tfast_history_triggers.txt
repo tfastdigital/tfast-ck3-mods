@@ -1,0 +1,126 @@
+﻿# ============================================================================
+#  TFAST History -- Korea triggers                             CK3 1.20.x
+# ============================================================================
+#  Shared gates for the Goryeo/Joseon institutions in
+#  01_tfast_korea_decisions.txt:
+#
+#    tfast_hist_korea_can_found_trigger  - may the decision be seen at all
+#    tfast_hist_korea_valid_trigger      - may it be taken right now
+#
+#  Heritage check follows the vanilla pattern from
+#  common/decisions/dlc_decisions/tgp/tgp_korea_decisions.txt
+#  (heritage_korean or heritage_buyeo, including parent cultures).
+# ============================================================================
+
+
+tfast_hist_korea_can_found_trigger = {
+	is_ai = no
+	is_landed = yes
+	is_independent_ruler = yes
+	highest_held_title_tier >= tier_duchy
+	culture ?= {
+		OR = {
+			has_cultural_pillar = heritage_korean
+			has_cultural_pillar = heritage_buyeo
+			any_parent_culture = {
+				OR = {
+					has_cultural_pillar = heritage_buyeo
+					has_cultural_pillar = heritage_korean
+				}
+			}
+		}
+	}
+}
+
+tfast_hist_korea_valid_trigger = {
+	is_landed = yes
+	is_independent_ruler = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  China (heritage_chinese, including hybrid parent cultures)
+# ---------------------------------------------------------------------------
+
+tfast_hist_china_can_found_trigger = {
+	is_ai = no
+	is_landed = yes
+	is_independent_ruler = yes
+	highest_held_title_tier >= tier_duchy
+	culture ?= {
+		OR = {
+			has_cultural_pillar = heritage_chinese
+			any_parent_culture = {
+				has_cultural_pillar = heritage_chinese
+			}
+		}
+	}
+}
+
+tfast_hist_china_valid_trigger = {
+	is_landed = yes
+	is_independent_ruler = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  England (the crown of England or the empire of Britannia - the realm's
+#  institutions, not the ruler's blood: Norman kings ruled England too)
+# ---------------------------------------------------------------------------
+
+tfast_hist_england_can_found_trigger = {
+	is_ai = no
+	is_landed = yes
+	OR = {
+		has_title = title:k_england
+		has_title = title:e_britannia
+	}
+}
+
+tfast_hist_england_valid_trigger = {
+	is_landed = yes
+	OR = {
+		has_title = title:k_england
+		has_title = title:e_britannia
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Europe (the European heritages; see 00_heritage.txt)
+# ---------------------------------------------------------------------------
+
+tfast_hist_europe_can_found_trigger = {
+	is_ai = no
+	is_landed = yes
+	is_independent_ruler = yes
+	highest_held_title_tier >= tier_duchy
+	culture ?= {
+		OR = {
+			has_cultural_pillar = heritage_brythonic
+			has_cultural_pillar = heritage_goidelic
+			has_cultural_pillar = heritage_west_germanic
+			has_cultural_pillar = heritage_central_germanic
+			has_cultural_pillar = heritage_north_germanic
+			has_cultural_pillar = heritage_frankish
+			has_cultural_pillar = heritage_latin
+			has_cultural_pillar = heritage_iberian
+			has_cultural_pillar = heritage_byzantine
+			has_cultural_pillar = heritage_east_slavic
+			has_cultural_pillar = heritage_west_slavic
+			has_cultural_pillar = heritage_south_slavic
+			has_cultural_pillar = heritage_magyar
+			has_cultural_pillar = heritage_baltic
+			has_cultural_pillar = heritage_balto_finnic
+			has_cultural_pillar = heritage_ugro_permian
+			has_cultural_pillar = heritage_gothic
+			has_cultural_pillar = heritage_vlach
+			has_cultural_pillar = heritage_albanian
+		}
+	}
+}
+
+tfast_hist_europe_valid_trigger = {
+	is_landed = yes
+	is_independent_ruler = yes
+}

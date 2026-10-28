@@ -1,0 +1,40 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- gold deposit triggers            CK3 1.20.x
+# ============================================================================
+#  County variables (set once, persist with the save):
+#    tfast_sc_deposit_type       1 = gold
+#    tfast_sc_deposit_richness   1 small, 2 worked, 3 great
+#    tfast_sc_deposit_knowledge  0 unknown, 1 rumored, 2 surveyed,
+#                                3 discovered, 4 developed
+#  Developed is the public state. There is no separate per-character
+#  knowledge map.
+# ============================================================================
+
+
+tfast_sc_economy_enabled_trigger = {
+	NOT = { has_game_rule = tfast_sc_economy_off }
+}
+
+# County scope. A hidden gold deposit was seeded here.
+tfast_sc_gold_deposit_trigger = {
+	has_variable = tfast_sc_deposit_type
+	var:tfast_sc_deposit_type = 1
+}
+
+# County scope. Safe to read the knowledge variable.
+tfast_sc_deposit_knowledge_below_trigger = {
+	OR = {
+		NOT = { has_variable = tfast_sc_deposit_knowledge }
+		var:tfast_sc_deposit_knowledge < $LEVEL$
+	}
+}
+
+# Root = a character. COUNTY = a county title.
+# True when this character holds a still-unknown seeded gold deposit there.
+tfast_sc_gold_rumor_county_trigger = {
+	$COUNTY$.holder = root
+	$COUNTY$ = {
+		tfast_sc_gold_deposit_trigger = yes
+		var:tfast_sc_deposit_knowledge = 0
+	}
+}

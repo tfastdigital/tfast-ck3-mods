@@ -1,0 +1,143 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- special mercenaries               CK3 1.20.x
+# ============================================================================
+#  Three landless companies camp in the player's realm and are hired from
+#  Military -> Mercenaries -> Special Mercenaries, while the player leads
+#  a war. The decisions only summon the camps. The gold is paid on hire.
+
+
+# Camps a scary landless company in the caller's realm. Hiring them is the
+# Special Mercenaries button, and that button is only offered while at war.
+tfast_sc_hire_free_company_effect = {
+	if = {
+		limit = {
+			NAND = {
+				exists = global_var:tfast_sc_merc_carrion
+				global_var:tfast_sc_merc_carrion = { is_alive = yes }
+			}
+		}
+		tfast_sc_create_special_merc_effect = {
+			TITLE = tfast_sc_merc_carrion
+			LEVIES = 2000
+			BANDITS = 5
+		}
+		set_global_variable = { name = tfast_sc_merc_carrion value = scope:tfast_sc_new_merc }
+	}
+	else_if = {
+		limit = { is_at_war = no }
+		global_var:tfast_sc_merc_carrion = {
+			domicile ?= { move_domicile = root.capital_province }
+		}
+	}
+}
+
+tfast_sc_hire_great_company_effect = {
+	if = {
+		limit = {
+			NAND = {
+				exists = global_var:tfast_sc_merc_unburied
+				global_var:tfast_sc_merc_unburied = { is_alive = yes }
+			}
+		}
+		tfast_sc_create_special_merc_effect = {
+			TITLE = tfast_sc_merc_unburied
+			LEVIES = 8000
+			BANDITS = 8
+		}
+		scope:tfast_sc_new_merc = {
+			spawn_army = {
+				name = tfast_sc_merc_unburied
+				men_at_arms = { type = light_horsemen stacks = 5 }
+				location = root.capital_province
+				uses_supply = yes
+				inheritable = no
+			}
+		}
+		set_global_variable = { name = tfast_sc_merc_unburied value = scope:tfast_sc_new_merc }
+	}
+	else_if = {
+		limit = { is_at_war = no }
+		global_var:tfast_sc_merc_unburied = {
+			domicile ?= { move_domicile = root.capital_province }
+		}
+	}
+}
+
+tfast_sc_hire_host_of_fortune_effect = {
+	if = {
+		limit = {
+			NAND = {
+				exists = global_var:tfast_sc_merc_pale
+				global_var:tfast_sc_merc_pale = { is_alive = yes }
+			}
+		}
+		tfast_sc_create_special_merc_effect = {
+			TITLE = tfast_sc_merc_pale
+			LEVIES = 20000
+			BANDITS = 10
+		}
+		scope:tfast_sc_new_merc = {
+			add_trait = albino
+			spawn_army = {
+				name = tfast_sc_merc_pale
+				men_at_arms = { type = light_horsemen stacks = 10 }
+				location = root.capital_province
+				uses_supply = yes
+				inheritable = no
+			}
+		}
+		set_global_variable = { name = tfast_sc_merc_pale value = scope:tfast_sc_new_merc }
+	}
+	else_if = {
+		limit = { is_at_war = no }
+		global_var:tfast_sc_merc_pale = {
+			domicile ?= { move_domicile = root.capital_province }
+		}
+	}
+}
+
+# Shared captain: scarred, one-eyed, disfigured, and already in the field.
+tfast_sc_create_special_merc_effect = {
+	create_character = {
+		age = { 32 48 }
+		gender_female_chance = 0
+		culture = root.culture
+		faith = root.faith
+		location = root.capital_province
+		trait = scarred
+		trait = one_eyed
+		trait = disfigured
+		trait = beauty_bad_3
+		trait = education_martial_prowess_4
+		save_scope_as = tfast_sc_new_merc
+	}
+	scope:tfast_sc_new_merc = {
+		add_martial_skill = 8
+		add_prowess_skill = 12
+		add_character_flag = tfast_sc_special_merc
+		create_adventurer_title = {
+			name = $TITLE$
+			holder = scope:tfast_sc_new_merc
+			save_scope_as = tfast_sc_new_merc_title
+		}
+		change_government = landless_adventurer_government
+		add_realm_law = landless_adventurer_succession_law
+		spawn_army = {
+			name = $TITLE$
+			levies = { value = $LEVIES$ }
+			men_at_arms = {
+				type = maa_bandits
+				stacks = { value = $BANDITS$ }
+			}
+			location = root.capital_province
+			uses_supply = yes
+			inheritable = no
+		}
+	}
+}
+
+tfast_sc_ensure_special_mercs_effect = {
+	tfast_sc_hire_free_company_effect = yes
+	tfast_sc_hire_great_company_effect = yes
+	tfast_sc_hire_host_of_fortune_effect = yes
+}

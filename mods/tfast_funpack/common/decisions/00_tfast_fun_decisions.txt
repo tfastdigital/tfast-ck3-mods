@@ -1,0 +1,189 @@
+﻿# ============================================================================
+#  TFAST Fun Pack -- court life & character                CK3 1.20.x
+# ============================================================================
+#  Things to do that are about the ruler's court and personality rather than
+#  about conquest or administration. Every one costs something real and leaves
+#  a lasting mark, so they read as memorable choices rather than buttons.
+#
+#  SAFETY CONTRACT (same as every TFAST mod)
+#    is_ai = no  +  ai_check_interval = 0   -> only the human player can see or
+#    take these, so the AI's economy and wars are never affected.
+#    Additive only: no vanilla file is overwritten.
+#
+#  Every effect, trigger, modifier key, trait and illustration below was
+#  verified against the installed 1.20.0.3 data.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+# 1. A great tournament, with ransoms, melees and a champion's crown.
+# ---------------------------------------------------------------------------
+tfast_fun_grand_tournament = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_knight_kneeling.dds" }
+	decision_group_type = major
+	sort_order = 9300
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  gold >= 400 }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 400 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_fun_grand_tournament_tt
+		add_trait = tfast_fun_tournament_champion
+		add_prestige = 400
+		add_character_modifier = {
+			modifier = tfast_fun_tournament_modifier
+			years = 20
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 2. A menagerie of strange beasts, for the wonder of every guest.
+# ---------------------------------------------------------------------------
+tfast_fun_menagerie = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9301
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  gold >= 350 }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 350 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_fun_menagerie_tt
+		add_trait = tfast_fun_menagerist
+		add_character_modifier = {
+			modifier = tfast_fun_menagerie_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 3. Retain a master artisan and let the court become a workshop.
+# ---------------------------------------------------------------------------
+tfast_fun_patron_arts = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9302
+	ai_check_interval = 0
+
+	is_shown = { is_ai = no  is_landed = yes  gold >= 300 }
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 300 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_fun_patron_arts_tt
+		add_trait = tfast_fun_patron_arts
+		add_character_modifier = {
+			modifier = tfast_fun_patron_arts_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 4. Declare a blood feud against a house that has wronged yours.
+#    Free, but the price is paid in fear and in goodwill.
+# ---------------------------------------------------------------------------
+tfast_fun_blood_feud = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_prison.dds" }
+	decision_group_type = major
+	sort_order = 9303
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		NOT = { has_trait = tfast_fun_bloodfeud }
+	}
+	is_valid = { is_landed = yes }
+
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_fun_blood_feud_tt
+		add_trait = tfast_fun_bloodfeud
+		add_dread = 25
+		add_tyranny = 15
+		add_character_modifier = {
+			modifier = tfast_fun_bloodfeud_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 5. Amass a private hoard, coin by coin, and let the court see you count it.
+# ---------------------------------------------------------------------------
+tfast_fun_amass_hoard = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9304
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		gold >= 500
+		NOT = { has_trait = tfast_fun_hoarder }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 500 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_fun_amass_hoard_tt
+		add_trait = tfast_fun_hoarder
+		add_character_modifier = {
+			modifier = tfast_fun_hoard_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 6. Set the realm aside and take a year of pleasure.
+#    Relieves stress and wins friends, but the dignity of the crown suffers.
+# ---------------------------------------------------------------------------
+tfast_fun_year_of_pleasure = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_family_tree.dds" }
+	decision_group_type = major
+	sort_order = 9305
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		stress >= 100
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 200 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_fun_year_of_pleasure_tt
+		add_stress = -150
+		add_trait = tfast_fun_bon_vivant
+		add_character_modifier = {
+			modifier = tfast_fun_pleasure_modifier
+			years = 15
+		}
+	}
+}

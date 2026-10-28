@@ -1,0 +1,75 @@
+﻿tfast_sc_legacy_1 = {
+	legacy = tfast_sc_hollow_legacy_track
+	character_modifier = {
+		prowess = 2
+		dread_baseline_add = 10
+	}
+	ai_chance = {
+		value = 20
+		if = {
+			limit = { NOT = { has_culture = culture:tfast_sc_hollow_culture } }
+			multiply = 0
+		}
+	}
+}
+
+tfast_sc_legacy_2 = {
+	legacy = tfast_sc_hollow_legacy_track
+	character_modifier = {
+		knight_effectiveness_mult = 0.1
+		levy_size = 0.05
+		army_maintenance_mult = -0.05
+	}
+	ai_chance = {
+		value = 20
+		if = {
+			limit = { NOT = { has_culture = culture:tfast_sc_hollow_culture } }
+			multiply = 0
+		}
+	}
+}
+
+tfast_sc_legacy_3 = {
+	legacy = tfast_sc_hollow_legacy_track
+	character_modifier = {
+		monthly_prestige = 0.3
+		same_culture_opinion = 10
+	}
+	ai_chance = {
+		value = 20
+		if = {
+			limit = { NOT = { has_culture = culture:tfast_sc_hollow_culture } }
+			multiply = 0
+		}
+	}
+}
+
+tfast_sc_legacy_4 = {
+	legacy = tfast_sc_hollow_legacy_track
+	character_modifier = {
+		monthly_income_mult = 0.05
+		development_growth_factor = 0.05
+	}
+	ai_chance = {
+		value = 20
+		if = {
+			limit = { NOT = { has_culture = culture:tfast_sc_hollow_culture } }
+			multiply = 0
+		}
+	}
+}
+
+tfast_sc_legacy_5 = {
+	legacy = tfast_sc_hollow_legacy_track
+	character_modifier = {
+		army_damage_mult = 0.1
+		enemy_hostile_scheme_success_chance_add = -15
+	}
+	ai_chance = {
+		value = 20
+		if = {
+			limit = { NOT = { has_culture = culture:tfast_sc_hollow_culture } }
+			multiply = 0
+		}
+	}
+}

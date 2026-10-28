@@ -1,0 +1,57 @@
+﻿# The Hollow answer for each other: attack one and all of them march, with gold sent to the one attacked or leading the war.
+tfast_sc_hollow_war_support_effect = {
+	if = {
+		limit = {
+			exists = scope:war
+			exists = scope:attacker
+			exists = scope:defender
+		}
+		if = {
+			limit = {
+				scope:defender = { tfast_sc_hollow_ruler_trigger = yes }
+				scope:attacker = { tfast_sc_hollow_ruler_trigger = no }
+			}
+			scope:defender = { save_scope_as = tfast_sc_war_leader }
+			every_living_character = {
+				limit = {
+					tfast_sc_hollow_ruler_trigger = yes
+					is_landed = yes
+					NOT = { this = scope:defender }
+					NOT = { is_defender_in_war = scope:war }
+					NOT = { is_attacker_in_war = scope:war }
+				}
+				save_scope_as = tfast_sc_helper
+				scope:war = { add_defender = scope:tfast_sc_helper }
+				tfast_sc_hollow_send_gold_effect = yes
+			}
+		}
+		else_if = {
+			limit = {
+				scope:attacker = { tfast_sc_hollow_ruler_trigger = yes }
+				scope:defender = { tfast_sc_hollow_ruler_trigger = no }
+			}
+			scope:attacker = { save_scope_as = tfast_sc_war_leader }
+			every_living_character = {
+				limit = {
+					tfast_sc_hollow_ruler_trigger = yes
+					is_landed = yes
+					NOT = { this = scope:attacker }
+					NOT = { is_defender_in_war = scope:war }
+					NOT = { is_attacker_in_war = scope:war }
+				}
+				save_scope_as = tfast_sc_helper
+				scope:war = { add_attacker = scope:tfast_sc_helper }
+				tfast_sc_hollow_send_gold_effect = yes
+			}
+		}
+	}
+}
+
+# Scope is the helper. Sends 100 gold to the war leader when it can be spared.
+tfast_sc_hollow_send_gold_effect = {
+	if = {
+		limit = { gold >= 150 }
+		add_gold = -100
+		scope:tfast_sc_war_leader = { add_gold = 100 }
+	}
+}

@@ -1,0 +1,820 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- bootstrap / registry            CK3 1.20.x
+# ============================================================================
+#  Everything here is idempotent. The bootstrap runs once (guarded by the
+#  global variable tfast_sc_initialized) and the repair pass runs after it —
+#  and every game start thereafter — and may only touch state that is
+#  actually missing or broken.
+#
+#  Verified API used below (all with vanilla examples):
+#    create_character / create_dynasty / set_house_name  (10_dlc_tgp_japan_...)
+#    create_title_and_vassal_change + change_title_holder (00_almohad_...)
+#    becomes_independent (00_decision_effects.txt hungarian migration)
+#    set_father (events/birth_events.txt)
+#    set_immortal_age (effect_localization/00_additional_effects.txt)
+#    create_story / make_story_owner (story_cycle_almohad_invasion.txt)
+#    set_global_variable / change_global_variable (vanilla, everywhere)
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  MAIN BOOTSTRAP
+# ---------------------------------------------------------------------------
+tfast_sc_bootstrap_effect = {
+	if = {
+		limit = { NOT = { exists = global_var:tfast_sc_initialized } }
+
+		# ------------------------------------------------------------------
+		#  1. The Overlord himself, in the person of Vaelos
+		# ------------------------------------------------------------------
+		if = {
+			limit = {
+				exists = character:tfast_sc_overlord
+				character:tfast_sc_overlord = { is_alive = yes }
+			}
+			character:tfast_sc_overlord = { save_scope_as = tfast_sc_overlord }
+		}
+		else = {
+			create_character = {
+				template = tfast_sc_overlord_template
+				name = Vaelos
+				location = title:c_bornholm.title_province
+				rite = rite:hollow_rite
+				save_scope_as = tfast_sc_overlord
+			}
+		}
+
+		# ------------------------------------------------------------------
+		#  2. The Hollow dynasty and its house
+		# ------------------------------------------------------------------
+		scope:tfast_sc_overlord = {
+			# The house and dynasty are database objects. He is born into
+			# them by the template, so there is no create_dynasty call.
+			dynasty = { save_scope_as = tfast_sc_hollow_dynasty }
+			house = { save_scope_as = tfast_sc_hollow_house }
+		}
+
+		set_global_variable = { name = tfast_sc_hollow_dynasty value = scope:tfast_sc_hollow_dynasty }
+		set_global_variable = { name = tfast_sc_hollow_house value = scope:tfast_sc_hollow_house }
+		set_global_variable = { name = tfast_sc_overlord value = scope:tfast_sc_overlord }
+
+		global_var:tfast_sc_overlord = {
+			add_character_flag = tfast_sc_hollow_host
+			add_character_flag = tfast_sc_overlord
+			add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier }
+			set_immortal_age = 58
+		}
+
+		# ------------------------------------------------------------------
+		#  3. Strongholds (existing map counties only, AI-held only)
+		# ------------------------------------------------------------------
+		tfast_sc_seat_strongholds_effect = yes
+
+		# ------------------------------------------------------------------
+		#  4. The ten original children
+		# ------------------------------------------------------------------
+		tfast_sc_create_the_ten_effect = yes
+		tfast_sc_ensure_permanent_seats_effect = yes
+		tfast_sc_grant_seats_effect = yes
+		tfast_sc_seal_hollow_children_effect = yes
+
+		# ------------------------------------------------------------------
+		#  5. The Hollow Host director story
+		# ------------------------------------------------------------------
+		global_var:tfast_sc_overlord = {
+			create_story = {
+				type = tfast_sc_hollow_host
+				save_scope_as = tfast_sc_host_story
+			}
+			set_variable = { name = tfast_sc_host_story value = scope:tfast_sc_host_story }
+		}
+		tfast_sc_ensure_origin_story_effect = yes
+
+		# ------------------------------------------------------------------
+		#  6. World state
+		# ------------------------------------------------------------------
+		set_global_variable = { name = tfast_sc_crisis_phase value = 0 }
+		set_global_variable = { name = tfast_sc_hollow_readiness value = 40 }
+		set_global_variable = { name = tfast_sc_raid_budget value = 2 }
+		set_global_variable = { name = tfast_sc_story_budget value = 10 }
+		set_global_variable = { name = tfast_sc_raid_count value = 0 }
+		set_global_variable = { name = tfast_sc_initialized value = yes }
+
+		debug_log = "TFAST Shattered Crowns: the Hollow Dominion has been bootstrapped"
+	}
+	else = {
+		tfast_sc_repair_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DESIGNATED PLAYER DYNASTY
+#  Captured at campaign initialization (after lobby) from the first human
+#  player, with a yearly fallback in tfast_sc_player_yearly_effect.
+# ---------------------------------------------------------------------------
+tfast_sc_capture_designated_dynasty_effect = {
+	if = {
+		limit = { NOT = { exists = global_var:tfast_sc_designated_dynasty } }
+		every_player = {
+			limit = { exists = dynasty }
+			if = {
+				limit = { NOT = { exists = global_var:tfast_sc_designated_dynasty } }
+				set_global_variable = { name = tfast_sc_designated_dynasty value = dynasty }
+				debug_log = "TFAST Shattered Crowns: designated player dynasty recorded"
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  STRONGHOLDS
+#  Preference order: Bornholm (core refuge), Rugen, the Isle of Man,
+#  Osel, Anglesey. Only counties held by AI rulers are ever taken.
+#  If fewer than one is available, the yearly repair pass retries.
+# ---------------------------------------------------------------------------
+tfast_sc_seat_strongholds_effect = {
+	if = {
+		limit = { title:c_bornholm.holder ?= { is_ai = yes } }
+		tfast_sc_usurp_stronghold_effect = { COUNTY = title:c_bornholm IDX = 1 SHIELD = house:tfast_sc_hollow_house }
+	}
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_1
+			NOT = { exists = global_var:tfast_sc_stronghold_2 }
+			title:c_rugen.holder ?= { is_ai = yes }
+		}
+		tfast_sc_usurp_stronghold_effect = { COUNTY = title:c_rugen IDX = 2 SHIELD = dynasty:tfast_sc_hollow_dynasty }
+	}
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_1
+			NOT = { exists = global_var:tfast_sc_stronghold_3 }
+			title:c_isle_of_man.holder ?= { is_ai = yes }
+		}
+		tfast_sc_usurp_stronghold_effect = { COUNTY = title:c_isle_of_man IDX = 3 SHIELD = dynasty:tfast_sc_hollow_dynasty }
+	}
+	# Alternates, used when a preference above was held by a human player.
+	if = {
+		limit = {
+			NOT = { exists = global_var:tfast_sc_stronghold_3 }
+			title:c_osel.holder ?= { is_ai = yes }
+		}
+		tfast_sc_usurp_stronghold_effect = { COUNTY = title:c_osel IDX = 3 SHIELD = dynasty:tfast_sc_hollow_dynasty }
+	}
+	if = {
+		limit = {
+			NOT = { exists = global_var:tfast_sc_stronghold_3 }
+			title:c_anglesey.holder ?= { is_ai = yes }
+		}
+		tfast_sc_usurp_stronghold_effect = { COUNTY = title:c_anglesey IDX = 3 SHIELD = dynasty:tfast_sc_hollow_dynasty }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Take one stronghold county for the Overlord.
+#  Params:
+#    COUNTY = county title scope
+#    IDX    = 1..3 registry slot
+#    SHIELD = coat of arms key (house: or dynasty:)
+# ---------------------------------------------------------------------------
+tfast_sc_usurp_stronghold_effect = {
+	create_title_and_vassal_change = {
+		type = usurped
+		save_scope_as = tfast_sc_change
+		add_claim_on_loss = no
+	}
+
+	$COUNTY$ = {
+		change_title_holder = {
+			holder = global_var:tfast_sc_overlord
+			change = scope:tfast_sc_change
+			take_baronies = yes
+		}
+	}
+
+	resolve_title_and_vassal_change = scope:tfast_sc_change
+
+	# If the usurpation pulled the Overlord under a liege, step back out.
+	global_var:tfast_sc_overlord = {
+		if = {
+			limit = { exists = liege }
+			create_title_and_vassal_change = {
+				type = independency
+				save_scope_as = tfast_sc_change
+				add_claim_on_loss = no
+			}
+			becomes_independent = {
+				change = scope:tfast_sc_change
+			}
+			resolve_title_and_vassal_change = scope:tfast_sc_change
+		}
+	}
+
+	# Passed in: his own shield on the seat he rules, the dynasty arms on the others.
+	$COUNTY$ = { set_coa = $SHIELD$ }
+
+	# Hollow ground: warded, marked, and of the Hollow faith.
+	$COUNTY$ = {
+		set_variable = { name = tfast_sc_stronghold value = yes }
+		set_variable = { name = tfast_sc_stronghold_index value = $IDX$ }
+		set_county_faith = faith:hollow_faith
+		add_county_modifier = { modifier = tfast_sc_stronghold_modifier }
+	}
+
+	set_global_variable = { name = tfast_sc_stronghold_$IDX$ value = $COUNTY$ }
+
+	if = {
+		limit = { exists = global_var:tfast_sc_stronghold_count }
+		change_global_variable = { name = tfast_sc_stronghold_count add = 1 }
+	}
+	else = {
+		set_global_variable = { name = tfast_sc_stronghold_count value = 1 }
+	}
+
+	debug_log = "TFAST Shattered Crowns: stronghold taken"
+	debug_log_scopes = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE TEN
+# ---------------------------------------------------------------------------
+tfast_sc_create_the_ten_effect = {
+	# ------------------------------------------------------------------
+	# The five sons
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelor
+			character:tfast_sc_vaelor = { is_alive = yes }
+		}
+		character:tfast_sc_vaelor = { save_scope_as = tfast_sc_child_vaelor }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_vaelor_template
+			name = Vaelor
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_vaelor
+		}
+	}
+	scope:tfast_sc_child_vaelor = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 55 AMBITION = 80 GRIEVANCE = 10 INFLUENCE = 70 READINESS = 75 BLOC = 0 AGE = 42
+			STRONGHOLD = global_var:tfast_sc_stronghold_1
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_morvath
+			character:tfast_sc_morvath = { is_alive = yes }
+		}
+		character:tfast_sc_morvath = { save_scope_as = tfast_sc_child_morvath }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_morvath_template
+			name = Morvath
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_morvath
+		}
+	}
+	scope:tfast_sc_child_morvath = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 65 AMBITION = 50 GRIEVANCE = 15 INFLUENCE = 60 READINESS = 45 BLOC = 1 AGE = 48
+			STRONGHOLD = global_var:tfast_sc_stronghold_2
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_kaedryn
+			character:tfast_sc_kaedryn = { is_alive = yes }
+		}
+		character:tfast_sc_kaedryn = { save_scope_as = tfast_sc_child_kaedryn }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_kaedryn_template
+			name = Kaedryn
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_kaedryn
+		}
+	}
+	scope:tfast_sc_child_kaedryn = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 75 AMBITION = 35 GRIEVANCE = 10 INFLUENCE = 55 READINESS = 60 BLOC = 3 AGE = 36
+			STRONGHOLD = global_var:tfast_sc_stronghold_3
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_draven
+			character:tfast_sc_draven = { is_alive = yes }
+		}
+		character:tfast_sc_draven = { save_scope_as = tfast_sc_child_draven }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_draven_template
+			name = Draven
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_draven
+		}
+	}
+	scope:tfast_sc_child_draven = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 45 AMBITION = 60 GRIEVANCE = 25 INFLUENCE = 65 READINESS = 30 BLOC = 2 AGE = 40
+			STRONGHOLD = global_var:tfast_sc_stronghold_1
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_tharion
+			character:tfast_sc_tharion = { is_alive = yes }
+		}
+		character:tfast_sc_tharion = { save_scope_as = tfast_sc_child_tharion }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_tharion_template
+			name = Tharion
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_tharion
+		}
+	}
+	scope:tfast_sc_child_tharion = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 60 AMBITION = 65 GRIEVANCE = 20 INFLUENCE = 50 READINESS = 70 BLOC = 0 AGE = 50
+			STRONGHOLD = global_var:tfast_sc_stronghold_2
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# The five daughters
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			exists = character:tfast_sc_seralyth
+			character:tfast_sc_seralyth = { is_alive = yes }
+		}
+		character:tfast_sc_seralyth = { save_scope_as = tfast_sc_child_seralyth }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_seralyth_template
+			name = Seralyth
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_seralyth
+		}
+	}
+	scope:tfast_sc_child_seralyth = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 40 AMBITION = 70 GRIEVANCE = 35 INFLUENCE = 55 READINESS = 40 BLOC = 4 AGE = 43
+			STRONGHOLD = global_var:tfast_sc_stronghold_3
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_nyxara
+			character:tfast_sc_nyxara = { is_alive = yes }
+		}
+		character:tfast_sc_nyxara = { save_scope_as = tfast_sc_child_nyxara }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_nyxara_template
+			name = Nyxara
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_nyxara
+		}
+	}
+	scope:tfast_sc_child_nyxara = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 50 AMBITION = 55 GRIEVANCE = 20 INFLUENCE = 70 READINESS = 25 BLOC = 2 AGE = 34
+			STRONGHOLD = global_var:tfast_sc_stronghold_1
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_velmora
+			character:tfast_sc_velmora = { is_alive = yes }
+		}
+		character:tfast_sc_velmora = { save_scope_as = tfast_sc_child_velmora }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_velmora_template
+			name = Velmora
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_velmora
+		}
+	}
+	scope:tfast_sc_child_velmora = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 70 AMBITION = 30 GRIEVANCE = 10 INFLUENCE = 45 READINESS = 35 BLOC = 1 AGE = 46
+			STRONGHOLD = global_var:tfast_sc_stronghold_2
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_eryndra
+			character:tfast_sc_eryndra = { is_alive = yes }
+		}
+		character:tfast_sc_eryndra = { save_scope_as = tfast_sc_child_eryndra }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_eryndra_template
+			name = Eryndra
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_eryndra
+		}
+	}
+	scope:tfast_sc_child_eryndra = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 80 AMBITION = 25 GRIEVANCE = 5 INFLUENCE = 40 READINESS = 30 BLOC = 3 AGE = 38
+			STRONGHOLD = global_var:tfast_sc_stronghold_3
+		}
+	}
+
+	if = {
+		limit = {
+			exists = character:tfast_sc_malethra
+			character:tfast_sc_malethra = { is_alive = yes }
+		}
+		character:tfast_sc_malethra = { save_scope_as = tfast_sc_child_malethra }
+	}
+	else = {
+		create_character = {
+			template = tfast_sc_malethra_template
+			name = Malethra
+			employer = global_var:tfast_sc_overlord
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_child_malethra
+		}
+	}
+	scope:tfast_sc_child_malethra = {
+		tfast_sc_finalize_child_effect = {
+			LOYALTY = 35 AMBITION = 75 GRIEVANCE = 40 INFLUENCE = 50 READINESS = 65 BLOC = 4 AGE = 35
+			STRONGHOLD = global_var:tfast_sc_stronghold_1
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Shared setup for every original child. Root = the child.
+# ---------------------------------------------------------------------------
+tfast_sc_finalize_child_effect = {
+	add_character_flag = tfast_sc_hollow_host
+	add_character_flag = tfast_sc_original_child
+	if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+	if = { limit = { NOT = { has_trait = tfast_sc_hollow_unwed } } add_trait = tfast_sc_hollow_unwed }
+	add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier }
+	set_immortal_age = $AGE$
+	set_father = global_var:tfast_sc_overlord
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes }
+			NOT = { exists = mother }
+		}
+		set_mother = character:tfast_sc_vaelith
+	}
+
+	set_variable = { name = tfast_sc_loyalty value = $LOYALTY$ }
+	set_variable = { name = tfast_sc_ambition value = $AMBITION$ }
+	set_variable = { name = tfast_sc_grievance value = $GRIEVANCE$ }
+	set_variable = { name = tfast_sc_influence value = $INFLUENCE$ }
+	set_variable = { name = tfast_sc_readiness value = $READINESS$ }
+	set_variable = { name = tfast_sc_bloc value = $BLOC$ }
+	set_variable = { name = tfast_sc_status value = 0 }
+	if = {
+		limit = { exists = $STRONGHOLD$ }
+		set_variable = { name = tfast_sc_assigned_stronghold value = $STRONGHOLD$ }
+	}
+	else = {
+		set_variable = { name = tfast_sc_assigned_stronghold value = global_var:tfast_sc_stronghold_1 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Give the first children with no barony yet one barony each out of the
+#  strongholds the Overlord holds.
+# ---------------------------------------------------------------------------
+tfast_sc_grant_seats_effect = {
+	global_var:tfast_sc_overlord = {
+		every_child = {
+			limit = {
+				has_character_flag = tfast_sc_original_child
+			}
+			save_temporary_scope_as = tfast_sc_seat_candidate
+			global_var:tfast_sc_overlord = {
+				random_held_title = {
+					limit = {
+						tier = tier_barony
+						NOT = { is_capital_barony = yes }
+					}
+					save_temporary_scope_as = tfast_sc_seat_title
+				}
+			}
+			if = {
+				limit = { exists = scope:tfast_sc_seat_title }
+				create_title_and_vassal_change = {
+					type = granted
+					save_scope_as = tfast_sc_change
+					add_claim_on_loss = no
+				}
+				scope:tfast_sc_seat_candidate = {
+					house = { save_scope_as = tfast_sc_seat_house }
+				}
+				scope:tfast_sc_seat_title = {
+					change_title_holder = {
+						holder = scope:tfast_sc_seat_candidate
+						change = scope:tfast_sc_change
+						take_baronies = no
+					}
+					set_coa = scope:tfast_sc_seat_house
+				}
+				resolve_title_and_vassal_change = scope:tfast_sc_change
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  REPAIR PASS
+#  Keeps the campaign whole after save/load or engine-unavoidable deaths.
+# ---------------------------------------------------------------------------
+tfast_sc_repair_effect = {
+	if = {
+		limit = { tfast_sc_hollow_initialized_trigger = yes }
+
+		# The Overlord must exist and live.
+		if = {
+			limit = { NOT = { tfast_sc_overlord_valid_trigger = yes } }
+			tfast_sc_overlord_reincarnate_effect = yes
+		}
+
+		# The Overlord keeps his marks.
+		if = {
+			limit = { tfast_sc_overlord_valid_trigger = yes }
+			global_var:tfast_sc_overlord = {
+				if = { limit = { NOT = { has_character_flag = tfast_sc_hollow_host } } add_character_flag = tfast_sc_hollow_host }
+				if = { limit = { NOT = { has_character_flag = tfast_sc_overlord } } add_character_flag = tfast_sc_overlord }
+				if = { limit = { NOT = { has_character_flag = tfast_sc_outfit_overlord } } add_character_flag = tfast_sc_outfit_overlord }
+				if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+				if = { limit = { NOT = { has_character_modifier = tfast_sc_overlord_aura_modifier } } add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier } }
+			}
+		}
+
+		# The director story must exist and have a living owner.
+		if = {
+			limit = {
+				tfast_sc_overlord_valid_trigger = yes
+				NOT = { global_var:tfast_sc_overlord = { has_variable = tfast_sc_host_story } }
+			}
+			global_var:tfast_sc_overlord = {
+				create_story = {
+					type = tfast_sc_hollow_host
+					save_scope_as = tfast_sc_host_story
+				}
+				set_variable = { name = tfast_sc_host_story value = scope:tfast_sc_host_story }
+				debug_log = "TFAST Shattered Crowns: host story created by repair"
+			}
+		}
+		tfast_sc_ensure_origin_story_effect = yes
+
+		# Original children keep the crown and armor locked to their blood.
+		if = {
+			limit = { exists = global_var:tfast_sc_hollow_dynasty }
+			global_var:tfast_sc_hollow_dynasty = {
+				every_dynasty_member = {
+					limit = { has_character_flag = tfast_sc_original_child }
+					if = { limit = { has_trait = tfast_sc_blood_vaelor NOT = { has_character_flag = tfast_sc_outfit_vaelor } } add_character_flag = tfast_sc_outfit_vaelor }
+					if = { limit = { has_trait = tfast_sc_blood_morvath NOT = { has_character_flag = tfast_sc_outfit_morvath } } add_character_flag = tfast_sc_outfit_morvath }
+					if = { limit = { has_trait = tfast_sc_blood_kaedryn NOT = { has_character_flag = tfast_sc_outfit_kaedryn } } add_character_flag = tfast_sc_outfit_kaedryn }
+					if = { limit = { has_trait = tfast_sc_blood_draven NOT = { has_character_flag = tfast_sc_outfit_draven } } add_character_flag = tfast_sc_outfit_draven }
+					if = { limit = { has_trait = tfast_sc_blood_tharion NOT = { has_character_flag = tfast_sc_outfit_tharion } } add_character_flag = tfast_sc_outfit_tharion }
+					if = { limit = { has_trait = tfast_sc_blood_seralyth NOT = { has_character_flag = tfast_sc_outfit_seralyth } } add_character_flag = tfast_sc_outfit_seralyth }
+					if = { limit = { has_trait = tfast_sc_blood_nyxara NOT = { has_character_flag = tfast_sc_outfit_nyxara } } add_character_flag = tfast_sc_outfit_nyxara }
+					if = { limit = { has_trait = tfast_sc_blood_velmora NOT = { has_character_flag = tfast_sc_outfit_velmora } } add_character_flag = tfast_sc_outfit_velmora }
+					if = { limit = { has_trait = tfast_sc_blood_eryndra NOT = { has_character_flag = tfast_sc_outfit_eryndra } } add_character_flag = tfast_sc_outfit_eryndra }
+					if = { limit = { has_trait = tfast_sc_blood_malethra NOT = { has_character_flag = tfast_sc_outfit_malethra } } add_character_flag = tfast_sc_outfit_malethra }
+				}
+			}
+		}
+
+		# Strongholds: if fewer than three are recorded, try again.
+		if = {
+			limit = { NOT = { exists = global_var:tfast_sc_stronghold_1 } }
+			tfast_sc_seat_strongholds_effect = yes
+		}
+		tfast_sc_ensure_permanent_seats_effect = yes
+
+		# Safety floor on world state.
+		if = { limit = { NOT = { exists = global_var:tfast_sc_crisis_phase } } set_global_variable = { name = tfast_sc_crisis_phase value = 0 } }
+		if = { limit = { NOT = { exists = global_var:tfast_sc_hollow_readiness } } set_global_variable = { name = tfast_sc_hollow_readiness value = 40 } }
+		if = { limit = { NOT = { exists = global_var:tfast_sc_raid_budget } } set_global_variable = { name = tfast_sc_raid_budget value = 2 } }
+		if = { limit = { NOT = { exists = global_var:tfast_sc_story_budget } } set_global_variable = { name = tfast_sc_story_budget value = 10 } }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE OVERLORD IS NEVER PERMANENTLY DESTROYED
+#  If the engine ever kills him despite the immortal trait, the Dominion
+#  raises him again. This is the documented engine fallback: the new
+#  character is a true resurrection in narrative terms and is logged.
+# ---------------------------------------------------------------------------
+tfast_sc_overlord_reincarnate_effect = {
+	if = {
+		limit = { NOT = { tfast_sc_overlord_valid_trigger = yes } }
+		create_character = {
+			template = tfast_sc_overlord_template
+			name = Vaelos
+			location = title:c_bornholm.title_province
+			dynasty_house = global_var:tfast_sc_hollow_house
+			rite = rite:hollow_rite
+			save_scope_as = tfast_sc_new_overlord
+		}
+		scope:tfast_sc_new_overlord = {
+			add_character_flag = tfast_sc_hollow_host
+			add_character_flag = tfast_sc_overlord
+			add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier }
+			set_immortal_age = 58
+		}
+		set_global_variable = { name = tfast_sc_overlord value = scope:tfast_sc_new_overlord }
+
+		# Any surviving original children keep their marks.
+		if = { limit = { exists = global_var:tfast_sc_hollow_dynasty } }
+		global_var:tfast_sc_hollow_dynasty = {
+			every_dynasty_member = {
+				limit = { has_character_flag = tfast_sc_original_child }
+				if = { limit = { NOT = { has_character_flag = tfast_sc_hollow_host } } add_character_flag = tfast_sc_hollow_host }
+				if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+			}
+		}
+
+		debug_log = "TFAST Shattered Crowns: ENGINE FALLBACK - the Overlord was re-raised after an unavoidable death"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DEATH REGISTRY
+# ---------------------------------------------------------------------------
+
+# Root = the dead Overlord.
+tfast_sc_overlord_death_effect = {
+	if = {
+		limit = {
+			NOT = { global_var:tfast_sc_overlord = { is_alive = yes } }
+		}
+		tfast_sc_overlord_reincarnate_effect = yes
+	}
+}
+
+# Root = a dead original child.
+# Death by True Death destroys permanently; anything else is banishment/
+# dormancy, from which the child may return on the map years later.
+# The role registry globals (tfast_sc_role_<name>_status) are updated from
+# the child's bloodline trait so the return pass never needs to address a
+# dead character scope.
+tfast_sc_original_child_death_effect = {
+	if = {
+		limit = { has_variable = tfast_sc_true_death }
+		set_variable = { name = tfast_sc_status value = 4 }
+		set_variable = { name = tfast_sc_death_state value = 4 }
+		debug_log = "TFAST Shattered Crowns: an original child was destroyed by True Death"
+	}
+	else = {
+		set_variable = { name = tfast_sc_status value = 1 }
+		set_variable = { name = tfast_sc_death_state value = 1 }
+		debug_log = "TFAST Shattered Crowns: an original child was banished (engine death outside True Death)"
+	}
+
+	# Map the bloodline to its role registry entry.
+	if = { limit = { has_trait = tfast_sc_blood_vaelor } set_global_variable = { name = tfast_sc_role_vaelor_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_morvath } set_global_variable = { name = tfast_sc_role_morvath_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_kaedryn } set_global_variable = { name = tfast_sc_role_kaedryn_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_draven } set_global_variable = { name = tfast_sc_role_draven_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_tharion } set_global_variable = { name = tfast_sc_role_tharion_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_seralyth } set_global_variable = { name = tfast_sc_role_seralyth_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_nyxara } set_global_variable = { name = tfast_sc_role_nyxara_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_velmora } set_global_variable = { name = tfast_sc_role_velmora_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_eryndra } set_global_variable = { name = tfast_sc_role_eryndra_status value = var:tfast_sc_death_state } }
+	if = { limit = { has_trait = tfast_sc_blood_malethra } set_global_variable = { name = tfast_sc_role_malethra_status value = var:tfast_sc_death_state } }
+
+	set_global_variable = { name = tfast_sc_last_destroyed_original_child value = this years = 20 }
+	if = {
+		limit = { exists = global_var:tfast_sc_descendants_destroyed }
+		change_global_variable = { name = tfast_sc_descendants_destroyed add = 1 }
+	}
+	else = {
+		set_global_variable = { name = tfast_sc_descendants_destroyed value = 1 }
+	}
+	# The court grieves; ambition against the killer grows in memory.
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			add_character_modifier = {
+				modifier = tfast_sc_court_schism_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+# Root = the dead chosen.
+tfast_sc_chosen_death_effect = {
+	remove_global_variable = tfast_sc_chosen_character
+	debug_log = "TFAST Shattered Crowns: the chosen died; the prophecy awaits a new birth"
+}
+
+
+# ---------------------------------------------------------------------------
+#  The director story lost its owner (the Overlord died): reincarnate and
+#  re-own. Root = the story cycle.
+# ---------------------------------------------------------------------------
+tfast_sc_host_story_owner_death_effect = {
+	if = {
+		limit = { NOT = { tfast_sc_overlord_valid_trigger = yes } }
+		tfast_sc_overlord_reincarnate_effect = yes
+	}
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		make_story_owner = global_var:tfast_sc_overlord
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BANISHED CHILDREN RETURN
+#  Params: CHARACTER_TEMPLATE, NAME, LOYALTY, BLOC, ROLE
+#  The character is a new instance wearing the same face and name; the old
+#  instance's death is an engine fact that cannot be undone. Documented in
+#  docs/SHATTERED_CROWNS_COMPATIBILITY.md.
+# ---------------------------------------------------------------------------
+tfast_sc_resurrect_child_effect = {
+	create_character = {
+		template = $CHARACTER_TEMPLATE$
+		name = $NAME$
+		employer = global_var:tfast_sc_overlord
+		rite = rite:hollow_rite
+		save_scope_as = tfast_sc_returned_child
+	}
+	scope:tfast_sc_returned_child = {
+		add_character_flag = tfast_sc_hollow_host
+		add_character_flag = tfast_sc_original_child
+		if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+		if = { limit = { NOT = { has_trait = tfast_sc_hollow_unwed } } add_trait = tfast_sc_hollow_unwed }
+		add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier }
+		set_immortal_age = 30
+		set_father = global_var:tfast_sc_overlord
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes }
+			NOT = { exists = mother }
+		}
+		set_mother = character:tfast_sc_vaelith
+	}
+		set_variable = { name = tfast_sc_loyalty value = $LOYALTY$ }
+		set_variable = { name = tfast_sc_ambition value = 50 }
+		set_variable = { name = tfast_sc_grievance value = 30 }
+		set_variable = { name = tfast_sc_influence value = 40 }
+		set_variable = { name = tfast_sc_readiness value = 40 }
+		set_variable = { name = tfast_sc_bloc value = $BLOC$ }
+		set_variable = { name = tfast_sc_status value = 0 }
+		set_variable = { name = tfast_sc_assigned_stronghold value = global_var:tfast_sc_stronghold_1 }
+	}
+	set_global_variable = { name = tfast_sc_role_$ROLE$_status value = 0 }
+	every_player = {
+		trigger_event = { id = tfast_sc.0811 days = { 20 90 } }
+	}
+	debug_log = "TFAST Shattered Crowns: a banished child has returned to the Dominion"
+	debug_log_scopes = yes
+}

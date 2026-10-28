@@ -1,0 +1,28 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- bootstrap / repair events        CK3 1.20.x
+# ============================================================================
+#  Structure verified against vanilla character events (namespace, type,
+#  theme, title, desc, immediate, option). `theme` is REQUIRED - a live run
+#  of a sibling TFAST mod logged "Theme missing in event" without it.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  tfast_sc.0001 -- late bootstrap repair.
+#  Fired by the yearly director if (for any reason) the Hollow Dominion was
+#  never bootstrapped at game start. Hidden; it is pure bookkeeping.
+# ---------------------------------------------------------------------------
+tfast_sc.0001 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		NOT = { tfast_sc_hollow_initialized_trigger = yes }
+	}
+
+	immediate = {
+		tfast_sc_bootstrap_effect = yes
+	}
+}

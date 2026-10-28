@@ -1,0 +1,23 @@
+﻿tfast_sct_dragon_egg_modifier = {
+	icon = tfast_sct_dragon_egg
+	monthly_prestige = 0.1
+}
+
+tfast_sct_dragonbound_modifier = {
+	icon = martial_positive
+	prowess = 4
+	dread_baseline_add = 15
+	monthly_prestige = 0.3
+}
+
+tfast_sct_valyrian_blade_modifier = {
+	icon = martial_positive
+	prowess = 3
+	knight_effectiveness_mult = 0.1
+}
+
+tfast_sct_dragon_throne_modifier = {
+	icon = prestige_positive
+	monthly_prestige = 1
+	vassal_opinion = 10
+}

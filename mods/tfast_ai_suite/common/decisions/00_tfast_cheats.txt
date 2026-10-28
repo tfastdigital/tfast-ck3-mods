@@ -1,0 +1,304 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- Cheat decisions                             CK3 1.20.x
+# ============================================================================
+#  Design guarantees (why this cannot break a game)
+#  ------------------------------------------------
+#   * is_ai = no             -> only the human player can ever see these.
+#   * ai_check_interval = 0  -> the AI never evaluates them, so the AI
+#                               economy/warfare is completely untouched.
+#   * Additive only          -> no vanilla file is overwritten. Disabling
+#                               the mod leaves the game identical.
+#   * Every effect used is a vanilla effect verified against 1.20.0.3.
+#
+#  They appear in the Decisions tab under "Major Decisions".
+#
+#  NOTE: this is a single-player convenience mod. Using it (like the in-game
+#  debug console) disables achievements for that save.
+# ============================================================================
+
+
+# ------------------------------------------------------------------- GOLD ---
+tfast_cheat_gold = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds" }
+	decision_group_type = major
+	sort_order = 9000
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_gold }
+		add_gold = 10000
+	}
+}
+
+
+# --------------------------------------------------------------- PRESTIGE ---
+tfast_cheat_prestige = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	decision_group_type = major
+	sort_order = 9001
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_prestige }
+		add_prestige = 10000
+	}
+}
+
+
+# ------------------------------------------------------------------ PIETY ---
+tfast_cheat_piety = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9002
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_piety }
+		add_piety = 10000
+	}
+}
+
+
+# ----------------------------------------------------------------- RENOWN ---
+tfast_cheat_renown = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9003
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_renown }
+		if = {
+			limit = { exists = dynasty }
+			dynasty = { add_dynasty_prestige = 10000 }
+		}
+		else = { add_prestige = 10000 }
+	}
+}
+
+
+# ------------------------------------------------------------- LEGITIMACY ---
+tfast_cheat_legitimacy = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9004
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_legitimacy }
+		add_legitimacy = 1000
+	}
+}
+
+
+# ------------------------------------------------------------------ DREAD ---
+tfast_cheat_dread = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_prison.dds" }
+	decision_group_type = major
+	sort_order = 9005
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_dread }
+		add_dread = 100
+	}
+}
+
+
+# -------------------------------------------------------------- INFLUENCE ---
+# Administrative governments only; hidden entirely for everyone else.
+tfast_cheat_influence = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9006
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		government_has_flag = government_is_administrative
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_influence }
+		change_influence = 1000
+	}
+}
+
+
+# ------------------------------------------------------------- DEVELOPMENT --
+tfast_cheat_develop_capital = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9007
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_develop_capital }
+		capital_county = { change_development_level = 1 }
+	}
+}
+
+tfast_cheat_develop_realm = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9008
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_develop_realm }
+		every_sub_realm_county = { change_development_level = 1 }
+	}
+}
+
+
+# --------------------------------------------------------------- MILITARY ---
+tfast_cheat_max_maa = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_levy_outcasts.dds" }
+	decision_group_type = major
+	sort_order = 9009
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_military
+	}
+	is_valid = { any_maa_regiment = { always = yes } }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_max_maa }
+		every_maa_regiment = { change_maa_regiment_size = 3 }
+	}
+}
+
+
+# ------------------------------------------------------- STRESS / TYRANNY ---
+tfast_cheat_clear_stress = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_family_tree.dds" }
+	decision_group_type = major
+	sort_order = 9010
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_character
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_clear_stress }
+		add_stress = -1000
+	}
+}
+
+tfast_cheat_clear_tyranny = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9011
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_character
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_clear_tyranny }
+		add_tyranny = -1000
+	}
+}
+
+
+# -------------------------------------------------------------- GOLDEN AGE --
+# Everything at once, plus a strong but temporary realm-wide boon.
+tfast_cheat_golden_age = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_golden_age.dds" }
+	decision_group_type = major
+	sort_order = 9012
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_resources
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_golden_age }
+		custom_tooltip = tfast_cheat_golden_age_tt
+		add_gold = 10000
+		add_prestige = 10000
+		add_piety = 10000
+		if = {
+			limit = { exists = dynasty }
+			dynasty = { add_dynasty_prestige = 10000 }
+		}
+		else = { add_prestige = 10000 }
+		add_legitimacy = 1000
+		add_dread = 150
+		add_tyranny = -1000
+		add_stress = -1000
+		if = {
+			limit = { is_landed = yes }
+			every_sub_realm_county = { change_development_level = 2 }
+		}
+		every_maa_regiment = { change_maa_regiment_size = 3 }
+		add_character_modifier = {
+			modifier = tfast_golden_age_modifier
+			years = 20
+		}
+	}
+}

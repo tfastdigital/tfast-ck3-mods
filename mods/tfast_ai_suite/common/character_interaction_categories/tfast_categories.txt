@@ -1,0 +1,9 @@
+﻿# Right-click cheat window. Index 16 continues the vanilla list.
+# Do not leave a gap under 16 or the interaction menu can crash.
+
+interaction_category_tfast = {
+	index = 16
+	desc = "TFAST_CHEATS"
+	color = { 0.55 0.75 0.9 1 }
+	icon = "icon_gold"
+}

@@ -1,0 +1,19 @@
+﻿# County scope. Iron, stone, timber, or grain. Not gold.
+tfast_sc_resource_deposit_trigger = {
+	has_variable = tfast_sc_deposit_type
+	var:tfast_sc_deposit_type > 1
+}
+
+# County scope. Any seeded deposit, including gold.
+tfast_sc_any_deposit_trigger = {
+	has_variable = tfast_sc_deposit_type
+}
+
+# Root = character. COUNTY = county title. Held, non-gold, still unknown.
+tfast_sc_resource_rumor_county_trigger = {
+	$COUNTY$.holder = root
+	$COUNTY$ = {
+		tfast_sc_resource_deposit_trigger = yes
+		var:tfast_sc_deposit_knowledge = 0
+	}
+}

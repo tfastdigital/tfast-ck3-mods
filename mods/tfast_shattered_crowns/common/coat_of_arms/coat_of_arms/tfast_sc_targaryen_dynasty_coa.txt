@@ -1,0 +1,14 @@
+﻿# Dynasty Caerloyw (1029132) wears the same dragon as house Mathrafal (548).
+1029132 = {
+	pattern = "pattern_solid.dds"
+	color1 = "black"
+	color2 = "red"
+	color3 = "white"
+	colored_emblem = {
+		texture = "ce_dragon.dds"
+		color1 = "red"
+		color2 = "red"
+		color3 = "white"
+		instance = { position = { 0.50 0.52 } scale = { 0.88 0.88 } }
+	}
+}

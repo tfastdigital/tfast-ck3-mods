@@ -1,0 +1,139 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- advanced cheats (harvested)                 CK3 1.20.x
+# ============================================================================
+#  Features recovered from the standalone mods that were previously installed:
+#
+#    * Add Building Slots  <- "add building slot decision" (pdx_120177)
+#      The original needed a custom widget. This version is simpler and uses
+#      ONLY the vanilla province modifier `extra_building_slot`
+#      (game/common/modifiers/00_province_modifiers.txt, building_slot_add = 1),
+#      applied with the same pattern vanilla itself uses in
+#      03_fp2_decisions.txt. No custom modifier, no custom GUI.
+#
+#    * Change Government   <- "Daddy Pika's Cheat Menu Fix" (pdx_62704)
+#      The original buried this behind a flag-driven submenu. Here each
+#      government is one plain decision.
+#
+#  Same safety contract as every other decision in this mod:
+#    is_ai = no  +  ai_check_interval = 0
+# ============================================================================
+
+
+# ------------------------------------------------------- BUILDING SLOTS -----
+# Adds a permanent +1 building slot to every province in your held counties
+# that is below the cap. `extra_building_slot` stacks, so repeat as desired.
+tfast_cheat_building_slots = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+	decision_group_type = major
+	sort_order = 9020
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_building_slots }
+		every_held_county = {
+			every_county_province = {
+				limit = {
+					building_slots < 10
+				}
+				add_province_modifier = extra_building_slot
+			}
+		}
+	}
+}
+
+
+# --------------------------------------------------------- GOVERNMENTS ------
+# Each decision is hidden once you already have that government.
+tfast_cheat_govt_feudal = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9030
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		NOT = { has_government = feudal_government }
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_realm
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_govt_feudal }
+		change_government = feudal_government
+	}
+}
+
+tfast_cheat_govt_tribal = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9031
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		NOT = { has_government = tribal_government }
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_realm
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_govt_tribal }
+		change_government = tribal_government
+	}
+}
+
+tfast_cheat_govt_clan = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9032
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		NOT = { has_government = clan_government }
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_realm
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_govt_clan }
+		change_government = clan_government
+	}
+}
+
+tfast_cheat_govt_admin = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9033
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		NOT = { has_government = administrative_government }
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_realm
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_govt_admin }
+		change_government = administrative_government
+	}
+}

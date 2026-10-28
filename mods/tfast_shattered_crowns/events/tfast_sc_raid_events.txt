@@ -1,0 +1,79 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- raid events                       CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0100 -- the warning: the Hollow Host is coming for your stores.
+#  tfast_sc.0101 -- hidden resolution: real gold, control and devastation.
+#
+#  Both are fired by the raid director in tfast_sc_raid_effects.txt.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  THE RAID COMES
+# ---------------------------------------------------------------------------
+tfast_sc.0100 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_gold_raid }
+
+	title = tfast_sc.0100.t
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 1 } desc = tfast_sc_flavor_raid_1 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 2 } desc = tfast_sc_flavor_raid_2 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 3 } desc = tfast_sc_flavor_raid_3 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 4 } desc = tfast_sc_flavor_raid_4 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 5 } desc = tfast_sc_flavor_raid_5 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 6 } desc = tfast_sc_flavor_raid_6 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 7 } desc = tfast_sc_flavor_raid_7 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 8 } desc = tfast_sc_flavor_raid_8 }
+			desc = tfast_sc.0100.desc
+		}
+	}
+
+	option = {
+		name = tfast_sc.0100.a
+
+		trigger = { martial >= 8 }
+
+		ai_chance = {
+			base = 25
+		}
+
+		set_variable = { name = tfast_sc_raid_stance value = 1 }
+
+		trigger_event = { id = tfast_sc.0101 days = { 5 20 } }
+	}
+
+	option = {
+		name = tfast_sc.0100.b
+
+		ai_chance = {
+			base = 100
+		}
+
+		set_variable = { name = tfast_sc_raid_stance value = 2 }
+
+		trigger_event = { id = tfast_sc.0101 days = { 5 20 } }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE RAID RESOLVES (hidden; the outcome reaches the player as a toast and
+#  real effects - gold, control, modifiers, prisoners).
+# ---------------------------------------------------------------------------
+tfast_sc.0101 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_variable = tfast_sc_incoming_raid
+	}
+
+	immediate = {
+		tfast_sc_raid_resolve_effect = yes
+	}
+}

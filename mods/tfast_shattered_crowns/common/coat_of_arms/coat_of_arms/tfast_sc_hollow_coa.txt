@@ -1,0 +1,35 @@
+﻿# One shield for the whole Hollow dynasty.
+
+tfast_sc_hollow_dynasty = {
+	pattern = "pattern_solid.dds"
+	color1 = "black"
+	color2 = "tfast_sc_bone"
+	color3 = "tfast_sc_burgundy"
+	colored_emblem = {
+		texture = "ce_annulet.dds"
+		color1 = "tfast_sc_bone"
+		instance = { position = { 0.50 0.50 } scale = { 0.62 0.62 } }
+	}
+	colored_emblem = {
+		texture = "ce_bend_thin.dds"
+		color1 = "tfast_sc_burgundy"
+		instance = { position = { 0.50 0.50 } scale = { 0.28 0.28 } rotation = 40 }
+	}
+}
+
+tfast_sc_hollow_house = {
+	pattern = "pattern_solid.dds"
+	color1 = "black"
+	color2 = "tfast_sc_bone"
+	color3 = "tfast_sc_burgundy"
+	colored_emblem = {
+		texture = "ce_annulet.dds"
+		color1 = "tfast_sc_bone"
+		instance = { position = { 0.50 0.50 } scale = { 0.62 0.62 } }
+	}
+	colored_emblem = {
+		texture = "ce_bend_thin.dds"
+		color1 = "tfast_sc_burgundy"
+		instance = { position = { 0.50 0.50 } scale = { 0.28 0.28 } rotation = 40 }
+	}
+}

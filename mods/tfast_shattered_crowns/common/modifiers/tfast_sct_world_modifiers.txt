@@ -1,0 +1,18 @@
+﻿tfast_sct_resisting_hollow_modifier = {
+	icon = martial_positive
+	monthly_prestige = 0.5
+	defender_advantage = 10
+	county_opinion_add = 5
+}
+
+tfast_sct_dragon_court_modifier = {
+	icon = prestige_positive
+	monthly_prestige = 0.3
+	dread_baseline_add = 10
+}
+
+tfast_sct_hollow_winter_modifier = {
+	icon = health_negative
+	supply_duration = -0.1
+	stress_gain_mult = 0.1
+}

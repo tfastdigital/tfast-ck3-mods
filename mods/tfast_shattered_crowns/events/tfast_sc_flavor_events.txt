@@ -1,0 +1,73 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- randomized flavor events           CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0920 -- an omen of the Long Dark (one of eight pools drawn)
+#  tfast_sc.0921 -- whispers at court (peacetime, one of eight drawn)
+#
+#  The text does not live here: the firing script rolls tfast_sc_omen 1..8
+#  and these desc blocks show the matching pool line. Regenerate the pools
+#  with the DeepSeek tool:
+#    python C:\Games\ck3-ai-automation\tools\tfast_flavor_deepseek.py
+#  Every pool has a plain fallback line, so nothing ever renders empty.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  AN OMEN OF THE LONG DARK
+# ---------------------------------------------------------------------------
+tfast_sc.0920 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0920.t
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 1 } desc = tfast_sc_flavor_dark_1 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 2 } desc = tfast_sc_flavor_dark_2 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 3 } desc = tfast_sc_flavor_dark_3 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 4 } desc = tfast_sc_flavor_dark_4 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 5 } desc = tfast_sc_flavor_dark_5 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 6 } desc = tfast_sc_flavor_dark_6 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 7 } desc = tfast_sc_flavor_dark_7 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 8 } desc = tfast_sc_flavor_dark_8 }
+			desc = tfast_sc.0920.desc
+		}
+	}
+
+	option = {
+		name = tfast_sc.0920.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  WHISPERS AT COURT
+# ---------------------------------------------------------------------------
+tfast_sc.0921 = {
+	type = character_event
+	theme = realm
+
+	title = tfast_sc.0921.t
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 1 } desc = tfast_sc_flavor_whisper_1 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 2 } desc = tfast_sc_flavor_whisper_2 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 3 } desc = tfast_sc_flavor_whisper_3 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 4 } desc = tfast_sc_flavor_whisper_4 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 5 } desc = tfast_sc_flavor_whisper_5 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 6 } desc = tfast_sc_flavor_whisper_6 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 7 } desc = tfast_sc_flavor_whisper_7 }
+			triggered_desc = { trigger = { var:tfast_sc_omen ?= 8 } desc = tfast_sc_flavor_whisper_8 }
+			desc = tfast_sc.0921.desc
+		}
+	}
+
+	option = {
+		name = tfast_sc.0921.a
+		ai_chance = { base = 100 }
+	}
+}

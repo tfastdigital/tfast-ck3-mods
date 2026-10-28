@@ -1,0 +1,619 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Great Reckoning              CK3 1.20.x
+# ============================================================================
+#  Crisis states (global variable tfast_sc_crisis_phase):
+#    0 dormant            - the Host sleeps
+#    1 predatory_peace    - raids only
+#    2 regional_escalation- warnings, the world is told what is coming
+#    3 great_reckoning    - open invasion war (custom CB), up to 3 waves
+#    4 world_resistance   - (reserved: handled inside 3 and 5)
+#    5 aftermath          - retreat, banishment, recovery, prophecy window
+#    6 long_dark          - a Reckoning the world lost; the Hollow hold the
+#                           world until an uprising breaks them
+#                           (see tfast_sc_dark_age_effects.txt)
+#
+#  The first Great Reckoning is fully resolvable WITHOUT any Chosen Emperor:
+#  it is a real war the mortal world can win, outlast, or lose ground to,
+#  and the director ends it either way.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  PACING TICK
+#  Root = the Hollow Host story cycle.
+# ---------------------------------------------------------------------------
+tfast_sc_crisis_watch_effect = {
+	# ------------------------------------------------------------------
+	# First raid done: the world is no longer at peace with the Hollow.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			global_var:tfast_sc_crisis_phase = 0
+			exists = global_var:tfast_sc_raid_count
+			global_var:tfast_sc_raid_count >= 1
+		}
+		set_global_variable = { name = tfast_sc_crisis_phase value = 1 }
+		debug_log = "TFAST Shattered Crowns: crisis phase -> predatory peace"
+	}
+
+	# ------------------------------------------------------------------
+	# Escalation: enough raids, or a lost stronghold, and the Reckoning
+	# becomes inevitable. The world is warned first, for two years.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			global_var:tfast_sc_crisis_phase = 1
+			tfast_sc_overlord_active_trigger = yes
+			NOT = { exists = global_var:tfast_sc_reckoning_soon }
+			NOT = { exists = global_var:tfast_sc_reckoning_cooldown }
+			OR = {
+				AND = {
+					exists = global_var:tfast_sc_raid_count
+					global_var:tfast_sc_raid_count >= 3
+				}
+				AND = {
+					exists = global_var:tfast_sc_stronghold_count
+					global_var:tfast_sc_stronghold_count <= 1
+				}
+				exists = global_var:tfast_sc_stronghold_lost
+			}
+		}
+		set_global_variable = { name = tfast_sc_crisis_phase value = 2 }
+		tfast_sc_warning_sent_effect = yes
+		trigger_situation_catalyst = catalyst_tfast_sc_escalation
+	}
+
+	# When the warning window expires, the Reckoning begins.
+	if = {
+		limit = {
+			global_var:tfast_sc_crisis_phase = 2
+			NOT = { exists = global_var:tfast_sc_reckoning_soon }
+			tfast_sc_overlord_active_trigger = yes
+		}
+		tfast_sc_reckoning_begins_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# Aftermath recovery: once the cooldown expires the Host wakes again.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			global_var:tfast_sc_crisis_phase = 5
+			NOT = { exists = global_var:tfast_sc_reckoning_cooldown }
+			tfast_sc_overlord_valid_trigger = yes
+		}
+		set_global_variable = { name = tfast_sc_crisis_phase value = 1 }
+		global_var:tfast_sc_overlord = {
+			remove_character_flag = tfast_sc_overlord_dormant
+		}
+		tfast_sc_hollow_returns_effect = yes
+		trigger_situation_catalyst = catalyst_tfast_sc_peace
+	}
+
+	# ------------------------------------------------------------------
+	# Banished children may walk again.
+	# ------------------------------------------------------------------
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		random = {
+			chance = 20
+			tfast_sc_children_return_effect = yes
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  WARNING TO THE WORLD
+# ---------------------------------------------------------------------------
+tfast_sc_warning_sent_effect = {
+	set_global_variable = { name = tfast_sc_reckoning_soon value = yes years = 2 }
+	every_player = {
+		trigger_event = { id = tfast_sc.0200 days = { 5 20 } }
+	}
+	debug_log = "TFAST Shattered Crowns: the Reckoning has been foretold; the world has two years"
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE RECKONING BEGINS
+#  One primary front (the human player's realm when possible) and at most
+#  one secondary front on a neighboring realm. Started with the mod's own
+#  script-only CB, the same way vanilla starts the Mongol invasion.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_begins_effect = {
+	set_global_variable = { name = tfast_sc_crisis_phase value = 3 }
+	set_global_variable = { name = tfast_sc_reckoning_waves value = 0 }
+	trigger_situation_catalyst = catalyst_tfast_sc_reckoning
+
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			remove_character_flag = tfast_sc_overlord_dormant
+			if = { limit = { NOT = { has_character_flag = tfast_sc_hollow_host } } add_character_flag = tfast_sc_hollow_host }
+		}
+
+		# Reckoning story owns the tide.
+		global_var:tfast_sc_overlord = {
+			create_story = {
+				type = tfast_sc_reckoning
+				save_scope_as = tfast_sc_reckoning_story
+			}
+		}
+
+		# ------------------------------------------------------------------
+		# Primary front: the first human player's top liege.
+		# ------------------------------------------------------------------
+		every_player = {
+			limit = {
+				is_landed = yes
+				NOT = { has_character_flag = tfast_sc_hollow_host }
+				NOT = { is_at_war_with = global_var:tfast_sc_overlord }
+			}
+			save_temporary_scope_as = tfast_sc_primary_target
+		}
+
+		if = {
+			limit = { exists = scope:tfast_sc_primary_target }
+			tfast_sc_declare_reckoning_war_effect = { TARGET = scope:tfast_sc_primary_target }
+		}
+
+		# ------------------------------------------------------------------
+		# Secondary front: a neighbor, picked at random and mostly.
+		# `random` is an effect, so the 60% chance wraps the front itself.
+		# ------------------------------------------------------------------
+		random = {
+			chance = 60
+			global_var:tfast_sc_overlord = {
+				random_neighboring_top_liege_realm_owner = {
+					limit = {
+						is_alive = yes
+						is_landed = yes
+						NOT = { has_character_flag = tfast_sc_hollow_host }
+						NOT = { is_at_war_with = global_var:tfast_sc_overlord }
+					}
+					save_temporary_scope_as = tfast_sc_secondary_target
+				}
+			}
+			if = {
+				limit = { exists = scope:tfast_sc_secondary_target }
+				tfast_sc_declare_reckoning_war_effect = { TARGET = scope:tfast_sc_secondary_target }
+			}
+		}
+
+		# The host is at the walls.
+		tfast_sc_reckoning_wave_effect = yes
+
+		# Every player hears the horns.
+		every_player = {
+			trigger_event = { id = tfast_sc.0201 days = { 2 10 } }
+		}
+
+		debug_log = "TFAST Shattered Crowns: THE GREAT RECKONING BEGINS"
+	}
+	else = {
+		# No overlord: there is no Reckoning.
+		set_global_variable = { name = tfast_sc_crisis_phase value = 1 }
+		trigger_situation_catalyst = catalyst_tfast_sc_peace
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DECLARE ONE RECKONING WAR
+#  Param: TARGET (character)
+# ---------------------------------------------------------------------------
+tfast_sc_declare_reckoning_war_effect = {
+	global_var:tfast_sc_overlord = {
+		start_war = {
+			cb = tfast_sc_reckoning_war
+			target = $TARGET$
+			target_title = $TARGET$.primary_title
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  WAVES OF THE TIDE
+#  At most three, keyed off Hollow readiness; Morvath's line (if active)
+#  raises one extra wave of reanimated dead in the second wave.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_wave_effect = {
+	if = {
+		limit = {
+			tfast_sc_overlord_valid_trigger = yes
+			global_var:tfast_sc_reckoning_waves < 3
+		}
+
+		global_var:tfast_sc_overlord = {
+			save_scope_as = tfast_sc_wave_leader
+		}
+		change_global_variable = { name = tfast_sc_reckoning_waves add = 1 }
+
+		# Wave 1: the legions.
+		global_var:tfast_sc_overlord = {
+			spawn_army = {
+				uses_supply = yes
+				inheritable = no
+				name = tfast_sc_reckoning_wave_troops
+				levies = {
+					value = tfast_sc_reckoning_wave_size_value
+				}
+				location = capital_province
+			}
+			spawn_army = {
+				uses_supply = yes
+				inheritable = no
+				name = tfast_sc_reckoning_wave_troops
+				men_at_arms = {
+					type = tfast_sc_legionnaires
+					men = { value = 300 }
+				}
+				location = capital_province
+			}
+			spawn_army = {
+				uses_supply = yes
+				inheritable = no
+				name = tfast_sc_reckoning_wave_troops
+				men_at_arms = {
+					type = tfast_sc_siegeguard
+					men = { value = 200 }
+				}
+				location = capital_province
+			}
+		}
+
+		# Wave 2: the Gravebound and Morvath's dead, if his line is active.
+		if = {
+			limit = { global_var:tfast_sc_reckoning_waves >= 2 }
+			global_var:tfast_sc_overlord = {
+				spawn_army = {
+					uses_supply = yes
+					inheritable = no
+					name = tfast_sc_reckoning_wave_troops
+					men_at_arms = {
+						type = tfast_sc_gravebound_knights
+						men = { value = 250 }
+					}
+					location = capital_province
+				}
+				if = {
+					limit = {
+						any_child = {
+							has_trait = tfast_sc_blood_morvath
+							var:tfast_sc_status ?= 0
+						}
+					}
+					spawn_army = {
+						uses_supply = yes
+						inheritable = no
+						name = tfast_sc_morvath_reinforcements
+						men_at_arms = {
+							type = tfast_sc_reanimated_hordes
+							men = { value = 500 }
+						}
+						location = capital_province
+					}
+				}
+			}
+		}
+
+		# Wave 3: the elite of the Dominion.
+		if = {
+			limit = { global_var:tfast_sc_reckoning_waves >= 3 }
+			global_var:tfast_sc_overlord = {
+				spawn_army = {
+					uses_supply = yes
+					inheritable = no
+					name = tfast_sc_reckoning_wave_troops
+					men_at_arms = {
+						type = tfast_sc_elite_guard
+						men = { value = 200 }
+					}
+					location = capital_province
+				}
+				spawn_army = {
+					uses_supply = yes
+					inheritable = no
+					name = tfast_sc_reckoning_wave_troops
+					men_at_arms = {
+						type = tfast_sc_frost_wraiths
+						men = { value = 300 }
+					}
+					location = capital_province
+				}
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE RECKONING ENDS
+#  Retreat, banishment, aftermath. Opens the prophecy window.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_end_effect = {
+	# Any war still open is ended in the Hollow's favour of withdrawal.
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			every_character_war = {
+				limit = { using_cb = tfast_sc_reckoning_war }
+				end_war = white_peace
+			}
+		}
+	}
+
+	set_global_variable = { name = tfast_sc_crisis_phase value = 5 }
+	set_global_variable = { name = tfast_sc_first_reckoning_completed value = yes }
+	set_global_variable = { name = tfast_sc_reckoning_cooldown value = yes years = 40 }
+
+	# The host retreats and licks its wounds.
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			add_character_flag = { flag = tfast_sc_overlord_dormant years = 10 }
+			if = { limit = { NOT = { has_character_modifier = tfast_sc_host_retreat_modifier } } add_character_modifier = { modifier = tfast_sc_host_retreat_modifier } }
+		}
+	}
+
+	# Readiness drops hard; the Host must gather itself again.
+	if = {
+		limit = { global_var:tfast_sc_hollow_readiness > 15 }
+		set_global_variable = { name = tfast_sc_hollow_readiness value = 15 }
+	}
+
+	# The prophecy opens, unless the game rules closed it.
+	if = {
+		limit = { NOT = { has_game_rule = tfast_sc_prophecy_disabled } }
+		set_global_variable = { name = tfast_sc_prophecy_open value = yes years = 10 }
+	}
+
+	# Defeat consequences, both directions: the losing side is remembered.
+	if = {
+		limit = { exists = global_var:tfast_sc_reckoning_attacker_lost }
+		tfast_sc_add_dark_resistance_effect = { AMOUNT = 1 }
+	}
+	if = {
+		limit = { exists = global_var:tfast_sc_reckoning_stalemate }
+		tfast_sc_add_dark_resistance_effect = { AMOUNT = 1 }
+	}
+
+	# A Reckoning the world lost becomes the Long Dark.
+	if = {
+		limit = {
+			has_game_rule = tfast_sc_dark_reign_on
+			exists = global_var:tfast_sc_reckoning_attacker_won
+			NOT = { global_var:tfast_sc_crisis_phase = 6 }
+		}
+		tfast_sc_dark_reign_begin_effect = yes
+	}
+
+	# The tide turns one way or the other in the world's ledger.
+	if = {
+		limit = { NOT = { global_var:tfast_sc_crisis_phase = 6 } }
+		trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+	}
+
+	# The world remembers what happened here.
+	every_player = {
+		trigger_event = { id = tfast_sc.0202 days = { 10 40 } }
+	}
+
+	debug_log = "TFAST Shattered Crowns: the Great Reckoning has ended; aftermath begins"
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW RETURNS (after aftermath cooldown, later in the campaign)
+# ---------------------------------------------------------------------------
+tfast_sc_hollow_returns_effect = {
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			remove_character_modifier = tfast_sc_host_retreat_modifier
+		}
+	}
+	remove_global_variable = tfast_sc_stronghold_lost
+	every_player = {
+		trigger_event = { id = tfast_sc.0203 days = { 20 90 } }
+	}
+	debug_log = "TFAST Shattered Crowns: the Hollow stirs again"
+}
+
+
+# ---------------------------------------------------------------------------
+#  SEALING THE OVERLORD
+#  He is never destroyed - only displaced. All his wars end. An Eternal
+#  Regency begins among the Ten while he is sealed.
+# ---------------------------------------------------------------------------
+tfast_sc_seal_overlord_effect = {
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			add_character_flag = { flag = tfast_sc_overlord_sealed years = 15 }
+			add_character_modifier = { modifier = tfast_sc_overlord_sealed_modifier }
+			add_character_flag = { flag = tfast_sc_overlord_dormant years = 15 }
+			every_character_war = {
+				end_war = white_peace
+			}
+			# He returns on his own.
+			trigger_event = { id = tfast_sc.0510 days = { 4000 5400 } }
+		}
+		set_global_variable = { name = tfast_sc_eternal_regency value = yes years = 15 }
+		if = {
+			limit = { global_var:tfast_sc_crisis_phase = 3 }
+			set_global_variable = { name = tfast_sc_crisis_phase value = 5 }
+			trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+		}
+		every_player = {
+			trigger_event = { id = tfast_sc.0502 days = { 5 20 } }
+		}
+		debug_log = "TFAST Shattered Crowns: the Overlord has been sealed, not slain"
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE OVERLORD RETURNS FROM THE SEAL
+# ---------------------------------------------------------------------------
+tfast_sc_unseal_overlord_effect = {
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			remove_character_flag = tfast_sc_overlord_sealed
+			remove_character_flag = tfast_sc_overlord_dormant
+			remove_character_modifier = tfast_sc_overlord_sealed_modifier
+			if = { limit = { NOT = { has_character_modifier = tfast_sc_overlord_aura_modifier } } add_character_modifier = { modifier = tfast_sc_overlord_aura_modifier } }
+		}
+		remove_global_variable = tfast_sc_eternal_regency
+		every_player = {
+			trigger_event = { id = tfast_sc.0503 days = { 5 20 } }
+		}
+		debug_log = "TFAST Shattered Crowns: the seal has broken; the Overlord walks again"
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DEVESTATION OF A REALM (CB victory, escalation consequences).
+#  Root = the realm owner being punished. Bounded: capital + up to 4 more.
+# ---------------------------------------------------------------------------
+tfast_sc_devastate_realm_effect = {
+	if = {
+		limit = { capital_county = { is_landless_type_title = no } }
+		capital_county = {
+			change_county_control = major_county_control_loss
+			add_county_modifier = {
+				modifier = tfast_sc_raided_modifier
+				years = 10
+			}
+		}
+	}
+
+	random = {
+		chance = 75
+		random_sub_realm_county = {
+			limit = { is_landless_type_title = no }
+			change_county_control = medium_county_control_loss
+			add_county_modifier = {
+				modifier = tfast_sc_raided_modifier
+				years = 5
+			}
+		}
+	}
+	random = {
+		chance = 50
+		random_sub_realm_county = {
+			limit = { is_landless_type_title = no }
+			change_county_control = miniscule_county_control_loss
+			add_county_modifier = {
+				modifier = tfast_sc_raided_modifier
+				years = 3
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BANISHED CHILDREN RETURN
+#  One roll per crisis tick puts one dormant child back on the map.
+#  Role statuses live in global variables (tfast_sc_role_<name>_status):
+#    0 active   1 dormant (banished, may return)   4 destroyed (never).
+#  These are plain integers maintained by the death effect, so nothing here
+#  ever has to address a dead character scope.
+# ---------------------------------------------------------------------------
+tfast_sc_children_return_effect = {
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_role_vaelor_status
+			global_var:tfast_sc_role_vaelor_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_vaelor_template NAME = Vaelor LOYALTY = 45 BLOC = 0 ROLE = vaelor
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_morvath_status
+			global_var:tfast_sc_role_morvath_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_morvath_template NAME = Morvath LOYALTY = 55 BLOC = 1 ROLE = morvath
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_kaedryn_status
+			global_var:tfast_sc_role_kaedryn_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_kaedryn_template NAME = Kaedryn LOYALTY = 65 BLOC = 3 ROLE = kaedryn
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_draven_status
+			global_var:tfast_sc_role_draven_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_draven_template NAME = Draven LOYALTY = 40 BLOC = 2 ROLE = draven
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_tharion_status
+			global_var:tfast_sc_role_tharion_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_tharion_template NAME = Tharion LOYALTY = 50 BLOC = 0 ROLE = tharion
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_seralyth_status
+			global_var:tfast_sc_role_seralyth_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_seralyth_template NAME = Seralyth LOYALTY = 35 BLOC = 4 ROLE = seralyth
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_nyxara_status
+			global_var:tfast_sc_role_nyxara_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_nyxara_template NAME = Nyxara LOYALTY = 45 BLOC = 2 ROLE = nyxara
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_velmora_status
+			global_var:tfast_sc_role_velmora_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_velmora_template NAME = Velmora LOYALTY = 60 BLOC = 1 ROLE = velmora
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_eryndra_status
+			global_var:tfast_sc_role_eryndra_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_eryndra_template NAME = Eryndra LOYALTY = 70 BLOC = 3 ROLE = eryndra
+		}
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_role_malethra_status
+			global_var:tfast_sc_role_malethra_status = 1
+		}
+		tfast_sc_resurrect_child_effect = {
+			CHARACTER_TEMPLATE = tfast_sc_malethra_template NAME = Malethra LOYALTY = 30 BLOC = 4 ROLE = malethra
+		}
+	}
+}

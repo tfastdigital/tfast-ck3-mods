@@ -1,0 +1,368 @@
+﻿# ============================================================================
+#  TFAST History -- historic acts & institutions                 CK3 1.20.x
+# ============================================================================
+#  Ten decisions that let you enact things that really happened in the
+#  medieval world, with real costs and cooldowns so they read as history
+#  rather than as cheats.
+#
+#  SAFETY CONTRACT (identical to the rest of the TFAST suite)
+#  ---------------------------------------------------------
+#   * is_ai = no             -> only the human player can ever take these, so
+#                               the AI's economy and wars are untouched.
+#   * ai_check_interval = 0  -> the AI never even evaluates them.
+#   * Additive only          -> no vanilla file is overwritten.
+#   * Every effect, trigger, modifier key and illustration below was verified
+#     against the installed 1.20.0.3 data.
+#
+#  Each decision grants a period of standing rather than instant power, and
+#  most also confer the matching reputation trait.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+# 1. A merchant league of the northern seas.
+#    Real parallel: the Hanseatic League, from the 12th century onward.
+# ---------------------------------------------------------------------------
+tfast_hist_hanseatic_league = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_silk_road.dds" }
+	decision_group_type = major
+	sort_order = 9200
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_duchy
+		capital_county = { is_coastal_county = yes }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 500 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_hist_hanseatic_league_tt
+		add_trait = tfast_hist_league_founder
+		add_character_modifier = {
+			modifier = tfast_league_charter_modifier
+			years = 25
+		}
+		add_prestige = 500
+		trigger_event = tfast_history.0001
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 2. A studium generale -- the ancestor of the modern university.
+#    Real parallel: Bologna (1088), Paris, Oxford, Salerno.
+# ---------------------------------------------------------------------------
+tfast_hist_great_university = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9201
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		learning >= 10
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 400 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_great_university_tt
+		capital_county = { change_development_level = 1 }
+		add_character_modifier = {
+			modifier = tfast_university_modifier
+			years = 25
+		}
+		add_prestige = 300
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 3. Convene a church council to settle doctrine.
+#    Real parallel: Nicaea, Clermont (1095), Lateran councils.
+# ---------------------------------------------------------------------------
+tfast_hist_church_council = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9202
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		piety >= 500
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { piety = 500 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_hist_church_council_tt
+		add_character_modifier = {
+			modifier = tfast_church_council_modifier
+			years = 25
+		}
+		add_trait = tfast_hist_caesaropapist
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 4. Issue a golden bull -- an unassailable legal foundation for your rule.
+#    Real parallel: the Golden Bull of 1356, and Hungary's of 1222.
+# ---------------------------------------------------------------------------
+tfast_hist_golden_bull = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9203
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 500 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_golden_bull_tt
+		add_legitimacy = 300
+		add_character_modifier = {
+			modifier = tfast_golden_bull_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 5. Forge a dynastic union of crowns.
+#    Real parallel: the Kalmar Union (1397), the Union of Krewo (1385).
+# ---------------------------------------------------------------------------
+tfast_hist_dynastic_union = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9204
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		any_vassal = { always = yes }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 1000 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_dynastic_union_tt
+		dynasty = { add_dynasty_prestige = 1000 }
+		add_character_modifier = {
+			modifier = tfast_dynastic_union_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 6. Commission a translation movement.
+#    Real parallel: Toledo's school of translators; Baghdad's House of Wisdom.
+# ---------------------------------------------------------------------------
+tfast_hist_translation_movement = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9205
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		learning >= 12
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 300 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_translation_movement_tt
+		add_trait = tfast_hist_patron_of_letters
+		add_character_modifier = {
+			modifier = tfast_translation_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 7. Seal a great charter of liberties.
+#    Real parallel: Magna Carta (1215), the Golden Bull of Hungary (1222).
+# ---------------------------------------------------------------------------
+tfast_hist_great_charter = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9206
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		any_vassal = { always = yes }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 400 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_great_charter_tt
+		add_legitimacy = 100
+		add_character_modifier = {
+			modifier = tfast_great_charter_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 8. Raise a foreign guard loyal to the throne alone.
+#    Real parallel: the Varangian Guard; the Mamluks; the Janissaries.
+# ---------------------------------------------------------------------------
+tfast_hist_foreign_guard = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_byz_throne.dds" }
+	decision_group_type = major
+	sort_order = 9207
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		gold >= 300
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 300 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_hist_foreign_guard_tt
+		add_character_modifier = {
+			modifier = tfast_foreign_guard_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 9. Commission a great cathedral.
+#    Real parallel: the Gothic cathedral boom, c. 1140-1300.
+# ---------------------------------------------------------------------------
+tfast_hist_cathedral = {
+	picture = { reference = "gfx/interface/illustrations/decisions/pam_grand_project_cathedral.dds" }
+	decision_group_type = major
+	sort_order = 9208
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		piety >= 300
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 600 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_hist_cathedral_tt
+		capital_county = { change_development_level = 1 }
+		add_character_modifier = {
+			modifier = tfast_cathedral_modifier
+			years = 25
+		}
+		add_piety = 200
+		trigger_event = tfast_history.0002
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 11. Hire a company of veteran mercenaries under a celebrated captain.
+#     Real parallel: the Italian condottieri; the Catalan Company.
+# ---------------------------------------------------------------------------
+tfast_hist_hire_condottiere = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_recruitment.dds" }
+	decision_group_type = major
+	sort_order = 9210
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		gold >= 400
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 400 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_hist_hire_condottiere_tt
+		add_trait = tfast_hist_condottiere
+		add_character_modifier = {
+			modifier = tfast_condottiere_modifier
+			years = 25
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+# 10. Embrace iconoclasm.
+#     Real parallel: Byzantine iconoclasm, 726-843.
+# ---------------------------------------------------------------------------
+tfast_hist_embrace_iconoclasm = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	decision_group_type = major
+	sort_order = 9209
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		religion = religion:christianity_religion
+		NOT = { has_trait = tfast_hist_iconoclast }
+	}
+	is_valid = { is_landed = yes }
+
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_hist_embrace_iconoclasm_tt
+		add_trait = tfast_hist_iconoclast
+		add_character_modifier = {
+			modifier = tfast_iconoclasm_modifier
+			years = 25
+		}
+		add_tyranny = 10
+	}
+}

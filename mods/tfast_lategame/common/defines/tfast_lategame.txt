@@ -1,0 +1,48 @@
+﻿# ============================================================================
+#  TFAST Late Game -- performance & stability              CK3 1.20.x
+# ============================================================================
+#  A PARTIAL defines override. Only the keys below are declared; everything
+#  else keeps using vanilla's values.
+#
+#  This is safe because CK3 merges defines at the KEY level across files, not
+#  per file. Proof: vanilla itself splits five blocks between 00_defines.txt and
+#  ai/00_ai.txt (NActivity, NCourtPositions, NFaction, NInventory, NMigration),
+#  and in every case the two halves have fully disjoint keys. If blocks replaced
+#  each other the game would silently lose half of each block. It does not.
+#
+#  WHAT THIS DOES NOT DO: it does not "fix lag". Late-game slowdown is mostly
+#  engine cost from thousands of living characters and large wars, and no mod
+#  removes that. What this does is slow the RATE at which the character
+#  population grows, which is the one part of it that is moddable.
+# ============================================================================
+
+NCourt = {
+	# Was { 0 0 6 8 12 20 36 }
+	#
+	# Maximum adult courtiers and guests per ruler tier:
+	#   unlanded, barony, county, duchy, kingdom, empire, hegemony
+	#
+	# This is the single biggest moddable lever on total character count, and it
+	# is non-destructive: vanilla's own documentation says it "won't throw anyone
+	# out if the limit is exceeded, no new guests will arrive while at or above
+	# the cap". So nobody is removed - courts simply stop filling up. Large
+	# realms are trimmed hardest because they hold the most characters.
+	MAX_COURTIERS_AND_GUESTS_PER_TIER = { 0 0 5 6 9 14 24 }
+
+	# Was 36. Guests leave after this many months; from then on there is a
+	# monthly chance they depart. Shorter stays mean fewer characters alive at
+	# once, without removing guests that are already present.
+	GUEST_STAY_DURATION_MONTHS = 24
+}
+
+NRoyalCourt = {
+	# Was 3. How many court events may be queued awaiting a trigger. Fewer
+	# pending events means less state to evaluate every tick.
+	MAX_NUM_PENDING_COURT_EVENTS = 2
+}
+
+NGame = {
+	# Was 180. Days a court event stays open before auto-resolving. Shorter
+	# means stale events are cleared rather than accumulating.
+	COURT_EVENT_TIME_OUT = 90
+}

@@ -1,0 +1,521 @@
+﻿# Locked court dress for Vaelos and the Ten.
+# Vanilla meshes only. A war or prison portrait tag drops these so the
+# ordinary outfit for that scene can show.
+
+tfast_sc_royal_outfit = {
+	usage = game
+	selection_behavior = max
+	priority = 8
+
+	tfast_sc_outfit_overlord = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = male
+				accessory = male_clothes_secular_western_nobility_01_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = male
+				accessory = male_headgear_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = male
+				accessory = male_cloaks_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = male
+				accessory = male_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_overlord
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_vaelor = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = male
+				accessory = m_clothes_sec_western_war_nob_01_hi
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = male
+				accessory = male_headgear_secular_western_royalty_02
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = male
+				accessory = male_cloaks_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_war_legwear
+				type = male
+				accessory = male_legwear_secular_western_war_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_vaelor
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_morvath = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = male
+				accessory = male_clothes_secular_western_nobility_02_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_high_nobility
+				type = male
+				accessory = male_headgear_secular_western_high_nobility_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = male
+				accessory = male_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_morvath
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_kaedryn = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = male
+				accessory = m_clothes_sec_western_war_nob_01_lo
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_imperial
+				type = male
+				accessory = male_headgear_secular_dde_hre_imperial_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = male
+				accessory = male_furs_secular_fp1_nobility_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_war_legwear
+				type = male
+				accessory = male_legwear_secular_western_war_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_kaedryn
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_draven = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = male
+				accessory = male_clothes_secular_western_nobility_03_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_high_nobility
+				type = male
+				accessory = male_headgear_secular_western_high_nobility_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = male
+				accessory = male_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_draven
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_tharion = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = male
+				accessory = m_clothes_sec_western_war_nob_01_hi
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = all_headgear
+				type = male
+				accessory = male_headgear_secular_dde_hre_high_nobility_02
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = male
+				accessory = male_cloaks_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_war_legwear
+				type = male
+				accessory = male_legwear_secular_western_war_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_tharion
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_seralyth = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = female
+				accessory = female_clothes_secular_western_nobility_01_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = female
+				accessory = female_headgear_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = female
+				accessory = female_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_seralyth
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_nyxara = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = female
+				accessory = female_clothes_secular_western_nobility_02_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = female
+				accessory = female_headgear_secular_western_royalty_02
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = female
+				accessory = female_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_nyxara
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_velmora = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = female
+				accessory = female_clothes_secular_western_nobility_01_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = female
+				accessory = female_headgear_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = female
+				accessory = female_cloaks_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = female
+				accessory = female_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_velmora
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_eryndra = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_royalty_clothes
+				type = female
+				accessory = female_clothes_secular_western_nobility_03_high
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_high_nobility
+				type = female
+				accessory = female_headgear_secular_western_high_nobility_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = female
+				accessory = female_cloaks_secular_western_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				type = female
+				accessory = female_legwear_secular_western_common_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_eryndra
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	tfast_sc_outfit_malethra = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = female
+				accessory = f_clothes_sec_western_war_nob_01_lo
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_royalty
+				type = female
+				accessory = female_headgear_secular_western_royalty_02
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_war_legwear
+				type = female
+				accessory = female_legwear_secular_western_war_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				has_character_flag = tfast_sc_outfit_malethra
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+}

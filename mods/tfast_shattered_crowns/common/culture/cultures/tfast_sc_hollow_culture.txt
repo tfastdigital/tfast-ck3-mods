@@ -1,0 +1,32 @@
+﻿# First Cold. Northern clothes, names, and war-customs on the base map.
+# The traditions are vanilla: winter warriors, isolation, quarrel, eye for an eye.
+
+tfast_sc_hollow_culture = {
+	color = { 0.75 0.86 0.92 }
+
+	ethos = ethos_bellicose
+	heritage = heritage_tfast_sc_elder
+	language = language_tfast_sc_cold
+	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
+
+	traditions = {
+		tradition_winter_warriors
+		tradition_isolationist
+		tradition_quarrelsome
+		tradition_eye_for_an_eye
+	}
+
+	name_list = name_list_norse
+
+	coa_gfx = { norse_coa_gfx western_coa_gfx }
+	building_gfx = { norse_building_gfx western_building_gfx }
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { norse_unit_gfx }
+	house_coa_frame = house_frame_05
+
+	ethnicities = {
+		80 = caucasian_northern_blond
+		20 = caucasian_northern_ginger
+	}
+}

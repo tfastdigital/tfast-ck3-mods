@@ -1,0 +1,225 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- triggers                         CK3 1.20.x
+# ============================================================================
+
+
+# Has the Hollow Dominion been bootstrapped in this campaign?
+tfast_sc_hollow_initialized_trigger = {
+	exists = global_var:tfast_sc_initialized
+}
+
+# Is the Overlord global variable valid and the man himself alive?
+tfast_sc_overlord_valid_trigger = {
+	exists = global_var:tfast_sc_overlord
+	global_var:tfast_sc_overlord = {
+		is_alive = yes
+		has_character_flag = tfast_sc_overlord
+	}
+}
+
+# Is the Overlord able to act (not sealed, not dormant)?
+tfast_sc_overlord_active_trigger = {
+	tfast_sc_overlord_valid_trigger = yes
+	global_var:tfast_sc_overlord = {
+		NOT = { has_character_flag = tfast_sc_overlord_sealed }
+		NOT = { has_character_flag = tfast_sc_overlord_dormant }
+	}
+}
+
+# County scope: is this a walled county whose gate still holds?
+tfast_sc_walled_county_trigger = {
+	has_variable = tfast_sc_wall_county
+	var:tfast_sc_wall_sponsor ?= {
+		is_alive = yes
+		var:tfast_sc_wall_stage >= 3
+		var:tfast_sc_wall_integrity > 0
+	}
+}
+
+# Brian himself, his child, his grandchild, or his great-grandchild.
+# is_child_of, is_grandchild_of and is_great_grandchild_of are the family
+# triggers in game/common/trigger_localization/00_character_triggers.txt.
+tfast_sc_brian_within_three_trigger = {
+	exists = character:6358
+	OR = {
+		this = character:6358
+		is_child_of = character:6358
+		is_grandchild_of = character:6358
+		is_great_grandchild_of = character:6358
+	}
+}
+
+# The Chosen is a descendant of Brian (history character 6358).
+# The game has no is_ancestor_of trigger. any_parent with even_if_dead is the
+# walk used in game/common/scripted_triggers/00_family_triggers.txt.
+# Twelve parent steps past the three-generation check covers the family tree.
+tfast_sc_in_designated_dynasty_trigger = {
+	exists = character:6358
+	NOT = { this = character:6358 }
+	OR = {
+		has_character_flag = tfast_sc_brian_blood
+		is_child_of = character:6358
+		is_grandchild_of = character:6358
+		is_great_grandchild_of = character:6358
+		any_parent = {
+			even_if_dead = yes
+			OR = {
+				tfast_sc_brian_within_three_trigger = yes
+				any_parent = {
+					even_if_dead = yes
+					OR = {
+						tfast_sc_brian_within_three_trigger = yes
+						any_parent = {
+							even_if_dead = yes
+							OR = {
+								tfast_sc_brian_within_three_trigger = yes
+								any_parent = {
+									even_if_dead = yes
+									OR = {
+										tfast_sc_brian_within_three_trigger = yes
+										any_parent = {
+											even_if_dead = yes
+											OR = {
+												tfast_sc_brian_within_three_trigger = yes
+												any_parent = {
+													even_if_dead = yes
+													OR = {
+														tfast_sc_brian_within_three_trigger = yes
+														any_parent = {
+															even_if_dead = yes
+															OR = {
+																tfast_sc_brian_within_three_trigger = yes
+																any_parent = {
+																	even_if_dead = yes
+																	OR = {
+																		tfast_sc_brian_within_three_trigger = yes
+																		any_parent = {
+																			even_if_dead = yes
+																			OR = {
+																				tfast_sc_brian_within_three_trigger = yes
+																				any_parent = {
+																					even_if_dead = yes
+																					OR = {
+																						tfast_sc_brian_within_three_trigger = yes
+																						any_parent = {
+																							even_if_dead = yes
+																							OR = {
+																								tfast_sc_brian_within_three_trigger = yes
+																								any_parent = {
+																									even_if_dead = yes
+																									tfast_sc_brian_within_three_trigger = yes
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Is the prophecy open (post-Reckoning window for a chosen birth)?
+tfast_sc_prophecy_open_trigger = {
+	exists = global_var:tfast_sc_prophecy_open
+	NOT = { exists = global_var:tfast_sc_prophecy_ended }
+}
+
+# True while the Overlord still has a war under the Reckoning casus belli.
+tfast_sc_reckoning_war_active_trigger = {
+	tfast_sc_overlord_valid_trigger = yes
+	global_var:tfast_sc_overlord = {
+		any_character_war = {
+			using_cb = tfast_sc_reckoning_war
+		}
+	}
+}
+
+# Character scope: is this character a direct descendant (up to
+# great-grandchild) of the most recent chosen - i.e. of the established
+# bloodline? Cousins of a dead chosen do NOT pass this test.
+tfast_sc_direct_descendant_of_chosen_trigger = {
+	exists = global_var:tfast_sc_last_chosen
+	global_var:tfast_sc_last_chosen = {
+		OR = {
+			any_child = { this = root }
+			any_child = {
+				any_child = { this = root }
+			}
+			any_child = {
+				any_child = {
+					any_child = { this = root }
+				}
+			}
+		}
+	}
+}
+
+# Is the Long Dark running? (Crisis phase 6: a Reckoning the world lost.)
+tfast_sc_dark_reign_active_trigger = {
+	exists = global_var:tfast_sc_crisis_phase
+	global_var:tfast_sc_crisis_phase = 6
+}
+
+# Is the named stronghold county still held by the Hollow?
+# Param: STRONGHOLD (the global variable name, e.g. tfast_sc_stronghold_1).
+tfast_sc_stronghold_is_hollow_trigger = {
+	exists = global_var:$STRONGHOLD$
+	global_var:$STRONGHOLD$.holder ?= { has_character_flag = tfast_sc_hollow_host }
+}
+
+# Is any of the three strongholds still in Hollow hands?
+# Used by the uprising war goal and the "storm the stronghold" decision.
+tfast_sc_any_stronghold_hollow_trigger = {
+	OR = {
+		tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_1 }
+		tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_2 }
+		tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_3 }
+	}
+}
+
+# Is any handbook chapter open? Used by tfast_sc_help_decisions.txt so the
+# chapter list shows only when nothing is open, and Back only when it is.
+tfast_sc_help_any_page_open_trigger = {
+	OR = {
+		has_character_flag = tfast_sc_help_page_start
+		has_character_flag = tfast_sc_help_page_dominion
+		has_character_flag = tfast_sc_help_page_raids
+		has_character_flag = tfast_sc_help_page_wall
+		has_character_flag = tfast_sc_help_page_reckoning
+		has_character_flag = tfast_sc_help_page_dark
+		has_character_flag = tfast_sc_help_page_goals
+		has_character_flag = tfast_sc_help_page_realm
+	}
+}
+
+# Vaelor through Malethra. The Overlord and Vaelith are not part of this.
+tfast_sc_is_one_of_the_ten_trigger = {
+	OR = {
+		AND = { exists = character:tfast_sc_vaelor this = character:tfast_sc_vaelor }
+		AND = { exists = character:tfast_sc_morvath this = character:tfast_sc_morvath }
+		AND = { exists = character:tfast_sc_kaedryn this = character:tfast_sc_kaedryn }
+		AND = { exists = character:tfast_sc_draven this = character:tfast_sc_draven }
+		AND = { exists = character:tfast_sc_tharion this = character:tfast_sc_tharion }
+		AND = { exists = character:tfast_sc_seralyth this = character:tfast_sc_seralyth }
+		AND = { exists = character:tfast_sc_nyxara this = character:tfast_sc_nyxara }
+		AND = { exists = character:tfast_sc_velmora this = character:tfast_sc_velmora }
+		AND = { exists = character:tfast_sc_eryndra this = character:tfast_sc_eryndra }
+		AND = { exists = character:tfast_sc_malethra this = character:tfast_sc_malethra }
+	}
+}

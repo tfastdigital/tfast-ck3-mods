@@ -1,0 +1,208 @@
+﻿# ============================================================================
+#  TFAST History -- Europe: movements and institutions of the continent
+#                                                            CK3 1.20.x
+# ============================================================================
+#  Six dated acts of medieval Europe, for rulers of European heritage. The
+#  Cluniac and Cistercian congregations already exist in the game as holy
+#  orders; these acts patronize the *movements* and build the *institutions*,
+#  generalized to your realm the way the base history pack does with the
+#  Hanseatic League:
+#
+#    tfast_hist_reform     Back the monastic reform (Cluny),       910
+#    tfast_hist_truce      Proclaim the Truce of God,              989
+#    tfast_hist_communes   Charter the communes,                   1100
+#    tfast_hist_fairs      Charter the great fairs (Champagne),    1150
+#    tfast_hist_partidas   Proclaim the Siete Partidas,            1265
+#    tfast_hist_league     Swear an Everlasting League (the Swiss),1291
+#
+#  Each is founded ONCE in the world (a global flag) and grants a 25-year
+#  standing modifier.
+#
+#  SAFETY CONTRACT (identical to the rest of the TFAST suite)
+#  ---------------------------------------------------------
+#   * is_ai = no             -> only the human player can ever take these.
+#   * ai_check_interval = 0  -> the AI never even evaluates them.
+#   * Additive only          -> no vanilla file is overwritten.
+#   * Every effect, trigger, modifier key and illustration verified against
+#     the installed 1.20 data.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  BACK THE MONASTIC REFORM  (Cluny, 910)
+# ---------------------------------------------------------------------------
+tfast_hist_reform = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	decision_group_type = major
+	sort_order = 9250
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 910
+		NOT = { exists = global_var:tfast_hist_reform_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { prestige = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_reform_tt
+		set_global_variable = { name = tfast_hist_reform_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_reform_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  PROCLAIM THE TRUCE OF GOD  (from 989)
+# ---------------------------------------------------------------------------
+tfast_hist_truce = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9251
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 989
+		NOT = { exists = global_var:tfast_hist_truce_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { piety = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_truce_tt
+		set_global_variable = { name = tfast_hist_truce_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_truce_modifier
+			years = 25
+		}
+		add_piety = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  CHARTER THE COMMUNES  (the communal movement, from ~1100)
+# ---------------------------------------------------------------------------
+tfast_hist_communes = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9252
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 1100
+		NOT = { exists = global_var:tfast_hist_communes_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { gold = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_communes_tt
+		set_global_variable = { name = tfast_hist_communes_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_communes_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  CHARTER THE GREAT FAIRS  (the Champagne fairs, from ~1150)
+# ---------------------------------------------------------------------------
+tfast_hist_fairs = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_silk_road.dds" }
+	decision_group_type = major
+	sort_order = 9253
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 1150
+		NOT = { exists = global_var:tfast_hist_fairs_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_fairs_tt
+		set_global_variable = { name = tfast_hist_fairs_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_fairs_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  PROCLAIM THE SIETE PARTIDAS  (Castile, 1265)
+# ---------------------------------------------------------------------------
+tfast_hist_partidas = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9254
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 1265
+		NOT = { exists = global_var:tfast_hist_partidas_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { prestige = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_partidas_tt
+		set_global_variable = { name = tfast_hist_partidas_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_partidas_modifier
+			years = 25
+		}
+		add_prestige = 250
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  SWEAR AN EVERLASTING LEAGUE  (the Swiss oath, 1291)
+# ---------------------------------------------------------------------------
+tfast_hist_league = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9255
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_europe_can_found_trigger = yes
+		current_year >= 1291
+		NOT = { exists = global_var:tfast_hist_league_founded }
+	}
+	is_valid = { tfast_hist_europe_valid_trigger = yes }
+
+	cost = { prestige = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_league_tt
+		set_global_variable = { name = tfast_hist_league_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_league_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}

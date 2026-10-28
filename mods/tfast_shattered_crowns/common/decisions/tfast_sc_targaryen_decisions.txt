@@ -1,0 +1,27 @@
+﻿tfast_sct_claim_dragon_throne = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sct_dragon_throne_decision.dds" }
+	decision_group_type = major
+	sort_order = 9600
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_targaryen
+		is_house_head = yes
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		NOT = { has_character_modifier = tfast_sct_dragon_throne_modifier }
+	}
+
+	cost = {
+		gold = 500
+		prestige = 200
+	}
+
+	effect = {
+		custom_tooltip = tfast_sct_claim_dragon_throne_tt
+		add_character_modifier = { modifier = tfast_sct_dragon_throne_modifier years = 20 }
+		trigger_event = tfast_sct.0030
+	}
+}

@@ -1,0 +1,38 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- Hollow court events              CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0810 -- news: rebellion inside the Hollow court
+#  tfast_sc.0811 -- news: a banished child walks again
+# ============================================================================
+
+namespace = tfast_sc
+
+
+tfast_sc.0810 = {
+	type = character_event
+	theme = vassal
+
+	title = tfast_sc.0810.t
+	desc = { desc = tfast_sc.0810.desc }
+
+	option = {
+		name = tfast_sc.0810.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+tfast_sc.0811 = {
+	type = character_event
+	theme = dread
+
+	title = tfast_sc.0811.t
+	desc = { desc = tfast_sc.0811.desc }
+
+	option = {
+		name = tfast_sc.0811.a
+
+		ai_chance = { base = 100 }
+	}
+}

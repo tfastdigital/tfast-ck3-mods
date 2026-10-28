@@ -1,0 +1,253 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- gold deposits                    CK3 1.20.x
+# ============================================================================
+#  Phase 1 only. Six historical gold counties, seeded once after the lobby.
+#  A vanilla generic gold mine in the same county blocks the seed so the
+#  tax is not paid twice. Opening a working adds one county tax modifier.
+#  It does not create a second pile of gold.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  SEED
+#  Called from on_game_start_after_lobby. Idempotent.
+# ---------------------------------------------------------------------------
+tfast_sc_seed_gold_deposits_effect = {
+	if = {
+		limit = {
+			tfast_sc_economy_enabled_trigger = yes
+			NOT = { exists = global_var:tfast_sc_deposits_seeded }
+		}
+
+		# Bambuk and Bure: the medieval West African goldfields.
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_bambuk RICHNESS = 3 }
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_bure RICHNESS = 3 }
+		# Wadi Allaqi: the Nubian gold wadi.
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_allaqi RICHNESS = 2 }
+		# The Altai gold country.
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_altay RICHNESS = 2 }
+		# Dolaucothi, in Carmarthenshire.
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_carmarthenshire RICHNESS = 1 }
+		# Astorga stands in for the León gold district of Las Médulas.
+		tfast_sc_try_seed_gold_deposit_effect = { COUNTY = title:c_astorga RICHNESS = 2 }
+
+		set_global_variable = { name = tfast_sc_deposits_seeded value = yes }
+		debug_log = "TFAST Shattered Crowns: gold deposits seeded"
+	}
+}
+
+# Params: COUNTY = county title, RICHNESS = 1..3
+tfast_sc_try_seed_gold_deposit_effect = {
+	if = {
+		limit = {
+			$COUNTY$ = {
+				NOT = { has_variable = tfast_sc_deposit_type }
+				NOT = {
+					any_county_province = {
+						has_building_or_higher = generic_gold_mines_01
+					}
+				}
+			}
+		}
+		$COUNTY$ = {
+			set_variable = { name = tfast_sc_deposit_type value = 1 }
+			set_variable = { name = tfast_sc_deposit_richness value = $RICHNESS$ }
+			set_variable = { name = tfast_sc_deposit_knowledge value = 0 }
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY RUMOR
+#  Root = the human player. At most one of the six counties, and only if
+#  this character holds it directly. No world scan.
+# ---------------------------------------------------------------------------
+tfast_sc_gold_rumor_yearly_effect = {
+	if = {
+		limit = {
+			tfast_sc_economy_enabled_trigger = yes
+			NOT = { has_character_flag = tfast_sc_gold_rumor_cooldown }
+		}
+		if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_bambuk } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_bambuk }
+		}
+		else_if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_bure } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_bure }
+		}
+		else_if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_allaqi } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_allaqi }
+		}
+		else_if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_altay } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_altay }
+		}
+		else_if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_carmarthenshire } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_carmarthenshire }
+		}
+		else_if = {
+			limit = { tfast_sc_gold_rumor_county_trigger = { COUNTY = title:c_astorga } }
+			tfast_sc_raise_gold_rumor_effect = { COUNTY = title:c_astorga }
+		}
+	}
+}
+
+# Params: COUNTY. Root = player. 20% once the holder test has passed.
+tfast_sc_raise_gold_rumor_effect = {
+	random = {
+		chance = 20
+		$COUNTY$ = {
+			set_variable = { name = tfast_sc_deposit_knowledge value = 1 }
+		}
+		set_variable = { name = tfast_sc_rumor_county value = $COUNTY$ }
+		add_character_flag = { flag = tfast_sc_gold_rumor_cooldown years = 3 }
+		trigger_event = { id = tfast_sc.1000 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  PROSPECT
+#  Root = player. scope:tfast_sc_prospect_county is the county title.
+#  Result variable on the player, read by the event, then removed:
+#    0 nothing found (no seeded deposit here)
+#    1 a deposit is here, but this attempt did not confirm it
+#    2 knowledge advanced one step, never past discovered (3)
+#  A failed attempt never writes a permanent "empty" flag.
+# ---------------------------------------------------------------------------
+tfast_sc_prospect_county_effect = {
+	remove_variable = tfast_sc_survey_result
+	if = {
+		limit = {
+			scope:tfast_sc_prospect_county = { tfast_sc_gold_deposit_trigger = yes }
+		}
+		random = {
+			chance = {
+				value = 45
+				if = {
+					limit = { stewardship >= 12 }
+					add = 15
+				}
+				if = {
+					limit = { stewardship >= 18 }
+					add = 15
+				}
+			}
+			scope:tfast_sc_prospect_county = {
+				if = {
+					limit = { var:tfast_sc_deposit_knowledge < 3 }
+					change_variable = { name = tfast_sc_deposit_knowledge add = 1 }
+				}
+			}
+			set_variable = { name = tfast_sc_survey_result value = 2 }
+		}
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_survey_result } }
+			set_variable = { name = tfast_sc_survey_result value = 1 }
+		}
+	}
+	else = {
+		set_variable = { name = tfast_sc_survey_result value = 0 }
+	}
+
+	set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_prospect_county }
+	trigger_event = { id = tfast_sc.1001 }
+}
+
+# Cheaper, and it can only raise an unknown deposit to a rumor.
+tfast_sc_question_locals_effect = {
+	remove_variable = tfast_sc_survey_result
+
+	if = {
+		limit = {
+			scope:tfast_sc_prospect_county = { tfast_sc_gold_deposit_trigger = yes }
+		}
+		random = {
+			chance = {
+				value = 35
+				if = {
+					limit = { stewardship >= 14 }
+					add = 15
+				}
+			}
+			scope:tfast_sc_prospect_county = {
+				if = {
+					limit = { var:tfast_sc_deposit_knowledge = 0 }
+					set_variable = { name = tfast_sc_deposit_knowledge value = 1 }
+				}
+			}
+			set_variable = { name = tfast_sc_survey_result value = 2 }
+		}
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_survey_result } }
+			set_variable = { name = tfast_sc_survey_result value = 1 }
+		}
+	}
+	else = {
+		set_variable = { name = tfast_sc_survey_result value = 0 }
+	}
+
+	set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_prospect_county }
+	trigger_event = { id = tfast_sc.1001 }
+}
+
+
+# ---------------------------------------------------------------------------
+#  OPEN THE WORKING
+#  Root = player. scope:tfast_sc_mine_county is a discovered gold county.
+#  If vanilla already built a generic gold mine here, mark the deposit
+#  developed and add no second tax modifier.
+# ---------------------------------------------------------------------------
+tfast_sc_open_gold_working_effect = {
+	scope:tfast_sc_mine_county = {
+		set_variable = { name = tfast_sc_deposit_knowledge value = 4 }
+	}
+	set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_mine_county }
+
+	if = {
+		limit = {
+			scope:tfast_sc_mine_county = {
+				any_county_province = {
+					has_building_or_higher = generic_gold_mines_01
+				}
+			}
+		}
+		set_variable = { name = tfast_sc_survey_result value = 0 }
+	}
+	else = {
+		set_variable = { name = tfast_sc_survey_result value = 1 }
+		if = {
+			limit = {
+				scope:tfast_sc_mine_county = {
+					has_variable = tfast_sc_deposit_richness
+					var:tfast_sc_deposit_richness >= 3
+				}
+			}
+			scope:tfast_sc_mine_county = {
+				add_county_modifier = { modifier = tfast_sc_gold_working_royal }
+			}
+		}
+		else_if = {
+			limit = {
+				scope:tfast_sc_mine_county = {
+					has_variable = tfast_sc_deposit_richness
+					var:tfast_sc_deposit_richness = 2
+				}
+			}
+			scope:tfast_sc_mine_county = {
+				add_county_modifier = { modifier = tfast_sc_gold_working_developed }
+			}
+		}
+		else = {
+			scope:tfast_sc_mine_county = {
+				add_county_modifier = { modifier = tfast_sc_gold_working_small }
+			}
+		}
+	}
+
+	trigger_event = { id = tfast_sc.1002 }
+}

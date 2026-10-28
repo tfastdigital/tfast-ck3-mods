@@ -1,0 +1,5 @@
+﻿# Memberless. Only its shield is used, on kingdoms and empires held by Targaryens who are not the dynasty head.
+tfast_sc_targaryen_realm_dynasty = {
+	name = "tfast_sc_targaryen_realm_name"
+	culture = "tfast_sc_hollow_culture"
+}

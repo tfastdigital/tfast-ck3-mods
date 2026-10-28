@@ -1,0 +1,134 @@
+﻿# Right-click another character. The player is the only one who can see these.
+# They accept themselves, so nothing waits on the other person.
+
+tfast_grant_gold_interaction = {
+	category = interaction_category_friendly
+	icon = icon_gold
+	desc = tfast_grant_gold_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_alive = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			add_gold = 1000
+			add_opinion = {
+				target = scope:actor
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+	}
+}
+
+tfast_grant_host_interaction = {
+	category = interaction_category_friendly
+	icon = icon_combat
+	desc = tfast_grant_host_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_alive = yes
+			is_landed = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			tfast_raise_host_effect = yes
+			add_opinion = {
+				target = scope:actor
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+	}
+}
+
+tfast_grant_building_interaction = {
+	category = interaction_category_friendly
+	icon = icon_boost_efficiency
+	desc = tfast_grant_building_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_alive = yes
+			is_landed = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			tfast_instant_buildings_effect = yes
+			add_opinion = {
+				target = scope:actor
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+	}
+}
+
+tfast_grant_standing_interaction = {
+	category = interaction_category_friendly
+	icon = icon_dynasty
+	desc = tfast_grant_standing_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_alive = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			tfast_grant_standing_effect = yes
+			add_opinion = {
+				target = scope:actor
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+	}
+}
+
+tfast_grant_skills_interaction = {
+	category = interaction_category_friendly
+	icon = icon_teach_governor
+	desc = tfast_grant_skills_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_alive = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			tfast_grant_skills_effect = yes
+			add_opinion = {
+				target = scope:actor
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+	}
+}

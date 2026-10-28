@@ -1,0 +1,59 @@
+﻿# ============================================================================
+#  TFAST Africa -- scripted triggers                         CK3 1.20.x
+# ============================================================================
+#  WHY THIS MOD EXISTS
+#  -------------------
+#  CK3 ships 16+ African faiths, 16 African cultures and seven African holy
+#  sites (aksum, kukiya, wadan, bono, ife, nikki, mogadishu) -- but almost no
+#  content that uses them. The only Africa-named decision file in the game is
+#  00_major_decisions_iberia_north_africa.txt, which is about the Maghreb, i.e.
+#  the Muslim Mediterranean world, not Africa south of the Sahara.
+#
+#  For comparison, the East Asia update shipped 789 noble-family titles on its
+#  own. Africa got none of that treatment. This mod adds the missing depth in
+#  the form that is safest to add: player-only decisions, traits and modifiers.
+#
+#  Every decision below is a real historical institution or event.
+# ============================================================================
+
+
+# Is the ruler seated in Africa?
+# `geographical_region` on capital_province is the pattern vanilla itself uses
+# (see 00_artifact_triggers.txt: capital_province = { geographical_region = ... }).
+tfast_africa_is_african_trigger = {
+	capital_province = { geographical_region = world_africa }
+}
+
+# West Africa: the Sahel and the forest belt, the gold and salt country.
+tfast_africa_is_west_african_trigger = {
+	capital_province = {
+		OR = {
+			geographical_region = world_africa_west
+			geographical_region = custom_sahel_proper
+			geographical_region = custom_sub_saharan_africa_immediate
+		}
+	}
+}
+
+# East Africa: the Horn, the Swahili coast and the Ethiopian highlands.
+tfast_africa_is_east_african_trigger = {
+	capital_province = {
+		OR = {
+			geographical_region = world_africa_east
+			geographical_region = ghw_region_horn_of_africa
+			geographical_region = ghw_region_ethiopia
+			geographical_region = dlc_tgp_swahili_coast_region
+		}
+	}
+}
+
+# The Sahara and North Africa.
+tfast_africa_is_saharan_trigger = {
+	capital_province = {
+		OR = {
+			geographical_region = world_africa_sahara
+			geographical_region = world_africa_north
+			geographical_region = ghw_region_north_africa
+		}
+	}
+}

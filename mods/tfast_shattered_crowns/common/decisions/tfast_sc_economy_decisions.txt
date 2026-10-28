@@ -1,0 +1,147 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- gold prospecting decisions       CK3 1.20.x
+# ============================================================================
+#  Player only. Three actions, all on counties the player holds:
+#    question the capital's inhabitants
+#    hire surveyors for the capital, or for a domain county already rumored
+#    open a discovered gold working
+#  No custom window. The capital decisions name the capital. The domain
+#  decisions pick one eligible held county.
+# ============================================================================
+
+
+tfast_sc_question_locals = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	decision_group_type = major
+	sort_order = 9600
+	ai_check_interval = 0
+	cooldown = { days = 365 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		capital_county = {
+			OR = {
+				NOT = { has_variable = tfast_sc_deposit_knowledge }
+				var:tfast_sc_deposit_knowledge = 0
+			}
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 25 }
+
+	effect = {
+		custom_tooltip = tfast_sc_question_locals_tt
+		capital_county = { save_scope_as = tfast_sc_prospect_county }
+		tfast_sc_question_locals_effect = yes
+	}
+}
+
+
+tfast_sc_survey_capital = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9601
+	ai_check_interval = 0
+	cooldown = { days = 730 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		capital_county = {
+			tfast_sc_deposit_knowledge_below_trigger = { LEVEL = 3 }
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 75 }
+
+	effect = {
+		custom_tooltip = tfast_sc_survey_capital_tt
+		capital_county = { save_scope_as = tfast_sc_prospect_county }
+		tfast_sc_prospect_county_effect = yes
+	}
+}
+
+
+# A rumor or a survey already points at some county in the domain that is
+# not yet discovered. The capital decisions cover the capital; this one
+# covers the rest of the domain, and the capital too if it qualifies.
+tfast_sc_survey_rumored_county = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9602
+	ai_check_interval = 0
+	cooldown = { days = 730 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		any_held_title = {
+			tier = tier_county
+			has_variable = tfast_sc_deposit_knowledge
+			OR = {
+				var:tfast_sc_deposit_knowledge = 1
+				var:tfast_sc_deposit_knowledge = 2
+			}
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 75 }
+
+	effect = {
+		custom_tooltip = tfast_sc_survey_rumored_county_tt
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				has_variable = tfast_sc_deposit_knowledge
+				OR = {
+					var:tfast_sc_deposit_knowledge = 1
+					var:tfast_sc_deposit_knowledge = 2
+				}
+			}
+			save_scope_as = tfast_sc_prospect_county
+		}
+		tfast_sc_prospect_county_effect = yes
+	}
+}
+
+
+tfast_sc_open_gold_working = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9603
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_economy_enabled_trigger = yes
+		any_held_title = {
+			tier = tier_county
+			has_variable = tfast_sc_deposit_knowledge
+			var:tfast_sc_deposit_knowledge = 3
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 200 }
+
+	effect = {
+		custom_tooltip = tfast_sc_open_gold_working_tt
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				has_variable = tfast_sc_deposit_knowledge
+				var:tfast_sc_deposit_knowledge = 3
+			}
+			save_scope_as = tfast_sc_mine_county
+		}
+		tfast_sc_open_gold_working_effect = yes
+	}
+}

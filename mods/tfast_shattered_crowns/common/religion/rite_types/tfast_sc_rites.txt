@@ -1,0 +1,27 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- Hollow rite                      CK3 1.20.x
+# ============================================================================
+#  The single rite of the Hollow Communion. The rite carries the faith's core
+#  tenets (this is the "scripted main Rite" layout documented in
+#  game/common/religion/rite_types/_rite_types.info, matched against
+#  game/common/religion/rite_types/00_rite_types.txt).
+#
+#  Tenets:
+#    * tenet_divine_marriage -- lets the closed bloodline marry within itself
+#    * tenet_esotericism     -- knowledge kept for the initiated only
+#  Both keys verified in game/common/religion/tenet_types/00_tenet_types.txt.
+# ============================================================================
+
+hollow_rite = {
+	name = hollow_rite
+	desc = hollow_rite_desc
+	faith = hollow_faith
+
+	color = { 0.12 0.03 0.18 }
+	icon = custom_faith_pentagram
+
+	tenets = {
+		tenet_divine_marriage
+		tenet_esotericism
+	}
+}

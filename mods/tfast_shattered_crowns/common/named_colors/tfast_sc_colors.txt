@@ -1,0 +1,19 @@
+﻿colors = {
+	tfast_sc_bone = hsv { 0.08 0.08 0.82 }
+	tfast_sc_burgundy = hsv { 0.98 0.72 0.28 }
+	tfast_sc_obsidian = hsv { 0.62 0.15 0.07 }
+	tfast_sc_iron = hsv { 0.0 0.02 0.36 }
+	tfast_sc_crimson = hsv { 0.00 0.82 0.40 }
+	tfast_sc_earth = hsv { 0.08 0.42 0.20 }
+	tfast_sc_sickly = hsv { 0.28 0.40 0.32 }
+	tfast_sc_slate = hsv { 0.58 0.16 0.30 }
+	tfast_sc_frost = hsv { 0.55 0.06 0.86 }
+	tfast_sc_indigo = hsv { 0.73 0.52 0.26 }
+	tfast_sc_ivory = hsv { 0.09 0.05 0.90 }
+	tfast_sc_violet = hsv { 0.78 0.32 0.30 }
+	tfast_sc_forest = hsv { 0.36 0.50 0.22 }
+	tfast_sc_gold = hsv { 0.12 0.62 0.52 }
+	tfast_sc_ember = hsv { 0.04 0.80 0.42 }
+	tfast_sc_charcoal = hsv { 0.0 0.02 0.14 }
+	tfast_sc_silver = hsv { 0.0 0.0 0.72 }
+}

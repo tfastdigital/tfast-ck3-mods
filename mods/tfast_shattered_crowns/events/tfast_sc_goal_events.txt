@@ -1,0 +1,64 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Host's appetites, told to the world
+#                                                            CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0910 -- the Host has fed
+#  tfast_sc.0911 -- an example is made
+#  tfast_sc.0912 -- they have your scent (the hunt finds the hidden)
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  THE HOST HAS FED
+# ---------------------------------------------------------------------------
+tfast_sc.0910 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0910.t
+	desc = { desc = tfast_sc.0910.desc }
+
+	option = {
+		name = tfast_sc.0910.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  AN EXAMPLE IS MADE
+# ---------------------------------------------------------------------------
+tfast_sc.0911 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_merc_pale }
+
+	title = tfast_sc.0911.t
+	desc = { desc = tfast_sc.0911.desc }
+
+	option = {
+		name = tfast_sc.0911.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THEY HAVE YOUR SCENT
+# ---------------------------------------------------------------------------
+tfast_sc.0912 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0912.t
+	desc = { desc = tfast_sc.0912.desc }
+
+	option = {
+		name = tfast_sc.0912.a
+		ai_chance = { base = 100 }
+	}
+}

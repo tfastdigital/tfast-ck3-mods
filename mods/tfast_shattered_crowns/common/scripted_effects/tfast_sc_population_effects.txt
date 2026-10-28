@@ -1,0 +1,94 @@
+﻿# Population. The Ten kill a living child to open a birth. Every hundred
+# years the Scythe takes most rulers. Lucky ones live. The Hollow are spared
+# by the Scythe. They are the ones holding it.
+
+tfast_sc_make_room_for_children_effect = {
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_vaelor }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_morvath }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_kaedryn }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_draven }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_tharion }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_seralyth }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_nyxara }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_velmora }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_eryndra }
+	tfast_sc_make_room_one_effect = { WHO = tfast_sc_malethra }
+}
+
+# One of the Ten, already raising two living children, takes one life for a new birth.
+# The chosen child lives about three times in ten.
+tfast_sc_make_room_one_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = {
+				is_alive = yes
+				any_child = { count >= 2 is_alive = yes }
+			}
+		}
+		character:$WHO$ = {
+			random_child = {
+				limit = {
+					is_alive = yes
+					is_ai = yes
+					NOT = { tfast_sc_is_one_of_the_ten_trigger = yes }
+					NOT = { has_character_flag = tfast_sc_original_child }
+					NOT = { has_character_flag = tfast_sc_dark_twin }
+					NOT = { has_character_flag = tfast_sc_overlord }
+				}
+				random = {
+					chance = 70
+					if = { limit = { has_trait = tfast_sc_hollow_immortal } remove_trait = tfast_sc_hollow_immortal }
+					death = { death_reason = death_disappearance }
+				}
+			}
+			if = {
+				limit = { NOT = { any_child = { count >= 2 is_alive = yes } } }
+				if = { limit = { has_trait = tfast_sc_hollow_two_born } remove_trait = tfast_sc_hollow_two_born }
+			}
+		}
+	}
+}
+
+# Counts the years the Overlord's pulse has run. On the hundredth, the Scythe falls.
+tfast_sc_population_scythe_effect = {
+	if = {
+		limit = { NOT = { exists = global_var:tfast_sc_scythe_years } }
+		set_global_variable = { name = tfast_sc_scythe_years value = 0 }
+	}
+	change_global_variable = { name = tfast_sc_scythe_years add = 1 }
+	if = {
+		limit = { global_var:tfast_sc_scythe_years >= 100 }
+		set_global_variable = { name = tfast_sc_scythe_years value = 0 }
+		every_player = {
+			limit = { is_ai = no }
+			trigger_event = { id = tfast_sc.1200 }
+		}
+		every_ruler = {
+			limit = {
+				is_alive = yes
+				is_playable_character = yes
+				NOR = {
+					tfast_sc_is_one_of_the_ten_trigger = yes
+					has_trait = tfast_sc_white_walker
+					has_trait = tfast_sc_hollow_immortal
+					has_character_flag = tfast_sc_hollow_host
+					has_character_flag = tfast_sc_dark_twin
+					has_character_flag = tfast_sc_original_child
+					has_character_flag = tfast_sc_overlord
+				}
+			}
+			random = {
+				chance = {
+					value = 70
+					if = {
+						limit = { is_ai = no }
+						subtract = 30
+					}
+				}
+				death = { death_reason = death_disappearance }
+			}
+		}
+		debug_log = "TFAST Shattered Crowns: the Scythe has fallen"
+	}
+}

@@ -1,0 +1,80 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- mercenaries for hire              CK3 1.20.x
+# ============================================================================
+#  Companies sell to any landed ruler in any corner of the world. What you
+#  can spend decides what you can field:
+#
+#    Free Company      250 gold   2,000 levies + 250 bowmen
+#    Great Company     800 gold   8,000 levies + 500 bowmen + 500 horse
+#    Host of Fortune  2,000 gold  20,000 levies + 1,000 bowmen + 1,000 horse
+#
+#  One hire of any tier puts all three on a two-year cooldown
+#  (tfast_sc_merc_cooldown). The hosts are ordinary armies: supply, attrition
+#  and battle apply as usual.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  FREE COMPANY
+# ---------------------------------------------------------------------------
+tfast_sc_hire_free_company = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_merc_carrion_decision.dds" }
+	decision_group_type = major
+	sort_order = 9530
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		custom_tooltip = tfast_sc_hire_free_company_tt
+		tfast_sc_hire_free_company_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT COMPANY
+# ---------------------------------------------------------------------------
+tfast_sc_hire_great_company = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_merc_unburied_decision.dds" }
+	decision_group_type = major
+	sort_order = 9531
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		custom_tooltip = tfast_sc_hire_great_company_tt
+		tfast_sc_hire_great_company_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  HOST OF FORTUNE
+# ---------------------------------------------------------------------------
+tfast_sc_hire_host_of_fortune = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_merc_pale_decision.dds" }
+	decision_group_type = major
+	sort_order = 9532
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		custom_tooltip = tfast_sc_hire_host_of_fortune_tt
+		tfast_sc_hire_host_of_fortune_effect = yes
+	}
+}

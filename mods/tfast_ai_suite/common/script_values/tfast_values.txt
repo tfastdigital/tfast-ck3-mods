@@ -1,0 +1,9 @@
+﻿# Next dynasty legacy, in renown. 250 for the first perk, then 500 more
+# for every perk already counted on this character.
+tfast_next_legacy_cost = {
+	value = 250
+	add = {
+		value = var:tfast_legacy_owned
+		multiply = 500
+	}
+}

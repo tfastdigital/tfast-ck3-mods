@@ -1,0 +1,19 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- handbook plumbing               CK3 1.20.x
+# ============================================================================
+#  The two helpers the in-game handbook needs (tfast_sc_help_decisions.txt).
+# ============================================================================
+
+
+# Close every handbook chapter. Called when a chapter opens, when Back is
+# clicked, and when the handbook closes. Expects a character scope.
+tfast_sc_help_clear_pages_effect = {
+	remove_character_flag = tfast_sc_help_page_start
+	remove_character_flag = tfast_sc_help_page_dominion
+	remove_character_flag = tfast_sc_help_page_raids
+	remove_character_flag = tfast_sc_help_page_wall
+	remove_character_flag = tfast_sc_help_page_reckoning
+	remove_character_flag = tfast_sc_help_page_dark
+	remove_character_flag = tfast_sc_help_page_goals
+	remove_character_flag = tfast_sc_help_page_realm
+}

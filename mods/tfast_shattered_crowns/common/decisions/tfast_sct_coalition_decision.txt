@@ -1,0 +1,37 @@
+﻿tfast_sct_raise_coalition = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9610
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_hollow_ruler_trigger = no
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_duchy
+		NOT = { has_character_flag = tfast_sct_coalition_cd }
+	}
+
+	cost = {
+		gold = 300
+		prestige = 100
+	}
+
+	effect = {
+		custom_tooltip = tfast_sct_raise_coalition_tt
+		add_character_flag = { flag = tfast_sct_coalition_cd years = 10 }
+		save_scope_as = tfast_sct_coalition_leader
+		every_independent_ruler = {
+			limit = {
+				tfast_sc_hollow_ruler_trigger = no
+				NOT = { this = scope:tfast_sct_coalition_leader }
+			}
+			add_opinion = {
+				target = scope:tfast_sct_coalition_leader
+				modifier = tfast_sct_coalition_opinion
+			}
+		}
+	}
+}

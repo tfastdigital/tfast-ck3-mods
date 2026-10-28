@@ -1,0 +1,58 @@
+﻿# Self-use tools. Other characters are granted the same things by the
+# interactions in tfast_grants.txt. AI never evaluates these.
+
+tfast_cheat_raise_host = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_levy_outcasts.dds" }
+	decision_group_type = major
+	sort_order = 9040
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_military
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_raise_host }
+		tfast_raise_host_effect = yes
+	}
+}
+
+tfast_cheat_instant_build = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+	decision_group_type = major
+	sort_order = 9041
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = {
+		any_held_title = { tier = tier_barony }
+	}
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_instant_build }
+		tfast_instant_buildings_effect = yes
+	}
+}
+
+tfast_cheat_skills = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	decision_group_type = major
+	sort_order = 9042
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_character
+	}
+	is_valid = { is_alive = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_skills }
+		tfast_grant_skills_effect = yes
+	}
+}

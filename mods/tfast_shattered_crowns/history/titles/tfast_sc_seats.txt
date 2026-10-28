@@ -1,0 +1,124 @@
+﻿# Seated at 867, 1066 and 1178.
+# Every Hollow ruler is independent.
+
+c_bornholm = {
+	866.1.1 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+}
+c_vestisland = {
+	866.1.1 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+}
+c_rugen = {
+	866.1.1 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+}
+c_isle_of_man = {
+	866.1.1 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+}
+c_osel = {
+	866.1.1 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+}
+c_anglesey = {
+	866.1.1 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+}
+c_orkney = {
+	866.1.1 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+}
+c_gutland = {
+	866.1.1 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+}
+c_malta = {
+	866.1.1 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+}
+c_faereyar = {
+	866.1.1 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+}
+c_shetland = {
+	866.1.1 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+}
+c_canarias = {
+	866.1.1 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+}
+
+h_hollow_dominion = {
+	866.1.1 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_overlord liege = 0 government = feudal_government }
+}
+e_hollow_vaelith = {
+	866.1.1 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_vaelith liege = 0 government = feudal_government }
+}
+k_hollow_vaelor = {
+	866.1.1 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_vaelor liege = 0 government = feudal_government }
+}
+k_hollow_morvath = {
+	866.1.1 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_morvath liege = 0 government = feudal_government }
+}
+k_hollow_kaedryn = {
+	866.1.1 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_kaedryn liege = 0 government = feudal_government }
+}
+k_hollow_draven = {
+	866.1.1 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_draven liege = 0 government = feudal_government }
+}
+k_hollow_tharion = {
+	866.1.1 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_tharion liege = 0 government = feudal_government }
+}
+k_hollow_seralyth = {
+	866.1.1 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_seralyth liege = 0 government = feudal_government }
+}
+k_hollow_nyxara = {
+	866.1.1 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_nyxara liege = 0 government = feudal_government }
+}
+k_hollow_velmora = {
+	866.1.1 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_velmora liege = 0 government = feudal_government }
+}
+k_hollow_eryndra = {
+	866.1.1 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_eryndra liege = 0 government = feudal_government }
+}
+k_hollow_malethra = {
+	866.1.1 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+	1066.9.14 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+	1178.9.30 = { holder = tfast_sc_malethra liege = 0 government = feudal_government }
+}

@@ -1,0 +1,450 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- decisions                        CK3 1.20.x
+# ============================================================================
+#  Same safety contract as every TFAST mod: is_ai = no + ai_check_interval = 0
+#  for every player-facing decision. Additive only. Every effect, trigger and
+#  illustration verified against the installed 1.20 data.
+#
+#  The Hidden Chosen carries NO decision until awakening. The True Death
+#  decision is visible only to an awakened chosen who is the human player,
+#  only while at war with the Hollow, and never to an ordinary mortal.
+# ============================================================================
+
+
+##############################################################
+# THE HOLLOW TIDE (Situations window)
+##############################################################
+# History starts this for a new campaign. An already-open save does not
+# replay history, so this decision puts the tide in the Situations window
+# the moment it is clicked. It hides once this character is a participant.
+tfast_sc_open_the_tide = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9390
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		NOT = {
+			any_character_situation = {
+				situation_type = tfast_sc_hollow_tide
+			}
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		custom_tooltip = tfast_sc_open_the_tide_tt
+		tfast_sc_ensure_tide_effect = yes
+	}
+}
+
+
+##############################################################
+# FALLBACK BOOTSTRAP (repair path)
+##############################################################
+# If the campaign for any reason started without the Hollow Dominion being
+# raised (a failed game-start hook, an exotic load order, a converted save),
+# this decision appears to the human player once, and raises it on click.
+# It disappears forever once the Dominion exists. It is the ultimate safety
+# net for the whole mod - no on_action hook is required for it to work.
+tfast_sc_raise_the_hollow = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9400
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		NOT = { tfast_sc_hollow_initialized_trigger = yes }
+	}
+	is_valid = {
+		NOT = { tfast_sc_hollow_initialized_trigger = yes }
+	}
+
+	effect = {
+		custom_tooltip = tfast_sc_raise_the_hollow_tt
+		tfast_sc_bootstrap_effect = yes
+		tfast_sc_capture_designated_dynasty_effect = yes
+		tfast_sc_ensure_tide_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- STAGE 1: PLANNING
+# ---------------------------------------------------------------------------
+tfast_sc_wall_plan = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9500
+	ai_check_interval = 0
+
+	# Fresh walls are started from Decisions -> Great Projects. A wall that
+	# was already under way still uses the later stage decisions.
+	is_shown = {
+		always = no
+	}
+	is_valid = {
+		is_landed = yes
+		capital_county = { is_landless_type_title = no }
+	}
+
+	cost = { gold = 100 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_plan_tt
+		tfast_sc_wall_plan_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- STAGE 2: TOWERS
+# ---------------------------------------------------------------------------
+tfast_sc_wall_build_towers = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9501
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage = 1
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 150 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_towers_tt
+		tfast_sc_wall_build_towers_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- STAGE 3: RAMPART
+# ---------------------------------------------------------------------------
+tfast_sc_wall_build_rampart = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9502
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage = 2
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 250 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_rampart_tt
+		tfast_sc_wall_build_rampart_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- STAGE 4: GATES (the wall closes against the Hollow)
+# ---------------------------------------------------------------------------
+tfast_sc_wall_build_gates = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9503
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage = 3
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 200 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_gates_tt
+		tfast_sc_wall_build_gates_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- STAGE 5: WARDS
+# ---------------------------------------------------------------------------
+tfast_sc_wall_build_wards = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9504
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage = 4
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { piety = 300 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_wards_tt
+		tfast_sc_wall_build_wards_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- FUND THE UPKEEP
+# ---------------------------------------------------------------------------
+tfast_sc_wall_fund = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9505
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 2
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 100 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_fund_tt
+		change_variable = { name = tfast_sc_wall_upkeep_years add = 10 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  GREAT WALL -- REPAIR
+# ---------------------------------------------------------------------------
+tfast_sc_wall_repair = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9506
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 2
+		has_variable = tfast_sc_wall_integrity
+		var:tfast_sc_wall_integrity < 100
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 150 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_repair_tt
+		tfast_sc_wall_repair_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  LAST WATCH -- RECRUIT A WATCH COMMANDER
+# ---------------------------------------------------------------------------
+tfast_sc_last_watch_recruit = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9507
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 3
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 150 }
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_sc_last_watch_tt
+		create_character = {
+			template = local_noble_character
+			employer = root
+			gender_female_chance = 25
+			save_scope_as = tfast_sc_watchman
+		}
+		scope:tfast_sc_watchman = {
+			add_trait = tfast_sc_wall_watchman
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  REBUILD WHAT THE HOST STRIPPED
+# ---------------------------------------------------------------------------
+tfast_sc_rebuild_county = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9508
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		capital_county = { has_county_modifier = tfast_sc_raided_modifier }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { gold = 150 }
+
+	effect = {
+		custom_tooltip = tfast_sc_rebuild_county_tt
+		tfast_sc_rebuild_county_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  TELL THE TALE (historical memory made real)
+#  Visible only when a real memory was recorded earlier - a raid thrown
+#  back, a wall defense, or a county stripped. The memory must exist first;
+#  there is no random remembrance.
+# ---------------------------------------------------------------------------
+tfast_sc_tell_the_tale = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9509
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		OR = {
+			has_variable = tfast_sc_memory_raid_defeated
+			has_variable = tfast_sc_memory_wall_defense
+			has_variable = tfast_sc_memory_raided
+			has_variable = tfast_sc_memory_wall_breached
+		}
+	}
+	is_valid = { is_landed = yes }
+
+	cooldown = { days = 1825 }
+
+	effect = {
+		custom_tooltip = tfast_sc_tell_the_tale_tt
+		tfast_sc_tell_the_tale_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DEEPEN THE POWER (the chosen's one upgradeable power)
+# ---------------------------------------------------------------------------
+tfast_sc_chosen_deepen_power = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_awakening_decision.dds" }
+	decision_group_type = major
+	sort_order = 9510
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_trait = tfast_sc_chosen_awakened
+		has_variable = tfast_sc_power_tier
+		var:tfast_sc_power_tier < 3
+	}
+	is_valid = {
+		has_variable = tfast_sc_power_tier
+		var:tfast_sc_power_tier < 3
+	}
+
+	cost = { piety = 300 }
+	cooldown = { days = 730 }
+
+	effect = {
+		tfast_sc_prophecy_power_up_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  INVOKE TRUE DEATH
+#  Only an awakened Chosen Emperor, only while at war with the Hollow, and
+#  only against a Hollow immortal. The Overlord can be sealed, never killed.
+# ---------------------------------------------------------------------------
+tfast_sc_invoke_true_death = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9511
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_trait = tfast_sc_chosen_awakened
+		tfast_sc_overlord_valid_trigger = yes
+		is_at_war_with = global_var:tfast_sc_overlord
+	}
+	is_valid = {
+		is_at_war_with = global_var:tfast_sc_overlord
+	}
+
+	cooldown = { days = 1825 }
+
+	effect = {
+		trigger_event = { id = tfast_sc.0500 days = { 5 20 } }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WORLD COUNCIL PLEDGE
+#  Tied to the crisis: only offered once the Reckoning has been foretold.
+#  This is not an alliance with the Hollow - it is an oath against it.
+# ---------------------------------------------------------------------------
+tfast_sc_world_council_pledge = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9512
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		exists = global_var:tfast_sc_crisis_phase
+		global_var:tfast_sc_crisis_phase >= 2
+		NOT = { has_variable = tfast_sc_world_pledge }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 200 }
+	cooldown = { days = 3650 }
+
+	effect = {
+		custom_tooltip = tfast_sc_world_council_tt
+		set_variable = { name = tfast_sc_world_pledge value = yes years = 25 }
+		add_character_modifier = {
+			modifier = tfast_sc_world_pledge_modifier
+			years = 25
+		}
+		if = {
+			limit = { exists = global_var:tfast_sc_world_resistance }
+			change_global_variable = { name = tfast_sc_world_resistance add = 1 }
+		}
+		else = {
+			set_global_variable = { name = tfast_sc_world_resistance value = 1 }
+		}
+	}
+}

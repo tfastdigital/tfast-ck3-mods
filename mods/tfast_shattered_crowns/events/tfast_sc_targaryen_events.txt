@@ -1,0 +1,186 @@
+﻿namespace = tfast_sct
+
+# Newborn Targaryen: a quarter of them get a dragon's egg in the cradle.
+tfast_sct.0001 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		has_character_flag = tfast_sc_targaryen
+		NOT = { has_character_modifier = tfast_sct_dragon_egg_modifier }
+	}
+
+	immediate = {
+		random = {
+			chance = 25
+			add_character_modifier = { modifier = tfast_sct_dragon_egg_modifier }
+			trigger_event = { id = tfast_sct.0002 years = 5 }
+		}
+	}
+}
+
+# The egg hatches.
+tfast_sct.0002 = {
+	type = character_event
+	theme = dynasty
+	title = tfast_sct.0002.t
+	desc = tfast_sct.0002.desc
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_alive = yes
+		has_character_modifier = tfast_sct_dragon_egg_modifier
+	}
+
+	immediate = {
+		remove_character_modifier = tfast_sct_dragon_egg_modifier
+		add_character_modifier = { modifier = tfast_sct_dragonbound_modifier }
+	}
+
+	option = {
+		name = tfast_sct.0002.a
+		add_prestige = 100
+	}
+}
+
+# The Hollow gather. Fired yearly to a human Targaryen when the Host is ready.
+tfast_sct.0010 = {
+	type = character_event
+	theme = war
+	title = tfast_sct.0010.t
+	desc = tfast_sct.0010.desc
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		is_ai = no
+		is_alive = yes
+		has_character_flag = tfast_sc_targaryen
+		exists = global_var:tfast_sc_hollow_readiness
+		global_var:tfast_sc_hollow_readiness >= 60
+		NOT = { has_character_flag = tfast_sct_warned }
+	}
+
+	immediate = {
+		add_character_flag = { flag = tfast_sct_warned years = 5 }
+	}
+
+	option = {
+		name = tfast_sct.0010.a
+		add_stress = 5
+	}
+
+	option = {
+		name = tfast_sct.0010.b
+		add_prestige = 50
+	}
+}
+
+# The Valyrian steel blade passes to a new head of the house.
+tfast_sct.0020 = {
+	type = character_event
+	theme = dynasty
+	title = tfast_sct.0020.t
+	desc = tfast_sct.0020.desc
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {
+		name = tfast_sct.0020.a
+	}
+}
+
+# The Hollow march on a Targaryen.
+tfast_sct.0040 = {
+	type = character_event
+	theme = war
+	title = tfast_sct.0040.t
+	desc = tfast_sct.0040.desc
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	option = {
+		name = tfast_sct.0040.a
+	}
+}
+
+# Pale riders seen on the horizon, anywhere in the world.
+tfast_sct.0050 = {
+	type = character_event
+	theme = war
+	title = tfast_sct.0050.t
+	desc = tfast_sct.0050.desc
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = {
+		name = tfast_sct.0050.a
+		add_stress = 5
+	}
+
+	option = {
+		name = tfast_sct.0050.b
+		trigger_event = tfast_sct.0051
+	}
+}
+
+# Nothing came of it this time.
+tfast_sct.0051 = {
+	type = character_event
+	theme = martial
+	title = tfast_sct.0051.t
+	desc = tfast_sct.0051.desc
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {
+		name = tfast_sct.0051.a
+		add_prestige = 50
+	}
+}
+
+# The Hollow winter.
+tfast_sct.0060 = {
+	type = character_event
+	theme = war
+	title = tfast_sct.0060.t
+	desc = tfast_sct.0060.desc
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	option = {
+		name = tfast_sct.0060.a
+	}
+}
+
+# The Dragon Throne is claimed.
+tfast_sct.0030 = {
+	type = character_event
+	theme = dynasty
+	title = tfast_sct.0030.t
+	desc = tfast_sct.0030.desc
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = tfast_sct.0030.a
+	}
+}

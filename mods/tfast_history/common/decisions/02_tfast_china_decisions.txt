@@ -1,0 +1,222 @@
+﻿# ============================================================================
+#  TFAST History -- China: inventions and institutions of the middle empire
+#                                                            CK3 1.20.x
+# ============================================================================
+#  The vanilla game already gives China the celestial government, the
+#  examination activities, the dynastic cycle, AND the Great Wall and the
+#  Grand Canal as great projects. What is missing is the record of the
+#  empire's own inventions and offices - and that is what these six acts
+#  recreate, each behind its real date:
+#
+#    tfast_hist_jiaozi       The first paper money (official),   1023
+#    tfast_hist_movable_type Movable type printing (Bi Sheng),   the 1040s
+#    tfast_hist_zhuxi        Zhu Xi enshrined as state orthodoxy, 1241
+#    tfast_hist_yongle       The Yongle Encyclopedia,            1403
+#    tfast_hist_treasure     The treasure voyages (Zheng He),    1405
+#    tfast_hist_translators  The Bureau of Translators,          1407
+#
+#  Each is founded ONCE in the world (a global flag), available to rulers of
+#  Chinese heritage, and grants a real institution: a 25-year standing
+#  modifier, prestige, and - for the inventions of the mind - the Patron of
+#  Letters trait.
+#
+#  SAFETY CONTRACT (identical to the rest of the TFAST suite)
+#  ---------------------------------------------------------
+#   * is_ai = no             -> only the human player can ever take these.
+#   * ai_check_interval = 0  -> the AI never even evaluates them.
+#   * Additive only          -> no vanilla file is overwritten. No DLC is
+#     required: the culture and date gates simply never come true without
+#     the China content present, and nothing errors either way.
+#   * Every effect, trigger, modifier key and illustration verified against
+#     the installed 1.20 data.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  THE FIRST PAPER MONEY  (Jiaozi, 1023)
+#  Sichuan's merchants printed promises; in 1023 the state took the press.
+# ---------------------------------------------------------------------------
+tfast_hist_jiaozi = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9230
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1023
+		NOT = { exists = global_var:tfast_hist_jiaozi_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { gold = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_jiaozi_tt
+		set_global_variable = { name = tfast_hist_jiaozi_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_jiaozi_modifier
+			years = 25
+		}
+		add_prestige = 250
+		trigger_event = tfast_history.0005
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  MOVABLE TYPE  (Bi Sheng, the 1040s)
+#  One block per page no more: one block per character, and the empire copies.
+# ---------------------------------------------------------------------------
+tfast_hist_movable_type = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9231
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1040
+		NOT = { exists = global_var:tfast_hist_movable_type_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_movable_type_tt
+		set_global_variable = { name = tfast_hist_movable_type_founded value = yes }
+		add_trait = tfast_hist_patron_of_letters
+		add_character_modifier = {
+			modifier = tfast_hist_movable_type_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE ORTHODOXY OF ZHU XI  (1241)
+#  His commentaries enter the temples - and thereafter the examinations.
+# ---------------------------------------------------------------------------
+tfast_hist_zhuxi = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	decision_group_type = major
+	sort_order = 9232
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1241
+		NOT = { exists = global_var:tfast_hist_zhuxi_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { prestige = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_zhuxi_tt
+		set_global_variable = { name = tfast_hist_zhuxi_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_zhuxi_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE YONGLE ENCYCLOPEDIA  (ordered 1403, finished 1408)
+#  Every book worth keeping, in one library of eleven thousand volumes.
+# ---------------------------------------------------------------------------
+tfast_hist_yongle = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9233
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1403
+		NOT = { exists = global_var:tfast_hist_yongle_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { gold = 500 }
+
+	effect = {
+		custom_tooltip = tfast_hist_yongle_tt
+		set_global_variable = { name = tfast_hist_yongle_founded value = yes }
+		add_trait = tfast_hist_patron_of_letters
+		add_character_modifier = {
+			modifier = tfast_hist_yongle_modifier
+			years = 25
+		}
+		add_prestige = 250
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE TREASURE VOYAGES  (Zheng He, from 1405)
+#  Dragon ships to the ends of the western ocean - and back, with tribute.
+# ---------------------------------------------------------------------------
+tfast_hist_treasure = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_silk_road.dds" }
+	decision_group_type = major
+	sort_order = 9234
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1405
+		NOT = { exists = global_var:tfast_hist_treasure_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { gold = 600 prestige = 200 }
+
+	effect = {
+		custom_tooltip = tfast_hist_treasure_tt
+		set_global_variable = { name = tfast_hist_treasure_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_treasure_modifier
+			years = 25
+		}
+		add_prestige = 300
+		trigger_event = tfast_history.0006
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE BUREAU OF TRANSLATORS  (founded 1407, after the first voyage)
+#  Every language of the tribute road, written down and taught in one hall.
+# ---------------------------------------------------------------------------
+tfast_hist_translators = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9235
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_china_can_found_trigger = yes
+		current_year >= 1407
+		NOT = { exists = global_var:tfast_hist_translators_founded }
+	}
+	is_valid = { tfast_hist_china_valid_trigger = yes }
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_translators_tt
+		set_global_variable = { name = tfast_hist_translators_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_translators_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}

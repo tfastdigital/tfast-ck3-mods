@@ -1,0 +1,157 @@
+﻿# ============================================================================
+#  TFAST Africa -- traits                                  CK3 1.20.x
+# ============================================================================
+#  category = fame, matching how vanilla models standing traits.
+#  Every icon reuses an EXISTING vanilla texture from
+#  gfx/interface/icons/traits/, so the mod ships no art and cannot conflict.
+# ============================================================================
+
+
+# Runs the gold and salt road north across the desert.
+tfast_africa_gold_merchant = {
+	category = fame
+	icon = greedy.dds
+
+	stewardship = 2
+
+	same_opinion = 5
+	opposite_opinion = -5
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_gold_merchant_desc
+			}
+			desc = trait_tfast_africa_gold_merchant_character_desc
+		}
+	}
+}
+
+
+# Has walked to the holy cities and back, and is the richer in standing for it.
+tfast_africa_scholar_patron = {
+	category = fame
+	icon = poet.dds
+
+	learning = 3
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 25
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_scholar_patron_desc
+			}
+			desc = trait_tfast_africa_scholar_patron_character_desc
+		}
+	}
+}
+
+
+# Keeper of the spoken law - history, precedent and obligation held in memory
+# by appointed reciters rather than written down.
+tfast_africa_charter_keeper = {
+	category = fame
+	icon = just.dds
+
+	diplomacy = 2
+	learning = 1
+
+	same_opinion = 15
+	opposite_opinion = -5
+
+	ruler_designer_cost = 25
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_charter_keeper_desc
+			}
+			desc = trait_tfast_africa_charter_keeper_character_desc
+		}
+	}
+}
+
+
+# Builds in stone without mortar, so the work outlasts the mason.
+tfast_africa_stone_builder = {
+	category = fame
+	icon = architect.dds
+
+	stewardship = 2
+	learning = 1
+
+	same_opinion = 5
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_stone_builder_desc
+			}
+			desc = trait_tfast_africa_stone_builder_character_desc
+		}
+	}
+}
+
+
+# Raised and graded in the assembly, and holds authority by the cycle rather
+# than by birth alone.
+tfast_africa_gadaa_master = {
+	category = fame
+	icon = diplomat.dds
+
+	diplomacy = 2
+	martial = 1
+
+	same_opinion = 10
+	opposite_opinion = -10
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_gadaa_master_desc
+			}
+			desc = trait_tfast_africa_gadaa_master_character_desc
+		}
+	}
+}
+
+
+# Trades with the monsoon, down the coast and across the ocean.
+tfast_africa_ocean_merchant = {
+	category = fame
+	icon = administrator.dds
+
+	stewardship = 2
+	diplomacy = 1
+
+	same_opinion = 5
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_africa_ocean_merchant_desc
+			}
+			desc = trait_tfast_africa_ocean_merchant_character_desc
+		}
+	}
+}

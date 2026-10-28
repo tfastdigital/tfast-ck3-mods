@@ -1,0 +1,936 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- realm automation                          CK3 1.20.x
+# ============================================================================
+#  Flags (set from the cheat menu's Automation page):
+#    tfast_auto_build     castles, cities, temples, citadels
+#    tfast_auto_council   fill empty seats and point them at work
+#    tfast_auto_court     recruit courtiers and fill court positions
+#    tfast_auto_legacy    buy the next dynasty legacy with renown
+#  tfast_build_budget is how much gold building may spend per year.
+#  200 gold is always left in the treasury.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  BUILDINGS
+# ---------------------------------------------------------------------------
+tfast_auto_build_effect = {
+	if = {
+		limit = { NOT = { has_variable = tfast_build_budget } }
+		set_variable = { name = tfast_build_budget value = 500 }
+	}
+	if = {
+		limit = { NOT = { has_variable = tfast_build_year } }
+		set_variable = { name = tfast_build_spent value = 0 }
+		set_variable = { name = tfast_build_year value = 1 years = 1 }
+	}
+	set_variable = { name = tfast_build_guard value = 0 }
+	tfast_debug_note_effect = { NOTE = tfast_auto_build }
+
+	# Your own counties first, then the rest of your de jure land that
+	# you actually rule, then any other holding under you.
+	while = {
+		limit = {
+			var:tfast_build_guard < 6
+			tfast_build_budget_open_trigger = yes
+			any_held_county = {
+				any_county_province = { tfast_province_can_build_trigger = yes }
+			}
+		}
+		random_held_county = {
+			limit = {
+				any_county_province = { tfast_province_can_build_trigger = yes }
+			}
+			random_county_province = {
+				limit = { tfast_province_can_build_trigger = yes }
+				tfast_auto_build_one_effect = yes
+			}
+		}
+		change_variable = { name = tfast_build_guard add = 1 }
+	}
+	while = {
+		limit = {
+			var:tfast_build_guard < 10
+			tfast_build_budget_open_trigger = yes
+			primary_title = {
+				any_de_jure_county = {
+					holder = { top_liege = root }
+					any_county_province = { tfast_province_can_build_trigger = yes }
+				}
+			}
+		}
+		primary_title = {
+			random_de_jure_county = {
+				limit = {
+					holder = { top_liege = root }
+					any_county_province = { tfast_province_can_build_trigger = yes }
+				}
+				random_county_province = {
+					limit = { tfast_province_can_build_trigger = yes }
+					tfast_auto_build_one_effect = yes
+				}
+			}
+		}
+		change_variable = { name = tfast_build_guard add = 1 }
+	}
+	while = {
+		limit = {
+			var:tfast_build_guard < 12
+			tfast_build_budget_open_trigger = yes
+			any_sub_realm_county = {
+				any_county_province = { tfast_province_can_build_trigger = yes }
+			}
+		}
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = { tfast_province_can_build_trigger = yes }
+			}
+			random_county_province = {
+				limit = { tfast_province_can_build_trigger = yes }
+				tfast_auto_build_one_effect = yes
+			}
+		}
+		change_variable = { name = tfast_build_guard add = 1 }
+	}
+	remove_variable = tfast_build_guard
+}
+
+# One improvement on this barony. Holding levels cost 400. A new building
+# in a free slot costs 150. Province scope; root is the player.
+tfast_auto_build_one_effect = {
+	if = {
+		limit = {
+			root = { gold >= 600 }
+			has_holding_type = castle_holding
+			has_building_or_higher = castle_01
+			NOT = { has_building_or_higher = castle_04 }
+		}
+		tfast_raise_castle_effect = yes
+	}
+	else_if = {
+		limit = {
+			root = { gold >= 600 }
+			has_holding_type = city_holding
+			has_building_or_higher = city_01
+			NOT = { has_building_or_higher = city_04 }
+		}
+		tfast_raise_city_effect = yes
+	}
+	else_if = {
+		limit = {
+			root = { gold >= 600 }
+			has_holding_type = church_holding
+			has_building_or_higher = temple_01
+			NOT = { has_building_or_higher = temple_04 }
+		}
+		tfast_raise_temple_effect = yes
+	}
+	else_if = {
+		limit = {
+			root = { gold >= 600 }
+			has_holding_type = temple_citadel_holding
+			has_building_or_higher = temple_citadel_01
+			NOT = { has_building_or_higher = temple_citadel_04 }
+		}
+		tfast_raise_citadel_effect = yes
+	}
+	else_if = {
+		limit = {
+			has_free_building_slot = yes
+			root = { gold >= 350 }
+		}
+		generate_building = yes
+		root = {
+			remove_short_term_gold = 150
+			change_variable = { name = tfast_build_spent add = 150 }
+		}
+	}
+}
+
+tfast_pay_holding_upgrade_effect = {
+	remove_short_term_gold = 400
+	change_variable = { name = tfast_build_spent add = 400 }
+}
+
+tfast_raise_castle_effect = {
+	if = {
+		limit = { NOT = { has_building_or_higher = castle_02 } }
+		add_building = castle_02
+	}
+	else_if = {
+		limit = { NOT = { has_building_or_higher = castle_03 } }
+		add_building = castle_03
+	}
+	else = { add_building = castle_04 }
+	root = { tfast_pay_holding_upgrade_effect = yes }
+}
+
+tfast_raise_city_effect = {
+	if = {
+		limit = { NOT = { has_building_or_higher = city_02 } }
+		add_building = city_02
+	}
+	else_if = {
+		limit = { NOT = { has_building_or_higher = city_03 } }
+		add_building = city_03
+	}
+	else = { add_building = city_04 }
+	root = { tfast_pay_holding_upgrade_effect = yes }
+}
+
+tfast_raise_temple_effect = {
+	if = {
+		limit = { NOT = { has_building_or_higher = temple_02 } }
+		add_building = temple_02
+	}
+	else_if = {
+		limit = { NOT = { has_building_or_higher = temple_03 } }
+		add_building = temple_03
+	}
+	else = { add_building = temple_04 }
+	root = { tfast_pay_holding_upgrade_effect = yes }
+}
+
+tfast_raise_citadel_effect = {
+	if = {
+		limit = { NOT = { has_building_or_higher = temple_citadel_02 } }
+		add_building = temple_citadel_02
+	}
+	else_if = {
+		limit = { NOT = { has_building_or_higher = temple_citadel_03 } }
+		add_building = temple_citadel_03
+	}
+	else = { add_building = temple_citadel_04 }
+	root = { tfast_pay_holding_upgrade_effect = yes }
+}
+
+
+# ---------------------------------------------------------------------------
+#  COUNCIL
+# ---------------------------------------------------------------------------
+tfast_auto_council_effect = {
+	tfast_fill_steward_effect = yes
+	tfast_fill_marshal_effect = yes
+	tfast_fill_chancellor_effect = yes
+	tfast_fill_spymaster_effect = yes
+	tfast_fill_chaplain_effect = yes
+	tfast_direct_council_effect = yes
+}
+
+tfast_fill_steward_effect = {
+	if = {
+		limit = { NOT = { exists = cp:councillor_steward } }
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				NOT = { is_councillor = yes }
+				stewardship >= 8
+			}
+			save_scope_as = tfast_pick_steward
+		}
+		if = {
+			limit = { NOT = { exists = scope:tfast_pick_steward } }
+			random_courtier = {
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					NOT = { is_councillor = yes }
+				}
+				save_scope_as = tfast_pick_steward
+			}
+		}
+		if = {
+			limit = { exists = scope:tfast_pick_steward }
+			assign_councillor_type = {
+				type = councillor_steward
+				target = scope:tfast_pick_steward
+			}
+		}
+	}
+}
+
+tfast_fill_marshal_effect = {
+	if = {
+		limit = { NOT = { exists = cp:councillor_marshal } }
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				NOT = { is_councillor = yes }
+				martial >= 8
+			}
+			save_scope_as = tfast_pick_marshal
+		}
+		if = {
+			limit = { NOT = { exists = scope:tfast_pick_marshal } }
+			random_courtier = {
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					NOT = { is_councillor = yes }
+				}
+				save_scope_as = tfast_pick_marshal
+			}
+		}
+		if = {
+			limit = { exists = scope:tfast_pick_marshal }
+			assign_councillor_type = {
+				type = councillor_marshal
+				target = scope:tfast_pick_marshal
+			}
+		}
+	}
+}
+
+tfast_fill_chancellor_effect = {
+	if = {
+		limit = { NOT = { exists = cp:councillor_chancellor } }
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				NOT = { is_councillor = yes }
+				diplomacy >= 8
+			}
+			save_scope_as = tfast_pick_chancellor
+		}
+		if = {
+			limit = { NOT = { exists = scope:tfast_pick_chancellor } }
+			random_courtier = {
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					NOT = { is_councillor = yes }
+				}
+				save_scope_as = tfast_pick_chancellor
+			}
+		}
+		if = {
+			limit = { exists = scope:tfast_pick_chancellor }
+			assign_councillor_type = {
+				type = councillor_chancellor
+				target = scope:tfast_pick_chancellor
+			}
+		}
+	}
+}
+
+tfast_fill_spymaster_effect = {
+	if = {
+		limit = { NOT = { exists = cp:councillor_spymaster } }
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				NOT = { is_councillor = yes }
+				intrigue >= 8
+			}
+			save_scope_as = tfast_pick_spymaster
+		}
+		if = {
+			limit = { NOT = { exists = scope:tfast_pick_spymaster } }
+			random_courtier = {
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					NOT = { is_councillor = yes }
+				}
+				save_scope_as = tfast_pick_spymaster
+			}
+		}
+		if = {
+			limit = { exists = scope:tfast_pick_spymaster }
+			assign_councillor_type = {
+				type = councillor_spymaster
+				target = scope:tfast_pick_spymaster
+			}
+		}
+	}
+}
+
+tfast_fill_chaplain_effect = {
+	if = {
+		limit = { NOT = { exists = cp:councillor_court_chaplain } }
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				NOT = { is_councillor = yes }
+				learning >= 8
+				faith = root.faith
+			}
+			save_scope_as = tfast_pick_chaplain
+		}
+		if = {
+			limit = { NOT = { exists = scope:tfast_pick_chaplain } }
+			random_courtier = {
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					NOT = { is_councillor = yes }
+					faith = root.faith
+				}
+				save_scope_as = tfast_pick_chaplain
+			}
+		}
+		if = {
+			limit = { exists = scope:tfast_pick_chaplain }
+			assign_councillor_type = {
+				type = councillor_court_chaplain
+				target = scope:tfast_pick_chaplain
+			}
+		}
+	}
+}
+
+tfast_direct_council_effect = {
+	if = {
+		limit = { exists = cp:councillor_steward }
+		cp:councillor_steward = { tfast_direct_steward_effect = yes }
+	}
+	if = {
+		limit = { exists = cp:councillor_marshal }
+		cp:councillor_marshal = { tfast_direct_marshal_effect = yes }
+	}
+	if = {
+		limit = { exists = cp:councillor_chancellor }
+		cp:councillor_chancellor = {
+			if = {
+				limit = { NOT = { is_performing_council_task = task_domestic_affairs } }
+				set_council_task = { task_type = task_domestic_affairs }
+			}
+		}
+	}
+	if = {
+		limit = { exists = cp:councillor_spymaster }
+		cp:councillor_spymaster = {
+			if = {
+				limit = { NOT = { is_performing_council_task = task_disrupt_schemes } }
+				set_council_task = { task_type = task_disrupt_schemes }
+			}
+		}
+	}
+	if = {
+		limit = { exists = cp:councillor_court_chaplain }
+		cp:councillor_court_chaplain = { tfast_direct_chaplain_effect = yes }
+	}
+	if = {
+		limit = { exists = cp:councillor_spouse }
+		cp:councillor_spouse = {
+			if = {
+				limit = { is_performing_council_task = task_spouse_default }
+				set_council_task = { task_type = task_manage_domain }
+			}
+		}
+	}
+}
+
+# Steward: collect taxes when the purse is thin, otherwise develop a
+# county you hold. Councillor scope.
+tfast_direct_steward_effect = {
+	if = {
+		limit = { root = { gold < 400 } }
+		if = {
+			limit = { NOT = { is_performing_council_task = task_collect_taxes } }
+			set_council_task = { task_type = task_collect_taxes }
+		}
+	}
+	else = {
+		root = {
+			random_held_county = {
+				limit = { development_level < 25 }
+				save_scope_as = tfast_dev_county
+			}
+			if = {
+				limit = { NOT = { exists = scope:tfast_dev_county } }
+				capital_county = { save_scope_as = tfast_dev_county }
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:tfast_dev_county
+				NOT = { is_performing_council_task = task_develop_county }
+			}
+			set_council_task = {
+				task_type = task_develop_county
+				target = scope:tfast_dev_county.title_province
+			}
+		}
+	}
+}
+
+tfast_direct_marshal_effect = {
+	root = {
+		random_held_county = {
+			limit = { county_control < 80 }
+			save_scope_as = tfast_control_county
+		}
+	}
+	if = {
+		limit = { exists = scope:tfast_control_county }
+		if = {
+			limit = { NOT = { is_performing_council_task = task_increase_control } }
+			set_council_task = {
+				task_type = task_increase_control
+				target = scope:tfast_control_county.title_province
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { is_performing_council_task = task_train_commanders } }
+		set_council_task = { task_type = task_train_commanders }
+	}
+}
+
+tfast_direct_chaplain_effect = {
+	root = {
+		random_sub_realm_county = {
+			limit = { NOT = { faith = root.faith } }
+			save_scope_as = tfast_convert_county
+		}
+	}
+	if = {
+		limit = { exists = scope:tfast_convert_county }
+		if = {
+			limit = { NOT = { is_performing_council_task = task_conversion } }
+			set_council_task = {
+				task_type = task_conversion
+				target = scope:tfast_convert_county.title_province
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { is_performing_council_task = task_religious_relations } }
+		set_council_task = { task_type = task_religious_relations }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  COURT
+# ---------------------------------------------------------------------------
+tfast_auto_court_effect = {
+	set_variable = { name = tfast_court_guard value = 0 }
+	while = {
+		limit = {
+			var:tfast_court_guard < 2
+			gold >= 400
+			NOT = {
+				any_courtier = {
+					count >= 8
+					is_adult = yes
+				}
+			}
+		}
+		if = {
+			limit = { var:tfast_court_guard = 0 }
+			tfast_recruit_courtier_effect = { TEACH = education_learning_3 }
+		}
+		else = {
+			tfast_recruit_courtier_effect = { TEACH = education_stewardship_3 }
+		}
+		change_variable = { name = tfast_court_guard add = 1 }
+	}
+	remove_variable = tfast_court_guard
+
+	tfast_appoint_position_effect = { POSITION = court_physician_court_position SKILL = learning }
+	tfast_appoint_position_effect = { POSITION = court_tutor_court_position SKILL = learning }
+	tfast_appoint_position_effect = { POSITION = seneschal_court_position SKILL = stewardship }
+	tfast_appoint_position_effect = { POSITION = bodyguard_court_position SKILL = prowess }
+	tfast_appoint_position_effect = { POSITION = antiquarian_court_position SKILL = learning }
+	tfast_appoint_position_effect = { POSITION = master_of_horse_court_position SKILL = martial }
+}
+
+tfast_recruit_courtier_effect = {
+	create_character = {
+		age = { 20 35 }
+		gender_female_chance = 50
+		culture = root.culture
+		faith = root.faith
+		location = root.capital_province
+		trait = $TEACH$
+		save_scope_as = tfast_new_courtier
+	}
+	add_courtier = scope:tfast_new_courtier
+	remove_short_term_gold = 100
+}
+
+# POSITION is the court position key. SKILL is learning, stewardship,
+# prowess, or martial. The position is skipped when this government
+# cannot hire it.
+tfast_appoint_position_effect = {
+	if = {
+		limit = {
+			is_valid_to_hire_court_position_type = $POSITION$
+			NOT = {
+				any_court_position_holder = { type = $POSITION$ }
+			}
+		}
+		remove_variable = tfast_court_found
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_imprisoned = no
+				$SKILL$ >= 8
+			}
+			save_scope_as = tfast_court_pick
+			root = { set_variable = { name = tfast_court_found value = yes } }
+		}
+		if = {
+			limit = { has_variable = tfast_court_found }
+			appoint_court_position = {
+				recipient = scope:tfast_court_pick
+				court_position = $POSITION$
+			}
+			remove_variable = tfast_court_found
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DYNASTY LEGACIES
+# ---------------------------------------------------------------------------
+tfast_auto_legacy_effect = {
+	tfast_recount_legacies_effect = yes
+	tfast_buy_next_legacy_effect = yes
+}
+
+tfast_count_perk_effect = {
+	if = {
+		limit = { has_dynasty_perk = $PERK$ }
+		change_variable = { name = tfast_legacy_owned add = 1 }
+	}
+}
+
+tfast_recount_legacies_effect = {
+	set_variable = { name = tfast_legacy_owned value = 0 }
+	tfast_count_perk_effect = { PERK = warfare_legacy_1 }
+	tfast_count_perk_effect = { PERK = warfare_legacy_2 }
+	tfast_count_perk_effect = { PERK = warfare_legacy_3 }
+	tfast_count_perk_effect = { PERK = warfare_legacy_4 }
+	tfast_count_perk_effect = { PERK = warfare_legacy_5 }
+	tfast_count_perk_effect = { PERK = law_legacy_1 }
+	tfast_count_perk_effect = { PERK = law_legacy_2 }
+	tfast_count_perk_effect = { PERK = law_legacy_3 }
+	tfast_count_perk_effect = { PERK = law_legacy_4 }
+	tfast_count_perk_effect = { PERK = law_legacy_5 }
+	tfast_count_perk_effect = { PERK = glory_legacy_1 }
+	tfast_count_perk_effect = { PERK = glory_legacy_2 }
+	tfast_count_perk_effect = { PERK = glory_legacy_3 }
+	tfast_count_perk_effect = { PERK = glory_legacy_4 }
+	tfast_count_perk_effect = { PERK = glory_legacy_5 }
+	tfast_count_perk_effect = { PERK = guile_legacy_1 }
+	tfast_count_perk_effect = { PERK = guile_legacy_2 }
+	tfast_count_perk_effect = { PERK = guile_legacy_3 }
+	tfast_count_perk_effect = { PERK = guile_legacy_4 }
+	tfast_count_perk_effect = { PERK = guile_legacy_5 }
+	tfast_count_perk_effect = { PERK = erudition_legacy_1 }
+	tfast_count_perk_effect = { PERK = erudition_legacy_2 }
+	tfast_count_perk_effect = { PERK = erudition_legacy_3 }
+	tfast_count_perk_effect = { PERK = erudition_legacy_4 }
+	tfast_count_perk_effect = { PERK = erudition_legacy_5 }
+	tfast_count_perk_effect = { PERK = blood_legacy_1 }
+	tfast_count_perk_effect = { PERK = blood_legacy_2 }
+	tfast_count_perk_effect = { PERK = blood_legacy_3 }
+	tfast_count_perk_effect = { PERK = blood_legacy_4 }
+	tfast_count_perk_effect = { PERK = blood_legacy_5 }
+	tfast_count_perk_effect = { PERK = kin_legacy_1 }
+	tfast_count_perk_effect = { PERK = kin_legacy_2 }
+	tfast_count_perk_effect = { PERK = kin_legacy_3 }
+	tfast_count_perk_effect = { PERK = kin_legacy_4 }
+	tfast_count_perk_effect = { PERK = kin_legacy_5 }
+}
+
+tfast_pay_legacy_cost_effect = {
+	set_variable = { name = tfast_legacy_pay value = var:tfast_legacy_owned }
+	while = {
+		limit = { var:tfast_legacy_pay > 0 }
+		dynasty = { add_dynasty_prestige = -500 }
+		change_variable = { name = tfast_legacy_pay subtract = 1 }
+	}
+	dynasty = { add_dynasty_prestige = -250 }
+	remove_variable = tfast_legacy_pay
+}
+
+tfast_take_legacy_effect = {
+	tfast_pay_legacy_cost_effect = yes
+	add_dynasty_perk = $PERK$
+}
+
+tfast_buy_next_legacy_effect = {
+	if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = warfare_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = warfare_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = warfare_legacy_1
+			NOT = { has_dynasty_perk = warfare_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = warfare_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = warfare_legacy_2
+			NOT = { has_dynasty_perk = warfare_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = warfare_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = warfare_legacy_3
+			NOT = { has_dynasty_perk = warfare_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = warfare_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = warfare_legacy_4
+			NOT = { has_dynasty_perk = warfare_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = warfare_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = law_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = law_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = law_legacy_1
+			NOT = { has_dynasty_perk = law_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = law_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = law_legacy_2
+			NOT = { has_dynasty_perk = law_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = law_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = law_legacy_3
+			NOT = { has_dynasty_perk = law_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = law_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = law_legacy_4
+			NOT = { has_dynasty_perk = law_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = law_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = glory_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = glory_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = glory_legacy_1
+			NOT = { has_dynasty_perk = glory_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = glory_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = glory_legacy_2
+			NOT = { has_dynasty_perk = glory_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = glory_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = glory_legacy_3
+			NOT = { has_dynasty_perk = glory_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = glory_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = glory_legacy_4
+			NOT = { has_dynasty_perk = glory_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = glory_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = guile_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = guile_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = guile_legacy_1
+			NOT = { has_dynasty_perk = guile_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = guile_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = guile_legacy_2
+			NOT = { has_dynasty_perk = guile_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = guile_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = guile_legacy_3
+			NOT = { has_dynasty_perk = guile_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = guile_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = guile_legacy_4
+			NOT = { has_dynasty_perk = guile_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = guile_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = erudition_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = erudition_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = erudition_legacy_1
+			NOT = { has_dynasty_perk = erudition_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = erudition_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = erudition_legacy_2
+			NOT = { has_dynasty_perk = erudition_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = erudition_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = erudition_legacy_3
+			NOT = { has_dynasty_perk = erudition_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = erudition_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = erudition_legacy_4
+			NOT = { has_dynasty_perk = erudition_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = erudition_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = blood_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = blood_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = blood_legacy_1
+			NOT = { has_dynasty_perk = blood_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = blood_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = blood_legacy_2
+			NOT = { has_dynasty_perk = blood_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = blood_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = blood_legacy_3
+			NOT = { has_dynasty_perk = blood_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = blood_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = blood_legacy_4
+			NOT = { has_dynasty_perk = blood_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = blood_legacy_5 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			NOT = { has_dynasty_perk = kin_legacy_1 }
+		}
+		tfast_take_legacy_effect = { PERK = kin_legacy_1 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = kin_legacy_1
+			NOT = { has_dynasty_perk = kin_legacy_2 }
+		}
+		tfast_take_legacy_effect = { PERK = kin_legacy_2 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = kin_legacy_2
+			NOT = { has_dynasty_perk = kin_legacy_3 }
+		}
+		tfast_take_legacy_effect = { PERK = kin_legacy_3 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = kin_legacy_3
+			NOT = { has_dynasty_perk = kin_legacy_4 }
+		}
+		tfast_take_legacy_effect = { PERK = kin_legacy_4 }
+	}
+	else_if = {
+		limit = {
+			tfast_can_afford_legacy_trigger = yes
+			has_dynasty_perk = kin_legacy_4
+			NOT = { has_dynasty_perk = kin_legacy_5 }
+		}
+		tfast_take_legacy_effect = { PERK = kin_legacy_5 }
+	}
+}

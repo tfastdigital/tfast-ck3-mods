@@ -1,0 +1,273 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- script values                    CK3 1.20.x
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  How attractive is this character as a peacetime raid target?
+#  Runs in CHARACTER scope (the candidate target).
+#  Factors: wealth, distraction, exhaustion, walls, Hollow readiness.
+# ---------------------------------------------------------------------------
+tfast_sc_raid_target_score = {
+	value = 1
+
+	# Wealth: rich courts are worth the trip.
+	if = {
+		limit = { gold >= 750 }
+		add = 40
+	}
+	else_if = {
+		limit = { gold >= 300 }
+		add = 25
+	}
+	else_if = {
+		limit = { gold >= 100 }
+		add = 10
+	}
+
+	# Distraction: a ruler already at war defends his stores badly.
+	if = {
+		limit = { is_at_war = yes }
+		add = 20
+	}
+
+	# Weak armies invite the Host.
+	if = {
+		limit = { max_military_strength < 1000 }
+		add = 15
+	}
+
+	# Already stripped by an earlier raid: less to take.
+	if = {
+		limit = { has_variable = tfast_sc_raid_exhausted }
+		subtract = 40
+	}
+
+	# A living Great Wall makes the trip expensive.
+	if = {
+		limit = { capital_county = { tfast_sc_walled_county_trigger = yes } }
+		subtract = 25
+	}
+
+	# Hollow readiness: a rested Host ranges farther.
+	if = {
+		limit = { exists = global_var:tfast_sc_hollow_readiness }
+		add = {
+			value = global_var:tfast_sc_hollow_readiness
+			divide = 10
+		}
+	}
+
+	# Marked by the Host's current goal: the vendetta target, or the one
+	# who thought hiding would work.
+	if = {
+		limit = { has_variable = tfast_sc_raid_marked }
+		add = 60
+	}
+
+	# Hiding: the Host has better places to be - unless it is hunting you.
+	if = {
+		limit = {
+			has_variable = tfast_sc_in_hiding
+			NOT = { has_variable = tfast_sc_raid_marked }
+		}
+		subtract = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Strength of a Hollow raid, in HOST scope (the Overlord).
+# ---------------------------------------------------------------------------
+tfast_sc_raid_strength_value = {
+	value = 15
+
+	if = {
+		limit = { exists = global_var:tfast_sc_hollow_readiness }
+		add = {
+			value = global_var:tfast_sc_hollow_readiness
+			divide = 2
+		}
+	}
+
+	# Every active stronghold projects power.
+	if = {
+		limit = { exists = global_var:tfast_sc_stronghold_1 }
+		add = 5
+	}
+	if = {
+		limit = { exists = global_var:tfast_sc_stronghold_2 }
+		add = 5
+	}
+	if = {
+		limit = { exists = global_var:tfast_sc_stronghold_3 }
+		add = 5
+	}
+
+	# The Host's temper: bold moods hit harder, cautious ones hang back.
+	if = {
+		limit = { var:tfast_sc_raid_mood ?= 1 }
+		add = 8
+	}
+	if = {
+		limit = { var:tfast_sc_raid_mood ?= 3 }
+		subtract = 8
+	}
+
+	# Fewer original children left, a weaker Host.
+	add = {
+		value = 0
+		every_child = {
+			limit = {
+				has_character_flag = tfast_sc_original_child
+				var:tfast_sc_status ?= 0
+			}
+			add = 2
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Strength of a wall's defense, in WALL SPONSOR scope (character).
+# ---------------------------------------------------------------------------
+tfast_sc_wall_defense_value = {
+	value = 10
+
+	# Every stage of construction is worth its stones.
+	if = {
+		limit = { has_variable = tfast_sc_wall_stage }
+		add = var:tfast_sc_wall_stage
+		multiply = 8
+	}
+
+	# Garrisons follow the marshal.
+	add = {
+		value = martial
+		multiply = 2
+	}
+
+	# The Last Watch: the watchman's own strength.
+	if = {
+		limit = {
+			any_courtier_or_guest = { has_trait = tfast_sc_wall_watchman }
+		}
+		add = 20
+	}
+
+	# Wards, if built.
+	if = {
+		limit = {
+			has_variable = tfast_sc_wall_stage
+			var:tfast_sc_wall_stage >= 5
+		}
+		add = 20
+	}
+
+	# A battered wall defends worse.
+	if = {
+		limit = { has_variable = tfast_sc_wall_integrity }
+		add = {
+			value = var:tfast_sc_wall_integrity
+			divide = 2
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Prophecy succession ordering: older candidates rank higher.
+# ---------------------------------------------------------------------------
+tfast_sc_eldest_priority = {
+	value = 100
+	subtract = age
+}
+
+
+# ---------------------------------------------------------------------------
+#  The chance that an awakened chosen's strike lands as TRUE DEATH.
+#  Runs in the chosen's scope. Base 25; the power tiers deepen it.
+# ---------------------------------------------------------------------------
+tfast_sc_true_death_chance = {
+	value = 25
+
+	add = {
+		value = prowess
+		multiply = 1.5
+	}
+
+	if = {
+		limit = { var:tfast_sc_power_tier ?= 1 }
+		add = 5
+	}
+	if = {
+		limit = { var:tfast_sc_power_tier ?= 2 }
+		add = 15
+	}
+	if = {
+		limit = { var:tfast_sc_power_tier ?= 3 }
+		add = 30
+	}
+
+	# Never a certainty, never hopeless.
+	max = 85
+	min = 5
+}
+
+
+# ---------------------------------------------------------------------------
+#  Strength of a mortal realm's defense against one scripted raid.
+#  Runs in CHARACTER scope (the victim).
+# ---------------------------------------------------------------------------
+tfast_sc_raid_defense_value = {
+	value = 10
+
+	add = {
+		value = martial
+		multiply = 2
+	}
+
+	# The ruler prepared: stance 1 = rode out, stance 2 = trusted the walls.
+	if = {
+		limit = { has_variable = tfast_sc_raid_stance }
+		if = {
+			limit = { var:tfast_sc_raid_stance = 1 }
+			add = 10
+		}
+		else = {
+			add = 5
+		}
+	}
+
+	# The realm's standing hosts.
+	add = {
+		value = max_military_strength
+		divide = 100
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Size of one Reckoning wave, in OVERLORD scope.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_wave_size_value = {
+	value = 1000
+
+	if = {
+		limit = { exists = global_var:tfast_sc_hollow_readiness }
+		add = {
+			value = global_var:tfast_sc_hollow_readiness
+			multiply = 20
+		}
+	}
+
+	# Difficulty game rules.
+	if = {
+		limit = { has_game_rule = tfast_sc_reckoning_harrowing }
+		multiply = 1.5
+	}
+	if = {
+		limit = { has_game_rule = tfast_sc_reckoning_lenient }
+		multiply = 0.7
+	}
+}

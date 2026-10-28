@@ -1,0 +1,6 @@
+﻿l_english:
+ tfast_hello_world_decision:0 "TFAST: Say Hello"
+ tfast_hello_world_decision_desc:0 "A harmless test decision added by the TFAST template mod. Use it to confirm your mod is loading correctly."
+ tfast_hello_world_decision_tt:0 "You gain #P 25#! [prestige|E]."
+ tfast_hello_world_decision_confirm:0 "Say Hello"
+ tfast_hello_world_decision_tooltip:0 "$tfast_hello_world_decision_tt$"

@@ -1,0 +1,5 @@
+﻿# Opinion from the vassal cheat. Fades.
+tfast_cheat_awe_opinion = {
+	opinion = 100
+	years = 10
+}

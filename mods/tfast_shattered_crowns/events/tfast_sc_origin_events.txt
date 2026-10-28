@@ -1,0 +1,99 @@
+﻿# Vaelos and Vaelith look for the dark they were born from.
+
+namespace = tfast_sc
+
+tfast_sc.1100 = {
+	type = character_event
+	title = tfast_sc.1100.t
+	desc = tfast_sc.1100.desc
+	theme = dynasty
+	override_background = tfast_sc_hollow_omens
+
+	immediate = {
+		character:tfast_sc_overlord = { save_scope_as = origin_twin }
+		character:tfast_sc_vaelith = { save_scope_as = origin_sister }
+	}
+
+	option = {
+		name = tfast_sc.1100.a
+		ai_chance = { base = 100 }
+	}
+}
+
+tfast_sc.1101 = {
+	type = character_event
+	title = tfast_sc.1101.t
+	desc = tfast_sc.1101.desc
+	theme = dynasty
+	override_background = tfast_sc_hollow_omens
+
+	immediate = {
+		character:tfast_sc_overlord = { save_scope_as = origin_twin }
+		character:tfast_sc_vaelith = { save_scope_as = origin_sister }
+	}
+
+	option = {
+		name = tfast_sc.1101.a
+		ai_chance = { base = 100 }
+	}
+}
+
+tfast_sc.1102 = {
+	type = character_event
+	title = tfast_sc.1102.t
+	desc = tfast_sc.1102.desc
+	theme = martial
+	override_background = tfast_sc_reckoning
+
+	immediate = {
+		character:tfast_sc_overlord = { save_scope_as = origin_twin }
+		character:tfast_sc_vaelith = { save_scope_as = origin_sister }
+	}
+
+	option = {
+		name = tfast_sc.1102.a
+		tfast_sc_vaelith_raise_host_effect = yes
+		ai_chance = { base = 100 }
+	}
+}
+
+tfast_sc.1103 = {
+	type = character_event
+	title = tfast_sc.1103.t
+	desc = tfast_sc.1103.desc
+	theme = dynasty
+	override_background = tfast_sc_hollow_omens
+
+	immediate = {
+		character:tfast_sc_overlord = { save_scope_as = origin_twin }
+		character:tfast_sc_vaelith = { save_scope_as = origin_sister }
+	}
+
+	option = {
+		name = tfast_sc.1103.a
+		ai_chance = { base = 50 }
+	}
+
+	option = {
+		name = tfast_sc.1103.b
+		ai_chance = { base = 50 }
+	}
+}
+
+tfast_sc.1104 = {
+	type = character_event
+	title = tfast_sc.1104.t
+	desc = tfast_sc.1104.desc
+	theme = dynasty
+	override_background = tfast_sc_hollow_omens
+
+	immediate = {
+		character:tfast_sc_overlord = { save_scope_as = origin_twin }
+		character:tfast_sc_vaelith = { save_scope_as = origin_sister }
+	}
+
+	option = {
+		name = tfast_sc.1104.a
+		ai_chance = { base = 100 }
+	}
+}

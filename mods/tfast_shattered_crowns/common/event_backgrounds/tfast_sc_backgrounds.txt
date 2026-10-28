@@ -1,0 +1,77 @@
+﻿# Shattered Crowns event backgrounds. CK3 1.20.
+# Pattern verified against game/common/event_backgrounds/01_event_backgrounds.txt
+# (battlefield = { background = { reference environment ambience } }).
+# Textures are DXT1, 1592x848, matching game/gfx/interface/illustrations/event_scenes/alley.dds.
+# environment and ambience reuse verified vanilla keys so the event window has lighting and sound.
+
+tfast_sc_gold_raid = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_gold_raid.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_hollow_omens = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_hollow_omens.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_reckoning = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_reckoning.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_winter_wall = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_winter_wall.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_merc_carrion = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_merc_carrion.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_merc_unburied = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_merc_unburied.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_merc_pale = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_merc_pale.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_wall_breach = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_wall_breach.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}
+
+tfast_sc_awakening = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/tfast_sc_awakening.dds"
+		environment = "environment_event_battlefield"
+		ambience = "event:/SFX/Events/Backgrounds/battlefield_gloomy"
+	}
+}

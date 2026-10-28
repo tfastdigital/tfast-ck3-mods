@@ -1,0 +1,285 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- casus belli                     CK3 1.20.x
+# ============================================================================
+#  Two script-only wars:
+#
+#  1. tfast_sc_reckoning_war  -- the Great Reckoning. Modelled on vanilla's
+#     `mongol_realm_invasion_war` (00_invasion_war.txt) and
+#     `sons_of_lothbrok_invasion_cb` (00_event_war.txt): script-started,
+#     AI-ignored, one bounded county taken on victory, devastation applied
+#     through tfast_sc_devastate_realm_effect.
+#
+#  2. tfast_sc_rebellion_war  -- a rare rebellion of one of the Ten against
+#     the Overlord. Script-only, victory means the rebel breaks away.
+#
+#  Both are `ai = no` and gated on Hollow-only character flags, so no normal
+#  ruler (player or AI) can ever see or declare them.
+# ============================================================================
+
+
+tfast_sc_reckoning_war = {
+	icon = invasion
+	group = invasion
+
+	combine_into_one = yes
+	should_show_war_goal_subview = yes
+	mutually_exclusive_titles = { always = yes }
+
+	allow_hostages = no
+	truce_days = 1825
+
+	allowed_for_character = {
+		has_character_flag = tfast_sc_overlord
+	}
+
+	allowed_against_character = {
+		scope:defender.top_liege != scope:attacker
+		scope:attacker = {
+			ALL_FALSE = {
+				top_liege = scope:defender.top_liege
+				liege = scope:defender
+			}
+		}
+	}
+
+	target_titles = neighbor_land_or_water
+	target_title_tier = all
+	target_de_jure_regions_above = yes
+	use_de_jure_wargoal_only = yes
+	ignore_effect = change_title_holder
+
+	# Only ever started by script (see tfast_sc_reckoning_begins_effect).
+	valid_to_start = {
+		scope:attacker = { has_character_flag = tfast_sc_overlord }
+	}
+
+	should_invalidate = {
+		NOT = {
+			any_in_list = {
+				list = target_titles
+				any_in_de_jure_hierarchy = {
+					tier = tier_county
+					holder = {
+						OR = {
+							this = scope:defender
+							target_is_liege_or_above = scope:defender
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalidated_desc = tfast_sc_reckoning_war_invalidated_desc
+	on_invalidated = {
+	}
+
+	cost = {
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+	}
+
+	on_primary_attacker_death = invalidate
+	on_primary_defender_death = inherit
+
+	ai = no
+	should_check_for_interface_availability = no
+
+	war_name = "TFAST_SC_RECKONING_WAR_NAME"
+	war_name_base = "TFAST_SC_RECKONING_WAR_NAME_BASE"
+	cb_name = "TFAST_SC_RECKONING_CB_NAME"
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = tfast_sc_reckoning_war_victory_desc_defender
+			}
+			desc = tfast_sc_reckoning_war_victory_desc
+		}
+	}
+
+	# The Hollow take ONE county of the wargoal and strip the rest.
+	on_victory = {
+		create_title_and_vassal_change = {
+			type = conquest
+			save_scope_as = tfast_sc_change
+			add_claim_on_loss = yes
+		}
+
+		random_in_list = {
+			list = target_titles
+			limit = {
+				tier = tier_county
+				holder ?= {
+					OR = {
+						this = scope:defender
+						target_is_liege_or_above = scope:defender
+					}
+				}
+			}
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:tfast_sc_change
+				take_baronies = yes
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:tfast_sc_change
+
+		# The rest of the border burns.
+		scope:defender = {
+			tfast_sc_devastate_realm_effect = yes
+		}
+
+		set_global_variable = {
+			name = tfast_sc_reckoning_attacker_won
+			value = yes
+			years = 3
+		}
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = tfast_sc_reckoning_war_white_peace_desc_defender
+			}
+			desc = tfast_sc_reckoning_war_white_peace_desc
+		}
+	}
+
+	on_white_peace = {
+		set_global_variable = {
+			name = tfast_sc_reckoning_stalemate
+			value = yes
+			years = 3
+		}
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = tfast_sc_reckoning_war_defeat_desc_defender
+			}
+			desc = tfast_sc_reckoning_war_defeat_desc
+		}
+	}
+
+	on_defeat = {
+		scope:attacker = {
+			add_prestige = -500
+			# The Host remembers whoever made it lose.
+			set_variable = {
+				name = tfast_sc_grievance_vendetta
+				value = scope:defender
+				years = 50
+			}
+		}
+		set_global_variable = {
+			name = tfast_sc_reckoning_attacker_lost
+			value = yes
+			years = 3
+		}
+	}
+}
+
+
+tfast_sc_rebellion_war = {
+	icon = independence_faction_war
+	group = civil_war
+
+	allow_hostages = no
+	truce_days = 0
+
+	allowed_for_character = {
+		has_character_flag = tfast_sc_hollow_rebel
+	}
+
+	allowed_against_character = {
+		scope:defender = scope:attacker.top_liege
+	}
+
+	target_titles = none
+	target_title_tier = all
+	ignore_effect = change_title_holder
+
+	valid_to_start = {
+		scope:attacker = { has_character_flag = tfast_sc_hollow_rebel }
+		scope:defender = scope:attacker.top_liege
+	}
+
+	on_invalidated_desc = tfast_sc_rebellion_war_invalidated_desc
+	on_invalidated = {
+	}
+
+	cost = {
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+	}
+
+	on_primary_attacker_death = invalidate
+	on_primary_defender_death = inherit
+
+	ai = no
+	should_check_for_interface_availability = no
+
+	war_name = "TFAST_SC_REBELLION_WAR_NAME"
+	war_name_base = "TFAST_SC_REBELLION_WAR_NAME_BASE"
+	cb_name = "TFAST_SC_REBELLION_CB_NAME"
+
+	on_victory_desc = {
+		desc = tfast_sc_rebellion_war_victory_desc
+	}
+
+	# The rebel breaks away from the Dominion.
+	on_victory = {
+		create_title_and_vassal_change = {
+			type = independency
+			save_scope_as = tfast_sc_change
+			add_claim_on_loss = no
+		}
+		scope:attacker = {
+			becomes_independent = {
+				change = scope:tfast_sc_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:tfast_sc_change
+
+		set_global_variable = {
+			name = tfast_sc_rebellion_result
+			value = 1
+			years = 10
+		}
+	}
+
+	on_white_peace_desc = {
+		desc = tfast_sc_rebellion_war_white_peace_desc
+	}
+
+	on_white_peace = {
+		set_global_variable = {
+			name = tfast_sc_rebellion_result
+			value = 2
+			years = 10
+		}
+	}
+
+	on_defeat_desc = {
+		desc = tfast_sc_rebellion_war_defeat_desc
+	}
+
+	# The rebellion is crushed.
+	on_defeat = {
+		set_global_variable = {
+			name = tfast_sc_rebellion_result
+			value = 3
+			years = 10
+		}
+	}
+}

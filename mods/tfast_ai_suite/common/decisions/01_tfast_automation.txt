@@ -1,0 +1,64 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- Automation decisions                        CK3 1.20.x
+# ============================================================================
+#  These do the repetitive clicks for you. Same guarantees as the cheat file:
+#  is_ai = no and ai_check_interval = 0, so the AI never runs them.
+#
+#  Each decision is a single click; the heavy lifting lives in
+#  common/scripted_effects/tfast_effects.txt.
+# ============================================================================
+
+
+# ------------------------------------------------- GRANT EXCESS TITLES ------
+# Fixes "Too many held duchies/counties" by handing the surplus to freshly
+# generated local nobles, keeping your capital county. Repeat until the
+# decision stops being shown.
+tfast_auto_grant_excess_titles = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+	decision_group_type = major
+	sort_order = 9100
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+		domain_limit_available < 0
+		any_held_title = { tfast_grantable_title_trigger = { GIVER = root } }
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_realm
+	}
+	is_valid = {
+		domain_limit_available < 0
+		any_held_title = { tfast_grantable_title_trigger = { GIVER = root } }
+	}
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_auto_grant_excess_titles }
+		tfast_grant_excess_titles_effect = yes
+	}
+}
+
+
+# ------------------------------------------------- DEVELOP YOUR DOMAIN ------
+# Distinct from "Cheat: Develop the Realm", which raises development in EVERY
+# county of the realm including your vassals'. This one touches only the
+# counties you personally hold, so it will not enrich your vassals.
+tfast_auto_develop_domain = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9101
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_auto_develop_domain }
+		every_held_county = { change_development_level = 1 }
+	}
+}
+

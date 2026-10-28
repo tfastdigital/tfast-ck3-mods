@@ -1,0 +1,384 @@
+﻿l_english:
+
+ # ============================================================
+ #  TFAST History - Historic Acts & Institutions
+ # ============================================================
+
+ # ---- decisions: historic acts ----
+ tfast_hist_hanseatic_league:0 "Proclaim a Merchant League"
+ tfast_hist_hanseatic_league_desc:0 "Bind the coastal cities of your realm into a sworn league of trade. Its ships will carry your goods, and its credit will carry your name, for a generation to come."
+ tfast_hist_hanseatic_league_tt:0 "Gain the #P League Founder#! trait, #P 25 years#! of a #P Merchants' Charter#!, and #P 500#! [prestige|E]."
+ tfast_hist_hanseatic_league_confirm:0 "Proclaim the league"
+
+ tfast_hist_great_university:0 "Found a Studium Generale"
+ tfast_hist_great_university_desc:0 "Gather the scholars of your realm, and of lands beyond it, into a single chartered seat of learning. What is taught there will outlive you."
+ tfast_hist_great_university_tt:0 "Gain #P 25 years#! of a #P Studium Generale#!, and add #P 1#! [development|E] to your [capital|E] [county|E]."
+ tfast_hist_great_university_confirm:0 "Found the studium"
+
+ tfast_hist_church_council:0 "Convene a Church Council"
+ tfast_hist_church_council_desc:0 "Summon the bishops and the learned to settle the questions that divide the faith. What is decided in council will bind the church to your will."
+ tfast_hist_church_council_tt:0 "Gain the #P Caesaropapist#! trait and #P 25 years#! of a #P Decrees of the Council#!."
+ tfast_hist_church_council_confirm:0 "Convene the council"
+
+ tfast_hist_golden_bull:0 "Issue a Golden Bull"
+ tfast_hist_golden_bull_desc:0 "Set your succession and the rights of your realm into law, sealed with a golden seal. Such a document is not easily undone."
+ tfast_hist_golden_bull_tt:0 "Gain #P 300#! [legitimacy|E] and #P 25 years#! of a #P Golden Bull#!."
+ tfast_hist_golden_bull_confirm:0 "Seal the bull"
+
+ tfast_hist_dynastic_union:0 "Forge a Dynastic Union"
+ tfast_hist_dynastic_union_desc:0 "Bind two crowns to one house through marriage and treaty, so that your heirs may one day wear both without drawing a sword."
+ tfast_hist_dynastic_union_tt:0 "Gain #P 1000#! [renown|E] and #P 25 years#! of a #P Dynastic Union#!."
+ tfast_hist_dynastic_union_confirm:0 "Bind the houses"
+
+ tfast_hist_translation_movement:0 "Commission a Translation Movement"
+ tfast_hist_translation_movement_desc:0 "Pay scribes and scholars to render the learning of older tongues into your own. The wisdom of the ancients, made yours."
+ tfast_hist_translation_movement_tt:0 "Gain the #P Patron of Letters#! trait and #P 25 years#! of a #P Translation Movement#!."
+ tfast_hist_translation_movement_confirm:0 "Commission the scholars"
+
+ tfast_hist_great_charter:0 "Seal a Great Charter"
+ tfast_hist_great_charter_desc:0 "Set down in writing the liberties of your great subjects, and bind yourself to respect them. They will be grateful - and emboldened."
+ tfast_hist_great_charter_tt:0 "Gain #P 100#! [legitimacy|E] and #P 25 years#! of a #P Great Charter#!.\n\n#italic Your vassals will be far more content, but your own levies are diminished.#!"
+ tfast_hist_great_charter_confirm:0 "Seal the charter"
+
+ tfast_hist_foreign_guard:0 "Raise a Foreign Guard"
+ tfast_hist_foreign_guard_desc:0 "Retain warriors from distant lands, sworn to your person rather than to your realm. They will have no kin here, and so no loyalty but to you."
+ tfast_hist_foreign_guard_tt:0 "Gain #P 25 years#! of a #P Foreign Guard#!."
+ tfast_hist_foreign_guard_confirm:0 "Retain the guard"
+
+ tfast_hist_cathedral:0 "Commission a Great Cathedral"
+ tfast_hist_cathedral_desc:0 "Raise a cathedral whose spire will be seen from a day's ride away. It will preach your glory in stone for centuries after you are dust."
+ tfast_hist_cathedral_tt:0 "Gain #P 25 years#! of a #P Great Cathedral#!, #P 200#! [piety|E], and #P 1#! [development|E] in your [capital|E] [county|E]."
+ tfast_hist_cathedral_confirm:0 "Commission the cathedral"
+
+ tfast_hist_embrace_iconoclasm:0 "Embrace Iconoclasm"
+ tfast_hist_embrace_iconoclasm_desc:0 "Declare that the veneration of images is idolatry, and strip your churches of them. The pious will recoil; the state will be remade."
+ tfast_hist_embrace_iconoclasm_tt:0 "Gain the #P Iconoclast#! trait, #P 25 years#! of an #P Iconoclast Court#!, and #P 10#! [tyranny|E]."
+ tfast_hist_embrace_iconoclasm_confirm:0 "Break the images"
+
+ tfast_hist_hire_condottiere:0 "Hire a Condottiere"
+ tfast_hist_hire_condottiere_desc:0 "Take a famous captain and his company into your service. He fights for gold, not for love of your house - but he fights well."
+ tfast_hist_hire_condottiere_tt:0 "Gain the #P Condottiere#! trait and #P 25 years#! of a #P Hired Company#!.\n\n#italic Your armies are strengthened, but the mercenaries must be paid.#!"
+ tfast_hist_hire_condottiere_confirm:0 "Hire the company"
+
+ # ---- traits ----
+ trait_tfast_hist_caesaropapist:0 "Caesaropapist"
+ trait_tfast_hist_caesaropapist_desc:0 "This ruler governs the church as though it were an arm of the state."
+ trait_tfast_hist_caesaropapist_character_desc:0 "This ruler governs the church as though it were an arm of the state."
+
+ trait_tfast_hist_iconoclast:0 "Iconoclast"
+ trait_tfast_hist_iconoclast_desc:0 "This ruler holds that the veneration of sacred images is idolatry."
+ trait_tfast_hist_iconoclast_character_desc:0 "This ruler holds that the veneration of sacred images is idolatry."
+
+ trait_tfast_hist_condottiere:0 "Condottiere"
+ trait_tfast_hist_condottiere_desc:0 "A captain of mercenaries, whose loyalty is bought and whose skill is beyond dispute."
+ trait_tfast_hist_condottiere_character_desc:0 "A captain of mercenaries, whose loyalty is bought and whose skill is beyond dispute."
+
+ trait_tfast_hist_patron_of_letters:0 "Patron of Letters"
+ trait_tfast_hist_patron_of_letters_desc:0 "This ruler's court is famed for its scholars, its libraries and its copies of ancient books."
+ trait_tfast_hist_patron_of_letters_character_desc:0 "This ruler's court is famed for its scholars, its libraries and its copies of ancient books."
+
+ trait_tfast_hist_league_founder:0 "League Founder"
+ trait_tfast_hist_league_founder_desc:0 "This ruler bound the merchant cities together into a league that will outlast them."
+ trait_tfast_hist_league_founder_character_desc:0 "This ruler bound the merchant cities together into a league that will outlast them."
+
+ # ---- modifiers ----
+ tfast_league_charter_modifier:0 "Merchants' Charter"
+ tfast_league_charter_modifier_desc:0 "A sworn league of trading cities fills your coffers, and your cities build the faster for it."
+
+ tfast_university_modifier:0 "Studium Generale"
+ tfast_university_modifier_desc:0 "The learned of many lands gather at your chartered seat of learning."
+
+ tfast_church_council_modifier:0 "Decrees of the Council"
+ tfast_church_council_modifier_desc:0 "The recent council settled doctrine in your favour, and the faithful take note."
+
+ tfast_golden_bull_modifier:0 "Golden Bull"
+ tfast_golden_bull_modifier_desc:0 "Your rights and your line are fixed in law, sealed with gold, and not easily disputed."
+
+ tfast_dynastic_union_modifier:0 "Dynastic Union"
+ tfast_dynastic_union_modifier_desc:0 "Two houses are bound as one, and their strength is yours to call upon."
+
+ tfast_translation_modifier:0 "Translation Movement"
+ tfast_translation_modifier_desc:0 "Scribes render the learning of older tongues into your own, and your court grows famous for it."
+
+ tfast_great_charter_modifier:0 "Great Charter"
+ tfast_great_charter_modifier_desc:0 "Your great subjects' liberties are set down in writing, and they are the more content for it."
+
+ tfast_foreign_guard_modifier:0 "Foreign Guard"
+ tfast_foreign_guard_modifier_desc:0 "Warriors of distant lands are sworn to your person alone."
+
+ tfast_cathedral_modifier:0 "Great Cathedral"
+ tfast_cathedral_modifier_desc:0 "A cathedral of stone and glass proclaims your glory to every traveller who passes."
+
+ tfast_iconoclasm_modifier:0 "Iconoclast Court"
+ tfast_iconoclasm_modifier_desc:0 "Your court has been remade in the image of your doctrine - which is to say, in no image at all."
+
+ tfast_condottiere_modifier:0 "Hired Company"
+ tfast_condottiere_modifier_desc:0 "A company of veteran mercenaries fights under your banner, so long as the gold holds out."
+
+ # ---- events ----
+ tfast_history.0001.t:0 "Charter of the League"
+ tfast_history.0001.desc:0 "The envoys of your cities have gathered at your court, and one by one they have set their seals beside yours. The charter before you is no longer a promise but a fact: a league of merchants, bound to common defence and common profit.\n\nAlready the first cogs are being loaded in your harbours, their holds heavy with salt, timber and cloth."
+ tfast_history.0001.a:0 "Let the ships sail"
+
+ tfast_history.0002.t:0 "The Consecration"
+ tfast_history.0002.desc:0 "The scaffolding is down at last. Beneath a vault of coloured light, the bishops process to the new altar while the people crowd the doors behind them.\n\nSomewhere in the crowd, a mason is telling anyone who will listen that the spire is the tallest in Christendom. He may even be right."
+ tfast_history.0002.a:0 "She is raised to the glory of God"
+
+ # ---- selection tooltips (auto-generated; the engine derives
+ #      <decision>_tooltip and logs an error when it is absent) ----
+ tfast_hist_hanseatic_league_tooltip:0 "$tfast_hist_hanseatic_league_tt$"
+ tfast_hist_great_university_tooltip:0 "$tfast_hist_great_university_tt$"
+ tfast_hist_church_council_tooltip:0 "$tfast_hist_church_council_tt$"
+ tfast_hist_golden_bull_tooltip:0 "$tfast_hist_golden_bull_tt$"
+ tfast_hist_dynastic_union_tooltip:0 "$tfast_hist_dynastic_union_tt$"
+ tfast_hist_translation_movement_tooltip:0 "$tfast_hist_translation_movement_tt$"
+ tfast_hist_great_charter_tooltip:0 "$tfast_hist_great_charter_tt$"
+ tfast_hist_foreign_guard_tooltip:0 "$tfast_hist_foreign_guard_tt$"
+ tfast_hist_cathedral_tooltip:0 "$tfast_hist_cathedral_tt$"
+ tfast_hist_hire_condottiere_tooltip:0 "$tfast_hist_hire_condottiere_tt$"
+ tfast_hist_embrace_iconoclasm_tooltip:0 "$tfast_hist_embrace_iconoclasm_tt$"
+
+ # ============================================================
+ #  TFAST History - Korea: Goryeo and Joseon institutions
+ # ============================================================
+
+ # ---- decisions: Korean institutions ----
+ tfast_hist_gwageo:0 "Institute the Civil Service Examinations"
+ tfast_hist_gwageo_desc:0 "Gwangjong of Goryeo opened the exam halls in 958, and the realm never closed them. Let offices be won with the brush and the book, and let every clerk's son learn that the ladder exists."
+ tfast_hist_gwageo_tt:0 "Found the #P Gwageo#! once in the world. Gain the #P Patron of Letters#! trait and #P 25 years#! of an #P Examination Court#!."
+ tfast_hist_gwageo_confirm:0 "Open the exam halls"
+ tfast_hist_gwageo_tooltip:0 "$tfast_hist_gwageo_tt$"
+
+ tfast_hist_gwajeon:0 "Carry Out the Land Survey"
+ tfast_hist_gwajeon_desc:0 "The fields are measured, the owners registered, the yields written down - an old idea (1391, in fact) that every regime rediscovers: the state cannot eat what it cannot count."
+ tfast_hist_gwajeon_tt:0 "Carry out the #P Land Reform#! once in the world. Gain #P 25 years#! of a surveyed and registered realm - and the grudges of its great houses."
+ tfast_hist_gwajeon_confirm:0 "Order the survey"
+ tfast_hist_gwajeon_tooltip:0 "$tfast_hist_gwajeon_tt$"
+
+ tfast_hist_samsa:0 "Establish the Three Censors"
+ tfast_hist_samsa_desc:0 "Saheonbu, Saganwon, Hongmungwan: three offices whose whole purpose is to say no to the throne - in writing, with precedents. It has never been popular. It has often been right."
+ tfast_hist_samsa_tt:0 "Found the #P Samsa#! once in the world. The censors' presence steadies the realm and irritates its great men."
+ tfast_hist_samsa_confirm:0 "Appoint the censors"
+ tfast_hist_samsa_tooltip:0 "$tfast_hist_samsa_tt$"
+
+ tfast_hist_jiphyeonjeon:0 "Found the Hall of Worthies"
+ tfast_hist_jiphyeonjeon_desc:0 "Sejong gathered the best minds of Joseon into one hall in 1420 and asked them what a state should know. They answered with calendars, medicine, music, and history."
+ tfast_hist_jiphyeonjeon_tt:0 "Found the #P Jiphyeonjeon#! once in the world. Gain the #P Patron of Letters#! trait and #P 25 years#! of royal scholarship."
+ tfast_hist_jiphyeonjeon_confirm:0 "Summon the scholars"
+ tfast_hist_jiphyeonjeon_tooltip:0 "$tfast_hist_jiphyeonjeon_tt$"
+
+ tfast_hist_hangul:0 "Promulgate the People's Script"
+ tfast_hist_hangul_desc:0 "Twenty-eight letters, designed so deliberately that a wise man can learn them in a morning and a fool in ten days - in the words of the court's own preface to its invention in 1443."
+ tfast_hist_hangul_tt:0 "Promulgate #P Hunminjeongeum#! once in the world. Gain #P 25 years#! of a literate, writing realm."
+ tfast_hist_hangul_confirm:0 "Publish the letters"
+ tfast_hist_hangul_tooltip:0 "$tfast_hist_hangul_tt$"
+
+ tfast_hist_goryeosa:0 "Commission the History of Goryeo"
+ tfast_hist_goryeosa_desc:0 "A dynasty that keeps its own record argues with the future on its own terms. The scholars began the Goryeosa in 1446; the future would have to argue with these volumes instead."
+ tfast_hist_goryeosa_tt:0 "Commission the #P Goryeosa#! once in the world. Gain #P 25 years#! of a court that writes its own history."
+ tfast_hist_goryeosa_confirm:0 "Set the historians to work"
+ tfast_hist_goryeosa_tooltip:0 "$tfast_hist_goryeosa_tt$"
+
+ # ---- Korean institution modifiers ----
+ tfast_hist_gwageo_modifier:0 "The Examination Court"
+ tfast_hist_gwageo_modifier_desc:0 "Offices are won with the brush and the book; a clerk's son may now sit where a general's nephew sits."
+ tfast_hist_gwajeon_modifier:0 "The Land Survey"
+ tfast_hist_gwajeon_modifier_desc:0 "Every field is measured and registered. The state finally eats its fill - and the great houses grumble."
+ tfast_hist_samsa_modifier:0 "The Three Censors"
+ tfast_hist_samsa_modifier_desc:0 "Saheonbu, Saganwon, Hongmungwan: the offices whose purpose is to say no to the throne, in writing, with precedents."
+ tfast_hist_jiphyeonjeon_modifier:0 "The Hall of Worthies"
+ tfast_hist_jiphyeonjeon_modifier_desc:0 "The best minds of the realm in one hall, answering the question of what a state should know."
+ tfast_hist_hangul_modifier:0 "The People's Script"
+ tfast_hist_hangul_modifier_desc:0 "Twenty-eight letters, so that anyone may write their own language."
+ tfast_hist_goryeosa_modifier:0 "The Goryeosa"
+ tfast_hist_goryeosa_modifier_desc:0 "The dynasty's own record, arguing with the future on its own terms."
+
+ # ---- Korea events ----
+ tfast_history.0003.t:0 "The Examination Hall"
+ tfast_history.0003.desc:0 "The first candidates file in before dawn, brushes in their sleeves, and are seated by a silence the hall has not heard before. Whatever else the court does, this door is now open."
+ tfast_history.0003.a:0 "Watch the first morning."
+ tfast_history.0004.t:0 "The Letters of the People"
+ tfast_history.0004.desc:0 "Twenty-eight letters, cut into wood and set loose in the world. A market clerk copies a ship's manifest; a farmer signs his own name for the first time since the records began."
+ tfast_history.0004.a:0 "See that it is spread."
+
+ # ============================================================
+ #  TFAST History - China: inventions and institutions
+ # ============================================================
+
+ # ---- decisions: Chinese inventions and offices ----
+ tfast_hist_jiaozi:0 "Issue the First Paper Money"
+ tfast_hist_jiaozi_desc:0 "In 1023 the prefect of Chengdu did what no government had done: he took the merchants' private notes and made them the state's. Money became light enough to carry - and heavy enough to be dangerous."
+ tfast_hist_jiaozi_tt:0 "Found the #P Jiaozi#! once in the world. Gain #P 25 years#! of a realm whose coin is paper."
+ tfast_hist_jiaozi_confirm:0 "Set the presses"
+ tfast_hist_jiaozi_tooltip:0 "$tfast_hist_jiaozi_tt$"
+
+ tfast_hist_movable_type:0 "Commission Movable Type"
+ tfast_hist_movable_type_desc:0 "Bi Sheng cut characters in clay, one piece to each word, and set them in an iron frame - in the 1040s, four centuries before Europe found the trick. Print enough, and the burnings cannot keep up."
+ tfast_hist_movable_type_tt:0 "Commission #P movable type#! once in the world. Gain the #P Patron of Letters#! trait and #P 25 years#! of an empire that copies."
+ tfast_hist_movable_type_confirm:0 "Cut the type"
+ tfast_hist_movable_type_tooltip:0 "$tfast_hist_movable_type_tt$"
+
+ tfast_hist_zhuxi:0 "Enshrine the Commentaries"
+ tfast_hist_zhuxi_desc:0 "In 1241 the court gave Zhu Xi a place among the sages - and with it, made one reading of the classics the reading. Every examination now has an answer key; every argument with the state now has a precedent."
+ tfast_hist_zhuxi_tt:0 "Enshrine #P Neo-Confucian orthodoxy#! once in the world. Gain #P 25 years#! of an ordered, learned court."
+ tfast_hist_zhuxi_confirm:0 "Enter him into the temples"
+ tfast_hist_zhuxi_tooltip:0 "$tfast_hist_zhuxi_tt$"
+
+ tfast_hist_yongle:0 "Compile the Yongle Encyclopedia"
+ tfast_hist_yongle_desc:0 "Every book worth keeping, copied into one library: eleven thousand volumes, ordered in 1403 and finished in 1408. The state's answer to time itself."
+ tfast_hist_yongle_tt:0 "Compile the #P Yongle Encyclopedia#! once in the world. Gain the #P Patron of Letters#! trait and #P 25 years#! of unmatched scholarship."
+ tfast_hist_yongle_confirm:0 "Summon the copyists"
+ tfast_hist_yongle_tooltip:0 "$tfast_hist_yongle_tt$"
+
+ tfast_hist_treasure:0 "Launch the Treasure Voyages"
+ tfast_hist_treasure_desc:0 "Three hundred ships, nine masts to the tallest, and an admiral who was captured as a boy before he ever commanded a fleet. After 1405 the western ocean has a new weather: the Ming, arriving."
+ tfast_hist_treasure_tt:0 "Launch the #P treasure voyages#! once in the world. Gain #P 25 years#! of tribute, wealth and renown."
+ tfast_hist_treasure_confirm:0 "Ready the fleet"
+ tfast_hist_treasure_tooltip:0 "$tfast_hist_treasure_tt$"
+
+ tfast_hist_translators:0 "Found the Bureau of Translators"
+ tfast_hist_translators_desc:0 "Every language of the tribute road - and the ambassadors who brought it - collected into one hall of interpreters, founded in 1407 after the first fleet returned. The empire learns to speak to what it meets."
+ tfast_hist_translators_tt:0 "Found the #P Bureau of Translators#! once in the world. Gain #P 25 years#! of a court that can read every letter sent to it."
+ tfast_hist_translators_confirm:0 "Gather the interpreters"
+ tfast_hist_translators_tooltip:0 "$tfast_hist_translators_tt$"
+
+ # ---- Chinese institution modifiers ----
+ tfast_hist_jiaozi_modifier:0 "Paper Money"
+ tfast_hist_jiaozi_modifier_desc:0 "The state's notes circulate in place of strings of cash; the treasury discovers both the power and the hazard of easy money."
+ tfast_hist_movable_type_modifier:0 "Movable Type"
+ tfast_hist_movable_type_modifier_desc:0 "One block per character, set and reset; the empire now copies faster than any fire can burn."
+ tfast_hist_zhuxi_modifier:0 "The Orthodoxy"
+ tfast_hist_zhuxi_modifier_desc:0 "Zhu Xi's commentaries are the reading of the classics, the examinations' answer key, and the court's settled mind."
+ tfast_hist_yongle_modifier:0 "The Yongle Encyclopedia"
+ tfast_hist_yongle_modifier_desc:0 "Eleven thousand volumes of everything worth keeping - the state's answer to time itself."
+ tfast_hist_treasure_modifier:0 "The Treasure Fleets"
+ tfast_hist_treasure_modifier_desc:0 "Dragon ships out of Nanjing, tribute coming home: the western ocean has a new weather."
+ tfast_hist_translators_modifier:0 "The Bureau of Translators"
+ tfast_hist_translators_modifier_desc:0 "Every language of the tribute road, written down and taught in one hall."
+
+ # ---- China events ----
+ tfast_history.0005.t:0 "The First Notes"
+ tfast_history.0005.desc:0 "The first state notes come off the press in Chengdu - red and black, sealed, numbered, and light as a debt. A merchant pays a carter's fee in paper and cannot stop turning it over, as if it were a leaf that learned law."
+ tfast_history.0005.a:0 "Watch the ink dry."
+ tfast_history.0006.t:0 "The Dragon Ships"
+ tfast_history.0006.desc:0 "The fleet leaves the river mouth with the wind behind it and no horizon in front worth mentioning. Somewhere past the last chart, nine-masted ships are about to become a fact of other courts' politics."
+ tfast_history.0006.a:0 "Follow the horizon."
+
+ # ============================================================
+ #  TFAST History - England: the institutions of the crown
+ # ============================================================
+
+ tfast_hist_domesday:0 "Commission the Great Survey"
+ tfast_hist_domesday_desc:0 "In 1086 the king's men rode out to ask what every shire held: who owned what, what it was worth, and what it owed. The answers were written twice, and no one has forgotten since."
+ tfast_hist_domesday_tt:0 "Commission the #P Domesday Book#! once in the world. Gain #P 25 years#! of a realm that knows what it owns - and resents being counted."
+ tfast_hist_domesday_confirm:0 "Send the commissioners"
+ tfast_hist_domesday_tooltip:0 "$tfast_hist_domesday_tt$"
+
+ tfast_hist_exchequer:0 "Establish the Exchequer"
+ tfast_hist_exchequer_desc:0 "By 1130 the royal accounts came in rolls and were checked on a cloth of checks - a counting house that turned kings from warlords into administrators. The pipe rolls have a rhythm; learn it."
+ tfast_hist_exchequer_tt:0 "Establish the #P Exchequer#! once in the world. Gain #P 25 years#! of a counted, solvent realm."
+ tfast_hist_exchequer_confirm:0 "Set up the counting table"
+ tfast_hist_exchequer_tooltip:0 "$tfast_hist_exchequer_tt$"
+
+ tfast_hist_jury:0 "Grant Trial by Jury"
+ tfast_hist_jury_desc:0 "The Assize of Clarendon (1166) gave accusations to juries of neighbours rather than to fire and water. It was not mercy - it was method. It outlived the king who made it, and most of his works."
+ tfast_hist_jury_tt:0 "Grant the #P assize of Clarendon#! once in the world. Gain #P 25 years#! of a realm ruled by presentment and verdict."
+ tfast_hist_jury_confirm:0 "Summon the juries"
+ tfast_hist_jury_tooltip:0 "$tfast_hist_jury_tt$"
+
+ tfast_hist_parliament:0 "Summon the Model Parliament"
+ tfast_hist_parliament_desc:0 "In 1295 the king called not only his barons but knights of the shire and burgesses of the towns: the first full parliament. Taxes became something that had to be asked for, and asking can be refused."
+ tfast_hist_parliament_tt:0 "Summon the #P Model Parliament#! once in the world. Gain #P 25 years#! of a realm where consent is the price of taxes."
+ tfast_hist_parliament_confirm:0 "Call the estates"
+ tfast_hist_parliament_tooltip:0 "$tfast_hist_parliament_tt$"
+
+ tfast_hist_garter:0 "Found the Order of the Garter"
+ tfast_hist_garter_desc:0 "A brotherhood of twenty-six knights, sworn at Windsor in 1348, bound not by land but by loyalty - the highest chivalric honour of the realm, and the model every later order copied."
+ tfast_hist_garter_tt:0 "Found the #P Most Noble Order of the Garter#! once in the world. Gain the #P Founder of the Order#! trait and #P 25 years#! of knightly renown."
+ tfast_hist_garter_confirm:0 "Fasten the garter"
+ tfast_hist_garter_tooltip:0 "$tfast_hist_garter_tt$"
+
+ tfast_hist_navy:0 "Build the Navy Royal"
+ tfast_hist_navy_desc:0 "Henry V's clerks bought ships the way other kings bought horses - as a standing possession of the crown, not a hired service. A king with a fleet may refuse almost anyone a landing."
+ tfast_hist_navy_tt:0 "Build the #P Navy Royal#! once in the world. Gain #P 25 years#! of a crown with its own ships."
+ tfast_hist_navy_confirm:0 "Lay down the keels"
+ tfast_hist_navy_tooltip:0 "$tfast_hist_navy_tt$"
+
+ # ---- England modifiers ----
+ tfast_hist_domesday_modifier:0 "The Great Survey"
+ tfast_hist_domesday_modifier_desc:0 "The realm knows what every manor owes - and has not yet forgiven being counted."
+ tfast_hist_exchequer_modifier:0 "The Exchequer"
+ tfast_hist_exchequer_modifier_desc:0 "Accounts on rolls, checked on a cloth of checks: the crown's money is written before it is spent."
+ tfast_hist_jury_modifier:0 "Trial by Jury"
+ tfast_hist_jury_modifier_desc:0 "Accusations are answered by neighbours' verdicts rather than by ordeal; the realm gets used to method."
+ tfast_hist_parliament_modifier:0 "The Model Parliament"
+ tfast_hist_parliament_modifier_desc:0 "Knights of the shire and burgesses of the towns sit where taxes are granted - and grants can be bargained."
+ tfast_hist_garter_modifier:0 "The Order of the Garter"
+ tfast_hist_garter_modifier_desc:0 "A brotherhood of twenty-six sworn at Windsor: the realm's highest honour, copied by every later order."
+ tfast_hist_navy_modifier:0 "The Navy Royal"
+ tfast_hist_navy_modifier_desc:0 "Ships of the crown's own, kept in ordinary - a fleet that outlives any single campaign."
+
+ # ---- England trait and events ----
+ trait_tfast_hist_order_founder:0 "Founder of the Order"
+ trait_tfast_hist_order_founder_desc:0 "This ruler founded a chivalric order whose badge is the highest honour of the realm."
+ trait_tfast_hist_order_founder_character_desc:0 "This ruler founded a chivalric order whose badge is the highest honour of the realm."
+ tfast_history.0007.t:0 "The Great Survey"
+ tfast_history.0007.desc:0 "Commissioners ride from manor to manor with questions older than any map: who holds this, from whom, and what is it worth in coin and in ploughs? The answers are written twice, because the king intends to keep one and the shire the other."
+ tfast_history.0007.a:0 "Count everything."
+ tfast_history.0008.t:0 "The Order Is Founded"
+ tfast_history.0008.desc:0 "Twenty-six knights swear at a round table that belongs to no castle, binding themselves to a badge, a feast day and each other. The chroniclers approve; the tailors are already busy."
+ tfast_history.0008.a:0 "Fasten the garter."
+
+ # ============================================================
+ #  TFAST History - Europe: movements and institutions
+ # ============================================================
+
+ tfast_hist_reform:0 "Back the Monastic Reform"
+ tfast_hist_reform_desc:0 "From Cluny (910) to Citeaux, the reform congregations answered royal patronage with prayer, learning, and better books than any court could keep. Buy heaven, and keep the accounts."
+ tfast_hist_reform_tt:0 "Back the #P monastic reform#! once in the world. Gain #P 25 years#! of reformed houses in your realm."
+ tfast_hist_reform_confirm:0 "Endow the reform"
+ tfast_hist_reform_tooltip:0 "$tfast_hist_reform_tt$"
+
+ tfast_hist_truce:0 "Proclaim the Truce of God"
+ tfast_hist_truce_desc:0 "From 989 the church made war - private war, between baptized men - illegal on more and more days of the year. Kings who enforced it found their roads safer and their vassals quieter."
+ tfast_hist_truce_tt:0 "Proclaim the #P Peace and Truce of God#! once in the world. Gain #P 25 years#! of restrained, peaceable lords."
+ tfast_hist_truce_confirm:0 "Sound the truce"
+ tfast_hist_truce_tooltip:0 "$tfast_hist_truce_tt$"
+
+ tfast_hist_communes:0 "Charter the Communes"
+ tfast_hist_communes_desc:0 "In the eleventh and twelfth centuries the cities of Europe bought their liberties charter by charter: their own courts, their own walls, their own militia. The cities paid for the privilege of defending themselves."
+ tfast_hist_communes_tt:0 "Charter the #P communes#! once in the world. Gain #P 25 years#! of free, armed, taxable cities."
+ tfast_hist_communes_confirm:0 "Grant the charters"
+ tfast_hist_communes_tooltip:0 "$tfast_hist_communes_tt$"
+
+ tfast_hist_fairs:0 "Charter the Great Fairs"
+ tfast_hist_fairs_desc:0 "The fairs of Champagne turned four towns into one market where the merchants of Europe met, settled, and borrowed. Safe-conduct is cheaper than war, and pays better."
+ tfast_hist_fairs_tt:0 "Charter the #P great fairs#! once in the world. Gain #P 25 years#! of a realm where merchants meet and money moves."
+ tfast_hist_fairs_confirm:0 "Proclaim the safe-conduct"
+ tfast_hist_fairs_tooltip:0 "$tfast_hist_fairs_tt$"
+
+ tfast_hist_partidas:0 "Proclaim the Siete Partidas"
+ tfast_hist_partidas_desc:0 "Alfonso the Wise of Castile had the law written into one ordered code - seven parts, every case answerable. Kings who publish the law bind themselves to it; that is the point, and the risk."
+ tfast_hist_partidas_tt:0 "Proclaim the #P Siete Partidas#! once in the world. Gain #P 25 years#! of one law, written down."
+ tfast_hist_partidas_confirm:0 "Publish the code"
+ tfast_hist_partidas_tooltip:0 "$tfast_hist_partidas_tt$"
+
+ tfast_hist_league:0 "Swear an Everlasting League"
+ tfast_hist_league_desc:0 "In 1291 three valley communities swore an oath of mutual defense that outlasted every empire that tested it. What the Swiss proved is that the oath works - if the mountains help."
+ tfast_hist_league_tt:0 "Swear the #P Everlasting League#! once in the world. Gain #P 25 years#! of sworn mutual defense."
+ tfast_hist_league_confirm:0 "Swear the oath"
+ tfast_hist_league_tooltip:0 "$tfast_hist_league_tt$"
+
+ # ---- Europe modifiers ----
+ tfast_hist_reform_modifier:0 "The Monastic Reform"
+ tfast_hist_reform_modifier_desc:0 "Reformed houses in the realm: prayer, chronicles, and books better than any court could keep."
+ tfast_hist_truce_modifier:0 "The Truce of God"
+ tfast_hist_truce_modifier_desc:0 "Private war is outlawed on holy days, and by degrees on all days; roads and vassals grow quieter."
+ tfast_hist_communes_modifier:0 "The Chartered Cities"
+ tfast_hist_communes_modifier_desc:0 "Cities with their own courts, walls and militias - paying in silver for the right to defend themselves."
+ tfast_hist_fairs_modifier:0 "The Great Fairs"
+ tfast_hist_fairs_modifier_desc:0 "Safe-conduct for merchants, and a market where the currencies of Europe meet."
+ tfast_hist_partidas_modifier:0 "The Written Law"
+ tfast_hist_partidas_modifier_desc:0 "One ordered code, every case answerable; the crown is bound by what it published."
+ tfast_hist_league_modifier:0 "The Everlasting League"
+ tfast_hist_league_modifier_desc:0 "An oath of mutual defense that has outlasted every power that tested it."

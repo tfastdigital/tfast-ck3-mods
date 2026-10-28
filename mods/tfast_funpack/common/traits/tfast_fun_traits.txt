@@ -1,0 +1,157 @@
+﻿# ============================================================================
+#  TFAST Fun Pack -- character traits                          CK3 1.20.x
+# ============================================================================
+#  Reputation traits earned through the court-life decisions.
+#
+#  category = fame matches how vanilla models standing traits (drunkard,
+#  reveler, and so on). Each icon reuses an EXISTING vanilla texture from
+#  gfx/interface/icons/traits/, so the mod ships no art and cannot conflict.
+# ============================================================================
+
+
+# Won the crown at a great tournament.
+tfast_fun_tournament_champion = {
+	category = fame
+	icon = blademaster.dds
+
+	martial = 2
+	prowess = 3
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_tournament_champion_desc
+			}
+			desc = trait_tfast_fun_tournament_champion_character_desc
+		}
+	}
+}
+
+
+# Keeps a collection of exotic beasts.
+tfast_fun_menagerist = {
+	category = fame
+	icon = hunter.dds
+
+	learning = 2
+	diplomacy = 1
+
+	same_opinion = 5
+	opposite_opinion = -5
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_menagerist_desc
+			}
+			desc = trait_tfast_fun_menagerist_character_desc
+		}
+	}
+}
+
+
+# Retains artisans and fills the court with beautiful things.
+tfast_fun_patron_arts = {
+	category = fame
+	icon = poet.dds
+
+	diplomacy = 2
+	learning = 1
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_patron_arts_desc
+			}
+			desc = trait_tfast_fun_patron_arts_character_desc
+		}
+	}
+}
+
+
+# Has sworn a feud that will not be settled in this lifetime.
+tfast_fun_bloodfeud = {
+	category = fame
+	icon = aggressive_attacker.dds
+
+	martial = 2
+	prowess = 1
+
+	same_opinion = 5
+	opposite_opinion = -15
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_bloodfeud_desc
+			}
+			desc = trait_tfast_fun_bloodfeud_character_desc
+		}
+	}
+}
+
+
+# Counts coin the way other men count prayers.
+tfast_fun_hoarder = {
+	category = fame
+	icon = greedy.dds
+
+	stewardship = 2
+
+	same_opinion = 5
+	opposite_opinion = -10
+
+	ruler_designer_cost = 10
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_hoarder_desc
+			}
+			desc = trait_tfast_fun_hoarder_character_desc
+		}
+	}
+}
+
+
+# Believes a ruler who cannot enjoy his own court has learned nothing.
+tfast_fun_bon_vivant = {
+	category = fame
+	icon = reveler.dds
+
+	diplomacy = 2
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_fun_bon_vivant_desc
+			}
+			desc = trait_tfast_fun_bon_vivant_character_desc
+		}
+	}
+}

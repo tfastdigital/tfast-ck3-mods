@@ -1,0 +1,202 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- Hollow religion                    CK3 1.20.x
+# ============================================================================
+#  The Hollow Communion is the faith of the Hollow Dynasty. It exists so the
+#  Hollow characters have a faith of their own:
+#    * it keeps them out of the fervor/holy-war bookkeeping of every real
+#      historical faith;
+#    * `doctrine_consanguinity_unrestricted` plus `tenet_divine_marriage`
+#      allow the closed-bloodline marriages the design requires;
+#    * `pagan_hostility_doctrine` makes the Hollow intrinsically hostile to
+#      the whole world, matching the design brief.
+#
+#  Structure verified against game/common/religion/religion_types/00_hellenism.txt
+#  (same religion-level doctrine layout, same doctrine keys).
+#  No doctrine key below is invented; every one is defined in
+#  game/common/religion/doctrine_types/.
+# ============================================================================
+
+hollow_communion_religion = {
+	religion_details = {
+		family = rf_pagan
+		graphical_faith = "catholic_gfx"
+	}
+
+	pagan_roots = yes
+
+	# Intrinsically hostile: the Hollow Host treats every other faith as hostile.
+	doctrine = pagan_hostility_doctrine
+
+	# Main group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_equal
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	# Marriage -- closed bloodline. The dead marry the dead.
+	doctrine = doctrine_monogamy
+	doctrine = doctrine_divorce_disallowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_unrestricted
+
+	# Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	# Clerical functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+	doctrine = doctrine_monasticism_absent
+	doctrine = doctrine_sacraments_absent
+
+	# The Hollow do not journey to the holy places of the living.
+	doctrine = doctrine_pilgrimage_forbidden
+
+	# Funeral and coronation customs
+	doctrine = doctrine_funeral_bewailment
+	doctrine = doctrine_no_anointment
+	doctrine = doctrine_mythic_literary
+
+	# The Hollow keep no holy sites; their strongholds are not shrines.
+	holy_sites_min = 0
+	eminent_holy_sites_min = 0
+
+	localization = {
+		HighGodName = hollow_god_dark
+		HighGodName2 = hollow_god_dark
+		HighGodNamePossessive = hollow_god_dark_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = hollow_god_cold
+		HighGodNameAlternatePossessive = hollow_god_cold_possessive
+		CreatorName = hollow_god_dark
+		CreatorNamePossessive = hollow_god_dark_possessive
+		CreatorSheHe = CHARACTER_SHEHE_IT
+		CreatorHerHis = CHARACTER_HERHIS_ITS
+		CreatorHerHim = CHARACTER_HERHIM_IT
+		HealthGodName = hollow_god_cold
+		HealthGodNamePossessive = hollow_god_cold_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_IT
+		HealthGodHerHis = CHARACTER_HERHIS_ITS
+		HealthGodHerHim = CHARACTER_HERHIM_IT
+		FertilityGodName = hollow_god_mother
+		FertilityGodNamePossessive = hollow_god_mother_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+		WealthGodName = hollow_god_void
+		WealthGodNamePossessive = hollow_god_void_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_IT
+		WealthGodHerHis = CHARACTER_HERHIS_ITS
+		WealthGodHerHim = CHARACTER_HERHIM_IT
+		HouseholdGodName = hollow_god_mother
+		HouseholdGodNamePossessive = hollow_god_mother_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+		FateGodName = hollow_god_dark
+		FateGodNamePossessive = hollow_god_dark_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+		KnowledgeGodName = hollow_god_void
+		KnowledgeGodNamePossessive = hollow_god_void_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_IT
+		KnowledgeGodHerHis = CHARACTER_HERHIS_ITS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_IT
+		WarGodName = hollow_god_cold
+		WarGodNamePossessive = hollow_god_cold_possessive
+		WarGodSheHe = CHARACTER_SHEHE_IT
+		WarGodHerHis = CHARACTER_HERHIS_ITS
+		WarGodHerHim = CHARACTER_HERHIM_IT
+		TricksterGodName = hollow_god_void
+		TricksterGodNamePossessive = hollow_god_void_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_IT
+		TricksterGodHerHis = CHARACTER_HERHIS_ITS
+		TricksterGodHerHim = CHARACTER_HERHIM_IT
+		NightGodName = hollow_god_dark
+		NightGodNamePossessive = hollow_god_dark_possessive
+		NightGodSheHe = CHARACTER_SHEHE_IT
+		NightGodHerHis = CHARACTER_HERHIS_ITS
+		NightGodHerHim = CHARACTER_HERHIM_IT
+		WaterGodName = hollow_god_cold
+		WaterGodNamePossessive = hollow_god_cold_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { hollow_god_dark hollow_god_cold hollow_god_void }
+		DevilName = hollow_evil
+		DevilNamePossessive = hollow_evil_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { hollow_evil }
+		HouseOfWorship = hollow_house
+		HouseOfWorship2 = hollow_house_2
+		HouseOfWorship3 = hollow_house_3
+		HouseOfWorshipPlural = hollow_house_plural
+		ReligiousSymbol = hollow_symbol
+		ReligiousSymbol2 = hollow_symbol_2
+		ReligiousSymbol3 = hollow_symbol_3
+		ReligiousText = hollow_text
+		ReligiousText2 = hollow_text_2
+		ReligiousText3 = hollow_text_3
+		ReligiousHeadName = hollow_head
+		ReligiousHeadNameFemale = hollow_head
+		ReligiousHeadTitleName = hollow_head
+		DevoteeMale = hollow_devotee
+		DevoteeMalePlural = hollow_devotee_plural
+		DevoteeFemale = hollow_devotee
+		DevoteeFemalePlural = hollow_devotee_plural
+		DevoteeNeuter = hollow_devotee
+		DevoteeNeuterPlural = hollow_devotee_plural
+		PriestMale = hollow_priest
+		PriestMalePlural = hollow_priest_plural
+		PriestFemale = hollow_priest
+		PriestFemalePlural = hollow_priest_plural
+		PriestNeuter = hollow_priest
+		PriestNeuterPlural = hollow_priest_plural
+		BishopMale = hollow_bishop
+		BishopMalePlural = hollow_bishop_plural
+		BishopFemale = hollow_bishop
+		BishopFemalePlural = hollow_bishop_plural
+		BishopNeuter = hollow_bishop
+		BishopNeuterPlural = hollow_bishop_plural
+		AltPriestTermPlural = hollow_priest_plural
+		DivineRealm = hollow_afterlife
+		DivineRealm2 = hollow_afterlife_2
+		DivineRealm3 = hollow_afterlife_3
+		PositiveAfterLife = hollow_afterlife
+		PositiveAfterLife2 = hollow_afterlife_2
+		PositiveAfterLife3 = hollow_afterlife_3
+		NegativeAfterLife = hollow_negative
+		NegativeAfterLife2 = hollow_negative_2
+		NegativeAfterLife3 = hollow_negative_3
+		DeathDeityName = hollow_god_void
+		DeathDeityNamePossessive = hollow_god_void_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = hollow_god_mother
+		WitchGodNamePossessive = hollow_god_mother_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = mother
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}

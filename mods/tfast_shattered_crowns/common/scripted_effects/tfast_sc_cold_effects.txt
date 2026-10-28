@@ -1,0 +1,74 @@
+﻿# The Long Night on the vanilla north. No AGOT provinces, no Wall, no Night's Watch.
+# Root for the advance is the Overlord, who is in the Hollow side of the situation.
+
+tfast_sc_ensure_long_night_effect = {
+	if = {
+		limit = {
+			NOT = { has_global_variable = tfast_sc_long_night_live }
+			NOT = {
+				any_character_situation = {
+					situation_type = tfast_sc_long_night
+				}
+			}
+		}
+		start_situation = {
+			type = tfast_sc_long_night
+			start_phase = tfast_sc_cold_thaw
+		}
+		set_global_variable = tfast_sc_long_night_live
+		set_global_variable = { name = tfast_sc_cold_step value = 0 }
+		debug_log = "TFAST Shattered Crowns: the Long Night is running on the north"
+	}
+}
+
+tfast_sc_advance_long_night_effect = {
+	if = {
+		limit = { NOT = { has_global_variable = tfast_sc_cold_wait } }
+		if = {
+			limit = {
+				OR = {
+					NOT = { exists = global_var:tfast_sc_cold_step }
+					global_var:tfast_sc_cold_step = 0
+				}
+			}
+			trigger_situation_catalyst = catalyst_tfast_sc_cold_winter
+			set_global_variable = { name = tfast_sc_cold_step value = 1 }
+		}
+		else_if = {
+			limit = { global_var:tfast_sc_cold_step = 1 }
+			trigger_situation_catalyst = catalyst_tfast_sc_cold_long_night
+			set_global_variable = { name = tfast_sc_cold_step value = 2 }
+		}
+		else = {
+			trigger_situation_catalyst = catalyst_tfast_sc_cold_thaw
+			set_global_variable = { name = tfast_sc_cold_step value = 0 }
+		}
+		set_global_variable = { name = tfast_sc_cold_wait value = yes years = 3 }
+	}
+}
+
+# Winning side of a battle. A white walker raises wights from the dead, at most once a year.
+tfast_sc_raise_wights_effect = {
+	if = {
+		limit = {
+			exists = side_primary_participant
+			side_primary_participant = {
+				has_trait = tfast_sc_white_walker
+				NOT = { has_variable = tfast_sc_wight_raised }
+			}
+		}
+		combat.location = { save_scope_as = wight_field }
+		side_primary_participant = {
+			set_variable = { name = tfast_sc_wight_raised value = yes years = 1 }
+			spawn_army = {
+				name = tfast_sc_wight_army
+				levies = 0
+				men_at_arms = {
+					type = tfast_sc_wights
+					stacks = 4
+				}
+				location = scope:wight_field
+			}
+		}
+	}
+}

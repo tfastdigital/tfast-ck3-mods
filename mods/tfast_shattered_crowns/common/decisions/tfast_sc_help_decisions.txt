@@ -1,0 +1,228 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- in-game handbook (help)          CK3 1.20.x
+# ============================================================================
+#  An open/close help menu for the player, same flag-menu pattern as the
+#  cheat menu (AI Suite) and the automation menu (this mod):
+#
+#    TFAST Handbook: Open  ->  eight chapters  ->  Back  ->  Close
+#
+#  One chapter is open at a time. Chapters are plain decisions whose
+#  description IS the help text - no custom GUI, nothing that can go stale
+#  in a patch, and every price/rule stated is the price/rule the scripts
+#  actually enforce.
+#
+#  is_ai = no throughout: the AI never sees the handbook.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  OPEN / CLOSE
+# ---------------------------------------------------------------------------
+tfast_sc_help_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9280
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		NOT = { has_character_flag = tfast_sc_help_open }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_help_open } }
+}
+
+tfast_sc_help_close = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_awakening_decision.dds" }
+	decision_group_type = major
+	sort_order = 9281
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		remove_character_flag = tfast_sc_help_open
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  CHAPTERS
+# ---------------------------------------------------------------------------
+tfast_sc_help_page_start = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9282
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_start }
+	}
+}
+
+tfast_sc_help_page_dominion = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9283
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_dominion }
+	}
+}
+
+tfast_sc_help_page_raids = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9284
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_raids }
+	}
+}
+
+tfast_sc_help_page_wall = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9285
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_wall }
+	}
+}
+
+tfast_sc_help_page_reckoning = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9286
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_reckoning }
+	}
+}
+
+tfast_sc_help_page_dark = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_wall_breach_decision.dds" }
+	decision_group_type = major
+	sort_order = 9287
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_dark }
+	}
+}
+
+tfast_sc_help_page_goals = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9288
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_goals }
+	}
+}
+
+tfast_sc_help_page_realm = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9289
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		NOT = { tfast_sc_help_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_sc_help_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_sc_help_page_realm }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BACK TO THE CHAPTER LIST
+# ---------------------------------------------------------------------------
+tfast_sc_help_page_back = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_awakening_decision.dds" }
+	decision_group_type = major
+	sort_order = 9299
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_help_open
+		tfast_sc_help_any_page_open_trigger = yes
+	}
+	is_valid = { is_ai = no }
+
+	effect = { tfast_sc_help_clear_pages_effect = yes }
+}

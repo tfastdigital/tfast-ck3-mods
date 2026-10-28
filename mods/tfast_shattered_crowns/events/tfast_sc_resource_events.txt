@@ -1,0 +1,115 @@
+﻿namespace = tfast_sc
+
+tfast_sc.1010 = {
+	type = character_event
+	theme = realm
+	title = tfast_sc.1010.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 2 }
+				desc = tfast_sc.1010.desc.iron
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 3 }
+				desc = tfast_sc.1010.desc.stone
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 4 }
+				desc = tfast_sc.1010.desc.timber
+			}
+			triggered_desc = {
+				desc = tfast_sc.1010.desc.grain
+			}
+		}
+	}
+	option = {
+		name = tfast_sc.1010.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_rumor_county
+		remove_variable = tfast_sc_survey_kind
+	}
+}
+
+tfast_sc.1011 = {
+	type = character_event
+	theme = realm
+	title = tfast_sc.1011.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 2 }
+				desc = tfast_sc.1011.desc.advanced
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 1 }
+				desc = tfast_sc.1011.desc.missed
+			}
+			triggered_desc = {
+				desc = tfast_sc.1011.desc.empty
+			}
+		}
+	}
+	option = {
+		name = tfast_sc.1011.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_rumor_county
+		remove_variable = tfast_sc_survey_result
+		remove_variable = tfast_sc_survey_kind
+	}
+}
+
+tfast_sc.1012 = {
+	type = character_event
+	theme = realm
+	title = tfast_sc.1012.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 2 }
+				desc = tfast_sc.1012.desc.iron
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 3 }
+				desc = tfast_sc.1012.desc.stone
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_kind = 4 }
+				desc = tfast_sc.1012.desc.timber
+			}
+			triggered_desc = {
+				desc = tfast_sc.1012.desc.grain
+			}
+		}
+	}
+	option = {
+		name = tfast_sc.1012.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_rumor_county
+		remove_variable = tfast_sc_survey_kind
+	}
+}
+
+tfast_sc.1013 = {
+	type = character_event
+	theme = realm
+	title = tfast_sc.1013.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 2 }
+				desc = tfast_sc.1013.desc.found
+			}
+			triggered_desc = {
+				desc = tfast_sc.1013.desc.empty
+			}
+		}
+	}
+	option = {
+		name = tfast_sc.1013.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_rumor_county
+		remove_variable = tfast_sc_survey_result
+		remove_variable = tfast_sc_survey_kind
+	}
+}

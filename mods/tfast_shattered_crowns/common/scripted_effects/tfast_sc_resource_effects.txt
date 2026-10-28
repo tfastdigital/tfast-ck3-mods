@@ -1,0 +1,259 @@
+﻿# Iron, stone, timber, and grain. Same rules as the gold deposits:
+# seeded once, no world scan, yield is one county tax modifier.
+# Deposit type: 2 iron, 3 stone, 4 timber, 5 grain.
+# Banking, loans, and population are left to the workshop mods that already
+# do those jobs. This file does not open a second treasury.
+
+tfast_sc_seed_other_deposits_effect = {
+	if = {
+		limit = {
+			tfast_sc_economy_enabled_trigger = yes
+			NOT = { exists = global_var:tfast_sc_other_deposits_seeded }
+		}
+
+		# Bergslagen, the Forest of Dean, and the Toledo iron country.
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_vastmanland TYPE = 2 RICHNESS = 3 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_hereford TYPE = 2 RICHNESS = 2 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_toledo TYPE = 2 RICHNESS = 2 }
+		# Purbeck and the Caen stone quarries around Bayeux.
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_dorset TYPE = 3 RICHNESS = 2 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_bayeux TYPE = 3 RICHNESS = 3 }
+		# Dalarna, Varmland, and Sherwood.
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_dalarna TYPE = 4 RICHNESS = 3 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_varmland TYPE = 4 RICHNESS = 2 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_nottinghamshire TYPE = 4 RICHNESS = 2 }
+		# The Beauce, the Fayyum, and Sicilian grain at Agrigento.
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_chartres TYPE = 5 RICHNESS = 3 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_fayyum TYPE = 5 RICHNESS = 3 }
+		tfast_sc_try_seed_resource_effect = { COUNTY = title:c_agrigento TYPE = 5 RICHNESS = 2 }
+
+		set_global_variable = { name = tfast_sc_other_deposits_seeded value = yes }
+		debug_log = "TFAST Shattered Crowns: iron, stone, timber, and grain seeded"
+	}
+}
+
+# Params: COUNTY, TYPE, RICHNESS. Skips a county that already has any deposit.
+tfast_sc_try_seed_resource_effect = {
+	if = {
+		limit = {
+			$COUNTY$ = {
+				NOT = { has_variable = tfast_sc_deposit_type }
+			}
+		}
+		$COUNTY$ = {
+			set_variable = { name = tfast_sc_deposit_type value = $TYPE$ }
+			set_variable = { name = tfast_sc_deposit_richness value = $RICHNESS$ }
+			set_variable = { name = tfast_sc_deposit_knowledge value = 0 }
+		}
+	}
+}
+
+# Root = player. At most one rumor, and only for a deposit this player holds.
+tfast_sc_resource_rumor_yearly_effect = {
+	if = {
+		limit = {
+			tfast_sc_economy_enabled_trigger = yes
+			NOT = { has_character_flag = tfast_sc_resource_rumor_cooldown }
+		}
+		if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_vastmanland } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_vastmanland }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_hereford } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_hereford }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_toledo } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_toledo }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_dorset } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_dorset }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_bayeux } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_bayeux }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_dalarna } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_dalarna }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_varmland } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_varmland }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_nottinghamshire } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_nottinghamshire }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_chartres } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_chartres }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_fayyum } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_fayyum }
+		}
+		else_if = {
+			limit = { tfast_sc_resource_rumor_county_trigger = { COUNTY = title:c_agrigento } }
+			tfast_sc_raise_resource_rumor_effect = { COUNTY = title:c_agrigento }
+		}
+	}
+}
+
+tfast_sc_raise_resource_rumor_effect = {
+	random = {
+		chance = 20
+		$COUNTY$ = {
+			set_variable = { name = tfast_sc_deposit_knowledge value = 1 }
+		}
+		set_variable = { name = tfast_sc_rumor_county value = $COUNTY$ }
+		set_variable = { name = tfast_sc_survey_kind value = $COUNTY$.var:tfast_sc_deposit_type }
+		add_character_flag = { flag = tfast_sc_resource_rumor_cooldown years = 3 }
+		trigger_event = { id = tfast_sc.1010 }
+	}
+}
+
+# scope:tfast_sc_prospect_county is a held county with a non-gold deposit.
+tfast_sc_prospect_resource_effect = {
+	remove_variable = tfast_sc_survey_result
+	if = {
+		limit = {
+			scope:tfast_sc_prospect_county = { tfast_sc_resource_deposit_trigger = yes }
+		}
+		random = {
+			chance = {
+				value = 45
+				if = {
+					limit = { stewardship >= 12 }
+					add = 15
+				}
+				if = {
+					limit = { stewardship >= 18 }
+					add = 15
+				}
+			}
+			scope:tfast_sc_prospect_county = {
+				if = {
+					limit = { var:tfast_sc_deposit_knowledge < 3 }
+					change_variable = { name = tfast_sc_deposit_knowledge add = 1 }
+				}
+			}
+			set_variable = { name = tfast_sc_survey_result value = 2 }
+		}
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_survey_result } }
+			set_variable = { name = tfast_sc_survey_result value = 1 }
+		}
+	}
+	else = {
+		set_variable = { name = tfast_sc_survey_result value = 0 }
+	}
+	set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_prospect_county }
+	set_variable = { name = tfast_sc_survey_kind value = scope:tfast_sc_prospect_county.var:tfast_sc_deposit_type }
+	trigger_event = { id = tfast_sc.1011 }
+}
+
+tfast_sc_open_resource_working_effect = {
+	scope:tfast_sc_mine_county = {
+		set_variable = { name = tfast_sc_deposit_knowledge value = 4 }
+		if = {
+			limit = { var:tfast_sc_deposit_type = 2 }
+			add_county_modifier = { modifier = tfast_sc_iron_working }
+		}
+		else_if = {
+			limit = { var:tfast_sc_deposit_type = 3 }
+			add_county_modifier = { modifier = tfast_sc_stone_working }
+		}
+		else_if = {
+			limit = { var:tfast_sc_deposit_type = 4 }
+			add_county_modifier = { modifier = tfast_sc_timber_working }
+		}
+		else = {
+			add_county_modifier = { modifier = tfast_sc_grain_working }
+		}
+	}
+	set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_mine_county }
+	set_variable = { name = tfast_sc_survey_kind value = scope:tfast_sc_mine_county.var:tfast_sc_deposit_type }
+	trigger_event = { id = tfast_sc.1012 }
+}
+
+# A neighbor you do not hold. No new deposit is created. No land changes hands.
+tfast_sc_scout_neighbor_effect = {
+	random_held_title = {
+		limit = { tier = tier_county }
+		save_scope_as = tfast_sc_home_county
+	}
+	if = {
+		limit = { exists = scope:tfast_sc_home_county }
+		scope:tfast_sc_home_county = {
+			random_neighboring_county = {
+				limit = { NOT = { holder = root } }
+				save_scope_as = tfast_sc_foreign_county
+			}
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:tfast_sc_foreign_county
+			scope:tfast_sc_foreign_county = {
+				tfast_sc_any_deposit_trigger = yes
+				var:tfast_sc_deposit_knowledge = 0
+			}
+		}
+		scope:tfast_sc_foreign_county = {
+			set_variable = { name = tfast_sc_deposit_knowledge value = 1 }
+		}
+		set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_foreign_county }
+		set_variable = { name = tfast_sc_survey_kind value = scope:tfast_sc_foreign_county.var:tfast_sc_deposit_type }
+		set_variable = { name = tfast_sc_survey_result value = 2 }
+	}
+	else = {
+		set_variable = { name = tfast_sc_survey_result value = 0 }
+		if = {
+			limit = { exists = scope:tfast_sc_foreign_county }
+			set_variable = { name = tfast_sc_rumor_county value = scope:tfast_sc_foreign_county }
+		}
+	}
+	trigger_event = { id = tfast_sc.1013 }
+}
+
+# Root = the dying character. The chest gold was removed when it was set aside.
+tfast_sc_pass_family_chest_effect = {
+	if = {
+		limit = {
+			has_variable = tfast_sc_chest
+			var:tfast_sc_chest >= 200
+		}
+		set_variable = { name = tfast_sc_chest_guard value = 0 }
+		if = {
+			limit = {
+				exists = var:tfast_sc_financial_heir
+				var:tfast_sc_financial_heir = { is_alive = yes }
+			}
+			var:tfast_sc_financial_heir = { save_scope_as = tfast_sc_chest_heir }
+		}
+		else_if = {
+			limit = {
+				exists = primary_heir
+				primary_heir = { is_alive = yes }
+			}
+			primary_heir = { save_scope_as = tfast_sc_chest_heir }
+		}
+		if = {
+			limit = { exists = scope:tfast_sc_chest_heir }
+			while = {
+				limit = {
+					var:tfast_sc_chest >= 200
+					var:tfast_sc_chest_guard < 40
+				}
+				scope:tfast_sc_chest_heir = { add_gold = 200 }
+				change_variable = { name = tfast_sc_chest subtract = 200 }
+				change_variable = { name = tfast_sc_chest_guard add = 1 }
+			}
+		}
+		remove_variable = tfast_sc_chest
+		remove_variable = tfast_sc_chest_guard
+	}
+}

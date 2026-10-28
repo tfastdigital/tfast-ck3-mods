@@ -1,0 +1,264 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Long Dark events              CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0900 -- the Hollow tithe (pay, or burn)
+#  tfast_sc.0901 -- the fever year (tend, seal, or let it burn)
+#  tfast_sc.0902 -- the roads are cut (pay the escorts, or endure)
+#  tfast_sc.0903 -- the Hollow at the wall (news)
+#  tfast_sc.0904 -- the Long Dark begins (news)
+#  tfast_sc.0905 -- the world rises (news)
+#  tfast_sc.0906 -- the dawnbreak (news)
+#  tfast_sc.0907 -- a stronghold has fallen (news)
+#  tfast_sc.0908 -- the wall is unmade (news)
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW TITHE
+# ---------------------------------------------------------------------------
+tfast_sc.0900 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0900.t
+	desc = { desc = tfast_sc.0900.desc }
+
+	option = {
+		name = tfast_sc.0900.a
+		# Pay what they ask.
+		ai_chance = { base = 60 }
+
+		remove_short_term_gold = 150
+		set_variable = { name = tfast_sc_tithe_recent value = yes years = 4 }
+		add_prestige = -50
+	}
+
+	option = {
+		name = tfast_sc.0900.b
+		# Refuse them.
+		ai_chance = { base = 40 }
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = tfast_sc_raided_modifier
+				years = 5
+			}
+		}
+		tfast_sc_add_dark_resistance_effect = { AMOUNT = 1 }
+		set_variable = { name = tfast_sc_tithe_recent value = yes years = 3 }
+		add_prestige = 100
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE FEVER YEAR
+# ---------------------------------------------------------------------------
+tfast_sc.0901 = {
+	type = character_event
+	theme = dread
+
+	title = tfast_sc.0901.t
+	desc = { desc = tfast_sc.0901.desc }
+
+	option = {
+		name = tfast_sc.0901.a
+		# Tend the sick yourself.
+		ai_chance = { base = 30 }
+
+		random = {
+			chance = 30
+			add_character_modifier = {
+				modifier = tfast_sc_dark_malady_modifier
+				years = 5
+			}
+		}
+		random = {
+			chance = 70
+			add_prestige = 75
+		}
+		set_variable = { name = tfast_sc_fever_recent value = yes years = 4 }
+	}
+
+	option = {
+		name = tfast_sc.0901.b
+		# Seal the gates.
+		ai_chance = { base = 40 }
+
+		capital_county = {
+			change_development_level = -1
+		}
+		set_variable = { name = tfast_sc_fever_recent value = yes years = 5 }
+	}
+
+	option = {
+		name = tfast_sc.0901.c
+		# Let it burn through.
+		ai_chance = { base = 30 }
+
+		random_courtier = {
+			limit = { is_alive = yes }
+			hidden_effect = { death = { death_reason = death_bubonic_plague } }
+		}
+		random_courtier = {
+			limit = { is_alive = yes }
+			hidden_effect = { death = { death_reason = death_bubonic_plague } }
+		}
+		capital_county = {
+			add_county_modifier = {
+				modifier = tfast_sc_dark_famine_modifier
+				years = 4
+			}
+		}
+		set_variable = { name = tfast_sc_fever_recent value = yes years = 5 }
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE ROADS ARE CUT
+# ---------------------------------------------------------------------------
+tfast_sc.0902 = {
+	type = character_event
+	theme = realm
+	override_background = { reference = tfast_sc_winter_wall }
+
+	title = tfast_sc.0902.t
+	desc = { desc = tfast_sc.0902.desc }
+
+	option = {
+		name = tfast_sc.0902.a
+		# Pay for armed escorts.
+		ai_chance = { base = 50 }
+
+		remove_short_term_gold = 100
+		tfast_sc_break_blockade_effect = yes
+	}
+
+	option = {
+		name = tfast_sc.0902.b
+		# Endure.
+		ai_chance = { base = 50 }
+
+		stress_impact = {
+			base = minor_stress_impact_gain
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW AT THE WALL
+# ---------------------------------------------------------------------------
+tfast_sc.0903 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_wall_breach }
+
+	title = tfast_sc.0903.t
+	desc = { desc = tfast_sc.0903.desc }
+
+	option = {
+		name = tfast_sc.0903.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE LONG DARK BEGINS
+# ---------------------------------------------------------------------------
+tfast_sc.0904 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0904.t
+	desc = { desc = tfast_sc.0904.desc }
+
+	option = {
+		name = tfast_sc.0904.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WORLD RISES
+# ---------------------------------------------------------------------------
+tfast_sc.0905 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_reckoning }
+
+	title = tfast_sc.0905.t
+	desc = { desc = tfast_sc.0905.desc }
+
+	option = {
+		name = tfast_sc.0905.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE DAWNBREAK
+# ---------------------------------------------------------------------------
+tfast_sc.0906 = {
+	type = character_event
+	theme = realm
+	override_background = { reference = tfast_sc_reckoning }
+
+	title = tfast_sc.0906.t
+	desc = { desc = tfast_sc.0906.desc }
+
+	option = {
+		name = tfast_sc.0906.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  A STRONGHOLD HAS FALLEN
+# ---------------------------------------------------------------------------
+tfast_sc.0907 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_reckoning }
+
+	title = tfast_sc.0907.t
+	desc = { desc = tfast_sc.0907.desc }
+
+	option = {
+		name = tfast_sc.0907.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WALL IS UNMADE
+# ---------------------------------------------------------------------------
+tfast_sc.0908 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_wall_breach }
+
+	title = tfast_sc.0908.t
+	desc = { desc = tfast_sc.0908.desc }
+
+	option = {
+		name = tfast_sc.0908.a
+		ai_chance = { base = 100 }
+	}
+}

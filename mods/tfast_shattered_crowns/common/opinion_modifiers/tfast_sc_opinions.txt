@@ -1,0 +1,28 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- opinion modifiers                CK3 1.20.x
+# ============================================================================
+#  Structure verified against game/common/opinion_modifiers/*.txt
+#  (opinion / years / decaying).
+# ============================================================================
+
+tfast_sc_released_opinion = {
+	opinion = 25
+	years = 10
+	decaying = yes
+}
+
+tfast_sc_wall_slighted_opinion = {
+	opinion = -15
+	years = 10
+	decaying = yes
+}
+
+tfast_sc_hates_targaryen_opinion = {
+	opinion = -100
+}
+
+tfast_sct_coalition_opinion = {
+	opinion = 30
+	years = 10
+	decaying = yes
+}

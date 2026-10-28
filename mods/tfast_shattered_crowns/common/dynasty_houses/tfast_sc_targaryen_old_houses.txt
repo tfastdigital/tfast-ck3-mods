@@ -1,0 +1,15 @@
+﻿# Empty cadet houses of the old Caerloyw dynasty, moved out so the Targaryens are one house.
+house_british_isles_ternyllwg = {
+	name = "dynn_Ternyllwg"
+	dynasty = tfast_sc_targaryen_realm_dynasty
+}
+
+house_british_isles_gwerthrynion = {
+	name = "dynn_Gwerthrynion"
+	dynasty = tfast_sc_targaryen_realm_dynasty
+}
+
+house_british_isles_maelienydd = {
+	name = "dynn_Maelienydd"
+	dynasty = tfast_sc_targaryen_realm_dynasty
+}

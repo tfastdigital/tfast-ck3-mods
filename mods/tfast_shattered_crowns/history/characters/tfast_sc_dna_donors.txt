@@ -1,0 +1,151 @@
+﻿# DNA donors only. Born and dead on 1 January of year 1, the same pattern
+# as dynamic_mongol_1, so they are never alive in a normal start date.
+# The living Overlord and the Ten copy these faces at creation.
+
+tfast_sc_dna_overlord = {
+	name = "Vaelos"
+	dna = tfast_sc_portrait_overlord
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_vaelor = {
+	name = "Vaelor"
+	dna = tfast_sc_portrait_vaelor
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_morvath = {
+	name = "Morvath"
+	dna = tfast_sc_portrait_morvath
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_kaedryn = {
+	name = "Kaedryn"
+	dna = tfast_sc_portrait_kaedryn
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_draven = {
+	name = "Draven"
+	dna = tfast_sc_portrait_draven
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_tharion = {
+	name = "Tharion"
+	dna = tfast_sc_portrait_tharion
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_seralyth = {
+	name = "Seralyth"
+	dna = tfast_sc_portrait_seralyth
+	female = yes
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_nyxara = {
+	name = "Nyxara"
+	dna = tfast_sc_portrait_nyxara
+	female = yes
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_velmora = {
+	name = "Velmora"
+	dna = tfast_sc_portrait_velmora
+	female = yes
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_eryndra = {
+	name = "Eryndra"
+	dna = tfast_sc_portrait_eryndra
+	female = yes
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}
+
+tfast_sc_dna_malethra = {
+	name = "Malethra"
+	dna = tfast_sc_portrait_malethra
+	female = yes
+	rite = "hollow_rite"
+	culture = "tfast_sc_hollow_culture"
+	1.1.1 = {
+		birth = "1.1.1"
+	}
+	1.1.2 = {
+		death = "1.1.2"
+	}
+}

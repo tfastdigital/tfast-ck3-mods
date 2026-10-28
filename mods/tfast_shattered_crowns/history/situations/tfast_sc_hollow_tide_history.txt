@@ -1,0 +1,13 @@
+﻿# Start the Hollow Tide with the world, the same way the Christian Church
+# situation is opened from history. An already-running save does not replay
+# this file; that save uses the quarterly pulse and the Open the Tide decision.
+
+-1.1.1 = {
+	effect = {
+		start_situation = {
+			type = tfast_sc_hollow_tide
+			start_phase = tfast_sc_tide_peace
+		}
+		set_global_variable = tfast_sc_tide_live
+	}
+}

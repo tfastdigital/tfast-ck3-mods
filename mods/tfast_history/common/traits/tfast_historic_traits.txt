@@ -1,0 +1,166 @@
+﻿# ============================================================================
+#  TFAST History -- historic reputation traits                   CK3 1.20.x
+# ============================================================================
+#  Traits that represent a ruler's historical standing or role.
+#
+#  WHY THIS IS SAFE
+#  ----------------
+#   * category = fame, exactly how vanilla models standing/reputation traits
+#     (verified against game/common/traits/00_traits.txt).
+#   * `icon` reuses an EXISTING vanilla texture from
+#     gfx/interface/icons/traits/. The mod ships no art, so there is nothing to
+#     go missing and nothing to overwrite.
+#   * Every stat key below appears in vanilla trait/modifier files, so none are
+#     invented.
+#   * Additive only. No vanilla file is replaced.
+#
+#  Traits are granted by the decisions in 00_tfast_historic_decisions.txt.
+# ============================================================================
+
+
+# A ruler who governs the church as well as the state.
+tfast_hist_caesaropapist = {
+	category = fame
+	icon = zealous.dds
+
+	learning = 2
+
+	same_opinion = 10
+	opposite_opinion = -10
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_caesaropapist_desc
+			}
+			desc = trait_tfast_hist_caesaropapist_character_desc
+		}
+	}
+}
+
+
+# A ruler who rejects the veneration of religious images.
+tfast_hist_iconoclast = {
+	category = fame
+	icon = mystic.dds
+
+	learning = 1
+
+	same_opinion = 10
+	opposite_opinion = -15
+
+	ruler_designer_cost = 10
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_iconoclast_desc
+			}
+			desc = trait_tfast_hist_iconoclast_character_desc
+		}
+	}
+}
+
+
+# A warlord who sells his sword and his company to the highest bidder.
+tfast_hist_condottiere = {
+	category = fame
+	icon = blademaster.dds
+
+	martial = 2
+	prowess = 3
+
+	same_opinion = 10
+	opposite_opinion = -10
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_condottiere_desc
+			}
+			desc = trait_tfast_hist_condottiere_character_desc
+		}
+	}
+}
+
+
+# A ruler whose court is famous for scholarship and the copying of books.
+tfast_hist_patron_of_letters = {
+	category = fame
+	icon = poet.dds
+
+	learning = 3
+	diplomacy = 1
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 25
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_patron_of_letters_desc
+			}
+			desc = trait_tfast_hist_patron_of_letters_character_desc
+		}
+	}
+}
+
+
+# The founder of a merchant league that outlives him.
+tfast_hist_league_founder = {
+	category = fame
+	icon = greedy.dds
+
+	stewardship = 2
+	diplomacy = 1
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_league_founder_desc
+			}
+			desc = trait_tfast_hist_league_founder_character_desc
+		}
+	}
+}
+
+
+# The founder of a chivalric order whose badge becomes the realm's honour.
+tfast_hist_order_founder = {
+	category = fame
+	icon = blademaster.dds
+
+	martial = 2
+	diplomacy = 1
+
+	same_opinion = 10
+	opposite_opinion = -5
+
+	ruler_designer_cost = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_hist_order_founder_desc
+			}
+			desc = trait_tfast_hist_order_founder_character_desc
+		}
+	}
+}

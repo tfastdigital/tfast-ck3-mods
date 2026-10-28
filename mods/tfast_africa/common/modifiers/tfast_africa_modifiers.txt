@@ -1,0 +1,105 @@
+﻿# ============================================================================
+#  TFAST Africa -- modifiers                               CK3 1.20.x
+# ============================================================================
+#  Every key verified to exist in game/common/modifiers/ and every icon in
+#  gfx/interface/icons/modifiers/. Icons are referenced WITHOUT a .dds suffix,
+#  which is how modifier icons work (unlike trait icons).
+# ============================================================================
+
+
+# Gold moving north, salt moving south.
+tfast_africa_gold_road_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.2
+	build_gold_cost = -0.1
+}
+
+
+# Goods exchanged without a word spoken between the parties.
+tfast_africa_silent_trade_modifier = {
+	icon = diplomacy_positive
+	monthly_income_mult = 0.1
+	diplomacy = 1
+}
+
+
+# A pilgrimage that empties the treasury and fills the chronicles.
+tfast_africa_pilgrim_modifier = {
+	icon = learning_positive
+	monthly_piety_gain_mult = 0.3
+	monthly_prestige_gain_mult = 0.2
+	same_faith_opinion = 15
+}
+
+
+# Scribes, jurists and copyists gathered and paid.
+tfast_africa_learning_modifier = {
+	icon = learning_positive
+	learning = 2
+	monthly_prestige_gain_mult = 0.15
+}
+
+
+# Law recited aloud, known to every clan and disputed by none.
+tfast_africa_charter_modifier = {
+	icon = diplomacy_positive
+	vassal_opinion = 20
+	general_opinion = 10
+}
+
+
+# Walls that stand without mortar.
+tfast_africa_walls_modifier = {
+	icon = social_positive
+	build_gold_cost = -0.2
+	levy_size = 0.1
+}
+
+
+# Churches cut downward into the rock.
+tfast_africa_churches_modifier = {
+	icon = learning_positive
+	monthly_piety_gain_mult = 0.3
+	same_faith_opinion = 15
+}
+
+
+# A line traced to Solomon, and told and retold.
+tfast_africa_dynastic_modifier = {
+	icon = diplomacy_positive
+	general_opinion = 15
+	monthly_prestige_gain_mult = 0.2
+}
+
+
+# Shells that pass for coin, and a state that controls the supply.
+tfast_africa_currency_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.15
+	stewardship = 1
+}
+
+
+# A council of the grades, where the cycle decides and not the grave.
+tfast_africa_assembly_modifier = {
+	icon = diplomacy_positive
+	vassal_opinion = 10
+	general_opinion = 10
+	levy_size = 0.1
+}
+
+
+# A court known for its casters and its craft.
+tfast_africa_court_modifier = {
+	icon = diplomacy_positive
+	monthly_prestige_gain_mult = 0.2
+	general_opinion = 5
+}
+
+
+# Sails down the coast and across the ocean.
+tfast_africa_trade_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.2
+	vassal_opinion = 5
+}

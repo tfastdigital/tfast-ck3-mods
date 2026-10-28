@@ -1,0 +1,121 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Great Reckoning events       CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0200 -- the world is foretold (two years before the Reckoning)
+#  tfast_sc.0201 -- the Reckoning begins
+#  tfast_sc.0202 -- the Reckoning ends (with refugee relief decisions)
+#  tfast_sc.0203 -- the Hollow stirs again (later resurgence)
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  FORETOLD
+# ---------------------------------------------------------------------------
+tfast_sc.0200 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0200.t
+	desc = { desc = tfast_sc.0200.desc }
+
+	option = {
+		name = tfast_sc.0200.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE RECKONING BEGINS
+# ---------------------------------------------------------------------------
+tfast_sc.0201 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_reckoning }
+
+	title = tfast_sc.0201.t
+	desc = { desc = tfast_sc.0201.desc }
+
+	option = {
+		name = tfast_sc.0201.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE RECKONING ENDS
+#  With relief decisions: the refugee trains and rebuilding work that
+#  follows every Reckoning, per the living-world design.
+# ---------------------------------------------------------------------------
+tfast_sc.0202 = {
+	type = character_event
+	theme = realm
+
+	title = tfast_sc.0202.t
+	desc = { desc = tfast_sc.0202.desc }
+
+	option = {
+		name = tfast_sc.0202.a
+		# Open the gates to the refugee trains.
+		ai_chance = { base = 75 }
+
+		add_prestige = 200
+		create_character = {
+			template = local_noble_character
+			employer = root
+			gender_female_chance = 50
+			save_scope_as = tfast_sc_refugee
+		}
+		hidden_effect = {
+			# A life begun again: a claim on what the Hollow stripped.
+			random_sub_realm_county = {
+				limit = { has_county_modifier = tfast_sc_raided_modifier }
+				save_temporary_scope_as = tfast_sc_ruined_county
+			}
+			if = {
+				limit = { exists = scope:tfast_sc_ruined_county }
+				scope:tfast_sc_refugee = {
+					add_pressed_claim = scope:tfast_sc_ruined_county
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tfast_sc.0202.b
+		# The gates stay shut.
+		ai_chance = { base = 25 }
+
+		add_character_modifier = {
+			modifier = tfast_sc_host_retreat_modifier
+			years = 3
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW STIRS AGAIN
+# ---------------------------------------------------------------------------
+tfast_sc.0203 = {
+	type = character_event
+	theme = dread
+
+	title = tfast_sc.0203.t
+	desc = { desc = tfast_sc.0203.desc }
+
+	option = {
+		name = tfast_sc.0203.a
+
+		ai_chance = { base = 100 }
+	}
+}

@@ -1,0 +1,223 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- immortal events                  CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0500 -- the True Death confrontation (awakened chosen only)
+#  tfast_sc.0501 -- news: an immortal has been destroyed
+#  tfast_sc.0502 -- news: the Overlord has been sealed, not slain
+#  tfast_sc.0503 -- news: the seal has broken
+#  tfast_sc.0510 -- hidden: the Overlord returns from the seal
+#  tfast_sc.0520 -- hidden: a Hollow-born child comes into their immortality
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  THE TRUE DEATH CONFRONTATION
+#  Fires on the awakened chosen. Target priority: one of the Ten, then any
+#  Hollow immortal in the enemy court, then the Overlord himself (who can
+#  only ever be sealed).
+# ---------------------------------------------------------------------------
+tfast_sc.0500 = {
+	type = character_event
+	theme = dynasty
+	override_background = { reference = tfast_sc_reckoning }
+
+	title = tfast_sc.0500.t
+	desc = { desc = tfast_sc.0500.desc }
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { tfast_sc_overlord_valid_trigger = yes }
+				global_var:tfast_sc_overlord = { save_scope_as = tfast_sc_confront_overlord }
+
+				if = {
+					limit = {
+						scope:tfast_sc_confront_overlord = {
+							any_child = {
+								is_alive = yes
+								has_character_flag = tfast_sc_original_child
+							}
+						}
+					}
+					scope:tfast_sc_confront_overlord = {
+						ordered_child = {
+							limit = {
+								is_alive = yes
+								has_character_flag = tfast_sc_original_child
+							}
+							order_by = tfast_sc_eldest_priority
+							position = 0
+							save_scope_as = tfast_sc_true_death_target
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						scope:tfast_sc_confront_overlord = {
+							any_courtier_or_guest = {
+								is_alive = yes
+								has_trait = tfast_sc_hollow_immortal
+							}
+						}
+					}
+					scope:tfast_sc_confront_overlord = {
+						random_courtier_or_guest = {
+							limit = {
+								is_alive = yes
+								has_trait = tfast_sc_hollow_immortal
+							}
+							save_scope_as = tfast_sc_true_death_target
+						}
+					}
+				}
+				else = {
+					scope:tfast_sc_confront_overlord = { save_scope_as = tfast_sc_true_death_target }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = tfast_sc.0500.a
+
+		trigger = { exists = scope:tfast_sc_true_death_target }
+
+		ai_chance = { base = 100 }
+
+		# The strike. Chance comes from tfast_sc_true_death_chance
+		# (power tier, prowess, their defenses).
+		random = {
+			chance = tfast_sc_true_death_chance
+			set_variable = { name = tfast_sc_td_result value = 1 }
+		}
+
+		if = {
+			limit = { var:tfast_sc_td_result ?= 1 }
+			remove_variable = tfast_sc_td_result
+			custom_tooltip = tfast_sc_true_death_success_tt
+			tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_true_death YEARS = 150 }
+			tfast_sc_true_death_effect = { TARGET = scope:tfast_sc_true_death_target }
+			if = {
+				limit = {
+					NOT = {
+						scope:tfast_sc_true_death_target = { has_character_flag = tfast_sc_overlord }
+					}
+				}
+				every_player = {
+					trigger_event = { id = tfast_sc.0501 days = { 10 60 } }
+				}
+			}
+		}
+		else = {
+			remove_variable = tfast_sc_td_result
+			custom_tooltip = tfast_sc_true_death_failure_tt
+			add_stress = 30
+			random = {
+				chance = 30
+				add_trait = wounded_1
+			}
+		}
+	}
+
+	option = {
+		name = tfast_sc.0500.b
+
+		ai_chance = { base = 0 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  NEWS: AN IMMORTAL HAS BEEN DESTROYED
+# ---------------------------------------------------------------------------
+tfast_sc.0501 = {
+	type = character_event
+	theme = dynasty
+
+	title = tfast_sc.0501.t
+	desc = { desc = tfast_sc.0501.desc }
+
+	option = {
+		name = tfast_sc.0501.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  NEWS: THE OVERLORD IS SEALED
+# ---------------------------------------------------------------------------
+tfast_sc.0502 = {
+	type = character_event
+	theme = dread
+
+	title = tfast_sc.0502.t
+	desc = { desc = tfast_sc.0502.desc }
+
+	option = {
+		name = tfast_sc.0502.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  NEWS: THE SEAL BREAKS
+# ---------------------------------------------------------------------------
+tfast_sc.0503 = {
+	type = character_event
+	theme = dread
+
+	title = tfast_sc.0503.t
+	desc = { desc = tfast_sc.0503.desc }
+
+	option = {
+		name = tfast_sc.0503.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  HIDDEN: THE OVERLORD RETURNS
+# ---------------------------------------------------------------------------
+tfast_sc.0510 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_character_flag = tfast_sc_overlord
+	}
+
+	immediate = {
+		tfast_sc_unseal_overlord_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  HIDDEN: A HOLLOW-BORN CHILD COMES INTO THEIR IMMORTALITY
+#  The immortal trait freezes visual age, so it is granted at adulthood,
+#  never at birth.
+# ---------------------------------------------------------------------------
+tfast_sc.0520 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		has_character_flag = tfast_sc_hollow_born
+	}
+
+	immediate = {
+		remove_character_flag = tfast_sc_hollow_born
+		if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+		set_immortal_age = 18
+		if = { limit = { NOT = { has_character_flag = tfast_sc_hollow_host } } add_character_flag = tfast_sc_hollow_host }
+	}
+}

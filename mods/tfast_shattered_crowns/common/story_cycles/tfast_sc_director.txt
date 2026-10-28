@@ -1,0 +1,184 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- story cycles (the directors)     CK3 1.20.x
+# ============================================================================
+#  Structure verified against game/common/story_cycles/_story_cycles.info and
+#  story_cycle_almohad_invasion.txt (on_setup / on_owner_death / effect_group
+#  with days trigger triggered_effect, make_story_owner, end_story).
+#
+#  Three stories:
+#    tfast_sc_hollow_host -- the eternal peacetime director, owned by the
+#                            Overlord; raiding, court, crisis pacing.
+#    tfast_sc_reckoning   -- the tide of one Great Reckoning; created when
+#                            the crisis begins, ends with the aftermath.
+#    tfast_sc_prophecy    -- follows the hidden chosen; awakening,
+#                            succession, extinction.
+# ============================================================================
+
+
+tfast_sc_hollow_host = {
+	on_setup = {
+		debug_log = "TFAST Shattered Crowns: the Hollow Host director story is running"
+	}
+
+	# The Overlord is never permanently destroyed; if the engine kills him
+	# anyway, he is re-raised and the story re-owned.
+	on_owner_death = {
+		tfast_sc_host_story_owner_death_effect = yes
+	}
+
+	effect_group = {
+		days = { 180 300 }
+
+		trigger = {
+			always = yes
+		}
+
+		# One tick, two jobs: the raid director and the crisis pacing.
+		# No daily scans, no unbounded loops - both effects bail out on
+		# cheap global checks.
+		triggered_effect = {
+			trigger = { always = yes }
+			effect = {
+				tfast_sc_raid_director_effect = yes
+				tfast_sc_crisis_watch_effect = yes
+			}
+		}
+	}
+}
+
+
+tfast_sc_reckoning = {
+	on_setup = {
+		debug_log = "TFAST Shattered Crowns: the Reckoning story is running"
+	}
+
+	# If the Overlord dies mid-Reckoning (engine-unavoidable), the tide ends
+	# with the aftermath; the repair pass will raise him again.
+	on_owner_death = {
+		tfast_sc_reckoning_end_effect = yes
+		end_story = yes
+	}
+
+	effect_group = {
+		days = { 60 120 }
+
+		trigger = {
+			always = yes
+		}
+
+		triggered_effect = {
+			trigger = { tfast_sc_overlord_valid_trigger = yes }
+			effect = {
+				# The tide comes in waves, up to three, never all at once.
+				random = {
+					chance = 45
+					tfast_sc_reckoning_wave_effect = yes
+				}
+
+				# When no Reckoning war is left standing, the tide is over.
+				if = {
+					limit = {
+						NOT = { tfast_sc_reckoning_war_active_trigger = yes }
+					}
+					tfast_sc_reckoning_end_effect = yes
+					end_story = yes
+				}
+			}
+		}
+
+		# If the Overlord is sealed mid-tide, the Reckoning collapses into
+		# the aftermath (his wars were already ended by the sealing).
+		triggered_effect = {
+			trigger = {
+				tfast_sc_overlord_valid_trigger = yes
+				global_var:tfast_sc_overlord = { has_character_flag = tfast_sc_overlord_sealed }
+			}
+			effect = {
+				tfast_sc_reckoning_end_effect = yes
+				end_story = yes
+			}
+		}
+	}
+}
+
+
+tfast_sc_prophecy = {
+	on_setup = {
+		debug_log = "TFAST Shattered Crowns: the prophecy of the Chosen has begun"
+	}
+
+	# The chosen died. Only a living direct descendant may inherit.
+	on_owner_death = {
+		tfast_sc_prophecy_check_effect = yes
+	}
+
+	effect_group = {
+		days = { 90 180 }
+
+		trigger = {
+			always = yes
+		}
+
+		triggered_effect = {
+			trigger = { always = yes }
+			effect = {
+				# Keep the registry whole (and end explicitly if extinct).
+				tfast_sc_prophecy_check_effect = yes
+
+				# Awakening: the years, or the danger.
+				if = {
+					limit = {
+						exists = global_var:tfast_sc_chosen_character
+						global_var:tfast_sc_chosen_character = {
+							is_alive = yes
+							NOT = { has_trait = tfast_sc_chosen_awakened }
+						}
+					}
+					global_var:tfast_sc_chosen_character = {
+						if = {
+							limit = {
+								OR = {
+									age >= 16
+									AND = {
+										age >= 12
+										OR = {
+											is_at_war = yes
+											is_imprisoned = yes
+										}
+									}
+								}
+							}
+							tfast_sc_prophecy_awaken_effect = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Vaelos and Vaelith search for the dark they were born from.
+tfast_sc_origin = {
+	on_setup = {
+		debug_log = "TFAST Shattered Crowns: the twins are looking for where they came from"
+	}
+
+	on_owner_death = {
+		tfast_sc_origin_owner_death_effect = yes
+	}
+
+	effect_group = {
+		days = { 90 160 }
+
+		trigger = {
+			always = yes
+		}
+
+		triggered_effect = {
+			trigger = { always = yes }
+			effect = {
+				tfast_sc_origin_tick_effect = yes
+			}
+		}
+	}
+}

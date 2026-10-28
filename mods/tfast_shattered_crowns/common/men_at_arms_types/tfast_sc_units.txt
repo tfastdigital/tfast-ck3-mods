@@ -1,0 +1,283 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Hollow Host's men-at-arms   CK3 1.20.x
+# ============================================================================
+#  Structure verified against game/common/men_at_arms_types/_men_at_arms_types.info
+#  and 00_maa_types.txt (type = existing archetype, stats, counters, costs,
+#  can_recruit trigger, illustration).
+#
+#  DESIGN CONTRACT (per unit: strength / weakness / cap / cost / counter):
+#    * Every unit reuses an EXISTING archetype (heavy_infantry, heavy_cavalry,
+#      light_cavalry, pikemen, skirmishers), so no new graphical unit type,
+#      no new animations, no new art is needed.
+#    * Every unit is locked behind `can_recruit = has_character_flag =
+#      tfast_sc_hollow_host`, a flag only the Hollow ever receive. No mortal
+#      ruler, and not the player's own dynasty, can ever recruit them.
+#    * `max` caps every type hard, so a runaway Hollow AI cannot flood the
+#      map with them; the Reckoning wave cap in the story cycle caps event
+#      reinforcements further.
+#    * Illustrations reuse existing vanilla regimenttype art.
+#
+#  The player's countermeasures are the documented ones: pikes and heavy
+#  infantry blunt the knights and hordes, archers bleed the wraiths, and the
+#  Great Wall (decisions) blocks scripted raid entry until a gate breach.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  Hollow Legionnaires -- the line that does not breathe.
+#  Strength: grind of the main phase. Weakness: slow (no pursuit) and
+#  ruinously expensive. Cap: 3 regiments.
+# ---------------------------------------------------------------------------
+tfast_sc_legionnaires = {
+	type = heavy_infantry
+
+	damage = 38
+	toughness = 34
+	pursuit = 8
+	screen = 0
+
+	counters = {
+		skirmishers = 1
+		archers = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 300 }
+	low_maintenance_cost = { gold = 4 }
+	high_maintenance_cost = { gold = 12 }
+
+	stack = 100
+	max = 3
+	ai_quality = { value = 45 }
+
+	illustration = {
+		reference = heavy_infantry
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Gravebound Knights -- riders who were buried with their horses.
+#  Strength: shock and pursuit. Weakness: pikes (vanilla archetype counters)
+#  and high upkeep. Cap: 2 regiments.
+# ---------------------------------------------------------------------------
+tfast_sc_gravebound_knights = {
+	type = heavy_cavalry
+
+	damage = 45
+	toughness = 30
+	pursuit = 30
+	screen = 10
+
+	terrain_bonus = {
+		plains = { damage = 5 toughness = 2 }
+		drylands = { damage = 5 toughness = 2 }
+	}
+
+	counters = {
+		archers = 2
+		skirmishers = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 400 }
+	low_maintenance_cost = { gold = 5 }
+	high_maintenance_cost = { gold = 15 }
+
+	stack = 100
+	max = 2
+	ai_quality = { value = 50 }
+
+	illustration = {
+		reference = heavy_cavalry
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Frost Wraiths -- riders of the cold wind.
+#  Strength: pursuit and screen (run down what flees). Weakness: archers,
+#  and their own low toughness. Cap: 3 regiments.
+# ---------------------------------------------------------------------------
+tfast_sc_frost_wraiths = {
+	type = light_cavalry
+
+	damage = 22
+	toughness = 20
+	pursuit = 40
+	screen = 40
+
+	terrain_bonus = {
+		taiga = { damage = 5 toughness = 5 }
+		mountains = { damage = 2 toughness = 5 }
+	}
+
+	counters = {
+		archers = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 250 }
+	low_maintenance_cost = { gold = 3 }
+	high_maintenance_cost = { gold = 9 }
+
+	stack = 100
+	max = 3
+	ai_quality = { value = 40 }
+
+	illustration = {
+		reference = light_cavalry
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Siegeguard -- Tharion's own, who carry the wall-breakers.
+#  Strength: siege progress. Weakness: poor raw damage. Cap: 2 regiments.
+# ---------------------------------------------------------------------------
+tfast_sc_siegeguard = {
+	type = pikemen
+
+	damage = 20
+	toughness = 30
+	pursuit = 0
+	screen = 10
+	siege_value = 0.4
+	siege_tier = 2
+
+	counters = {
+		heavy_cavalry = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 300 }
+	low_maintenance_cost = { gold = 4 }
+	high_maintenance_cost = { gold = 12 }
+
+	stack = 100
+	max = 2
+	ai_quality = { value = 45 }
+
+	illustration = {
+		reference = palace_guards
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Reanimated Hordes -- the risen dead, marching by weight of numbers.
+#  Strength: cheap, tough bodies. Weakness: almost no damage and melt before
+#  heavy infantry. Cap: 5 regiments.
+# ---------------------------------------------------------------------------
+tfast_sc_reanimated_hordes = {
+	type = skirmishers
+
+	damage = 8
+	toughness = 24
+	pursuit = 5
+	screen = 20
+
+	counters = {
+		heavy_infantry = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 150 }
+	low_maintenance_cost = { gold = 1 }
+	high_maintenance_cost = { gold = 5 }
+
+	stack = 100
+	max = 5
+	ai_quality = { value = 25 }
+
+	illustration = {
+		reference = skirmishers
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Elite Guard -- the Overlord's own household. One regiment, ever.
+#  Strength: everything. Weakness: one regiment, and the treasury it eats.
+# ---------------------------------------------------------------------------
+tfast_sc_elite_guard = {
+	type = heavy_infantry
+
+	damage = 55
+	toughness = 45
+	pursuit = 15
+	screen = 15
+
+	terrain_bonus = {
+		plains = { damage = 5 }
+		hills = { damage = 5 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		heavy_cavalry = 1
+	}
+
+	can_recruit = {
+		has_character_flag = tfast_sc_hollow_host
+	}
+
+	buy_cost = { gold = 700 }
+	low_maintenance_cost = { gold = 8 }
+	high_maintenance_cost = { gold = 20 }
+
+	stack = 100
+	max = 1
+	ai_quality = { value = 70 }
+
+	illustration = {
+		reference = varangian_guard
+	}
+}
+
+# The dead of a battlefield, raised by a white walker. Cheap, many, weak in the open.
+tfast_sc_wights = {
+	type = skirmishers
+
+	damage = 12
+	toughness = 26
+	pursuit = 8
+	screen = 14
+
+	terrain_bonus = {
+		taiga = { damage = 8 toughness = 8 }
+		forest = { damage = 4 toughness = 4 }
+		mountains = { damage = 4 toughness = 6 }
+	}
+
+	can_recruit = {
+		has_trait = tfast_sc_white_walker
+	}
+
+	buy_cost = { gold = 40 }
+	low_maintenance_cost = { gold = 1 }
+	high_maintenance_cost = { gold = 2 }
+
+	stack = 200
+	max = 6
+	ai_quality = { value = 40 }
+
+	illustration = {
+		reference = skirmishers
+	}
+}

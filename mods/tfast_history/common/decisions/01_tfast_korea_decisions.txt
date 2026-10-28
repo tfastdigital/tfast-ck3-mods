@@ -1,0 +1,221 @@
+﻿# ============================================================================
+#  TFAST History -- Korea: the institutions of Goryeo and Joseon
+#                                                            CK3 1.20.x
+# ============================================================================
+#  The world knows the Korean courts as a meritocracy (the vanilla
+#  `meritocratic_government`, "e.g. Korea, Dai Viet"). What history records
+#  is HOW they ran it - and that is what these six acts recreate, each behind
+#  its real date and its real effect on the court:
+#
+#    tfast_hist_gwageo       Civil service examinations,   from 958
+#    tfast_hist_gwajeon      The land survey and reform,   from 1391
+#    tfast_hist_samsa        The Three Censors (Samsa),    from 1392
+#    tfast_hist_jiphyeonjeon The Hall of Worthies,         from 1420
+#    tfast_hist_hangul       The People's Script,          from 1443
+#    tfast_hist_goryeosa     History of Goryeo (Goryeosa), from 1446
+#
+#  Each is founded ONCE in the world (a global flag), available to rulers of
+#  Korean (or Buyeo) heritage, and grants a real institution: a 25-year
+#  standing modifier, prestige, and - where history agrees - the Patron of
+#  Letters trait.
+#
+#  SAFETY CONTRACT (identical to the rest of the TFAST suite)
+#  ---------------------------------------------------------
+#   * is_ai = no             -> only the human player can ever take these.
+#   * ai_check_interval = 0  -> the AI never even evaluates them.
+#   * Additive only          -> no vanilla file is overwritten. No DLC is
+#     required: the culture and date gates simply never come true without
+#     the Korea content present, and nothing errors either way.
+#   * Every effect, trigger, modifier key and illustration verified against
+#     the installed 1.20 data.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  THE CIVIL SERVICE EXAMINATIONS  (Gwageo, 958)
+#  Gwangjong of Goryeo opened the exam halls and the realm never closed them.
+# ---------------------------------------------------------------------------
+tfast_hist_gwageo = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9220
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 958
+		NOT = { exists = global_var:tfast_hist_gwageo_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_gwageo_tt
+		set_global_variable = { name = tfast_hist_gwageo_founded value = yes }
+		add_trait = tfast_hist_patron_of_letters
+		add_character_modifier = {
+			modifier = tfast_hist_gwageo_modifier
+			years = 25
+		}
+		add_prestige = 200
+		trigger_event = tfast_history.0003
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE LAND SURVEY AND REFORM  (Gwajeonbeop, 1391)
+#  Measure the fields, register the owners, and the state finally eats.
+# ---------------------------------------------------------------------------
+tfast_hist_gwajeon = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9221
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 1391
+		NOT = { exists = global_var:tfast_hist_gwajeon_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { gold = 300 prestige = 200 }
+
+	effect = {
+		custom_tooltip = tfast_hist_gwajeon_tt
+		set_global_variable = { name = tfast_hist_gwajeon_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_gwajeon_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE THREE CENSORS  (Samsa, from 1392)
+#  Saheonbu, Saganwon, Hongmungwan: the offices that watch the throne.
+# ---------------------------------------------------------------------------
+tfast_hist_samsa = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9222
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 1392
+		NOT = { exists = global_var:tfast_hist_samsa_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { prestige = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_samsa_tt
+		set_global_variable = { name = tfast_hist_samsa_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_samsa_modifier
+			years = 25
+		}
+		add_prestige = 150
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HALL OF WORTHIES  (Jiphyeonjeon, 1420)
+#  Sejong's scholars: the finest research institution of its age.
+# ---------------------------------------------------------------------------
+tfast_hist_jiphyeonjeon = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tgp_scholars.dds" }
+	decision_group_type = major
+	sort_order = 9223
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 1420
+		NOT = { exists = global_var:tfast_hist_jiphyeonjeon_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { gold = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_jiphyeonjeon_tt
+		set_global_variable = { name = tfast_hist_jiphyeonjeon_founded value = yes }
+		add_trait = tfast_hist_patron_of_letters
+		add_character_modifier = {
+			modifier = tfast_hist_jiphyeonjeon_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE PEOPLE'S SCRIPT  (Hunminjeongeum, 1443)
+#  Twenty-eight letters, so that anyone may write their own language.
+# ---------------------------------------------------------------------------
+tfast_hist_hangul = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9224
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 1443
+		NOT = { exists = global_var:tfast_hist_hangul_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { prestige = 500 gold = 200 }
+
+	effect = {
+		custom_tooltip = tfast_hist_hangul_tt
+		set_global_variable = { name = tfast_hist_hangul_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_hangul_modifier
+			years = 25
+		}
+		add_prestige = 300
+		trigger_event = tfast_history.0004
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HISTORY OF GORYEO  (Goryeosa, 1446-1451)
+#  A dynasty that keeps its own record argues with the future on its terms.
+# ---------------------------------------------------------------------------
+tfast_hist_goryeosa = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9225
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_korea_can_found_trigger = yes
+		current_year >= 1446
+		NOT = { exists = global_var:tfast_hist_goryeosa_founded }
+	}
+	is_valid = { tfast_hist_korea_valid_trigger = yes }
+
+	cost = { gold = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_goryeosa_tt
+		set_global_variable = { name = tfast_hist_goryeosa_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_goryeosa_modifier
+			years = 25
+		}
+		add_prestige = 250
+	}
+}

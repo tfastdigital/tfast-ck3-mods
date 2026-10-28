@@ -1,0 +1,87 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- scripted triggers                            CK3 1.20.x
+# ============================================================================
+
+# Is the title currently in scope a county we are willing to hand out?
+# Called from inside any_held_title / random_held_title, so "this" is a title.
+#
+# Parameter:
+#   GIVER = <character>  the ruler doing the granting
+#
+# Rules:
+#   * county tier only (bars stay with their county)
+#   * never the ruler's own capital county
+tfast_grantable_title_trigger = {
+	tier = tier_county
+	NOT = { this = $GIVER$.capital_county }
+}
+
+# Is any cheat-menu page currently open? Used by 04_tfast_menu.txt so that
+# page tabs are shown only while no page is open, and the Back tab only while
+# one is. Expects to run in a character scope.
+tfast_menu_any_page_open_trigger = {
+	OR = {
+		has_character_flag = tfast_menu_page_resources
+		has_character_flag = tfast_menu_page_domain
+		has_character_flag = tfast_menu_page_military
+		has_character_flag = tfast_menu_page_character
+		has_character_flag = tfast_menu_page_realm
+		has_character_flag = tfast_menu_page_auto
+	}
+}
+
+# Gold left above a 200 reserve, and this year's building spend still under
+# the budget the player set. Expects a character scope.
+tfast_build_budget_open_trigger = {
+	gold >= 350
+	has_variable = tfast_build_budget
+	var:tfast_build_spent < var:tfast_build_budget
+}
+
+# This barony can take one paid improvement: a holding level, or a new
+# building in a free slot. Expects a province scope. root is the player.
+tfast_province_can_build_trigger = {
+	OR = {
+		has_holding_type = castle_holding
+		has_holding_type = city_holding
+		has_holding_type = church_holding
+		has_holding_type = temple_citadel_holding
+	}
+	root = { tfast_build_budget_open_trigger = yes }
+	OR = {
+		has_free_building_slot = yes
+		AND = {
+			root = { gold >= 600 }
+			OR = {
+				AND = {
+					has_holding_type = castle_holding
+					has_building_or_higher = castle_01
+					NOT = { has_building_or_higher = castle_04 }
+				}
+				AND = {
+					has_holding_type = city_holding
+					has_building_or_higher = city_01
+					NOT = { has_building_or_higher = city_04 }
+				}
+				AND = {
+					has_holding_type = church_holding
+					has_building_or_higher = temple_01
+					NOT = { has_building_or_higher = temple_04 }
+				}
+				AND = {
+					has_holding_type = temple_citadel_holding
+					has_building_or_higher = temple_citadel_01
+					NOT = { has_building_or_higher = temple_citadel_04 }
+				}
+			}
+		}
+	}
+}
+
+# Renown covers the next legacy. Cost is 250 plus 500 for each perk already
+# counted on this dynasty. Expects a character scope.
+tfast_can_afford_legacy_trigger = {
+	exists = dynasty
+	has_variable = tfast_legacy_owned
+	dynasty_prestige >= tfast_next_legacy_cost
+}

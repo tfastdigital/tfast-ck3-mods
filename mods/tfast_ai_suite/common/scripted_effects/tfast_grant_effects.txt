@@ -1,0 +1,57 @@
+﻿# Player grants. Root is the character who receives the gift.
+# Every effect below is a vanilla effect from 1.20.
+
+# Event troops at the capital, plus one permanent regiment of horse.
+# The game has no effect that finishes a building already in the queue.
+# generate_building places one finished building in a free slot instead.
+tfast_raise_host_effect = {
+	spawn_army = {
+		name = tfast_grant_army_name
+		levies = 2500
+		men_at_arms = {
+			type = armored_footmen
+			stacks = 5
+		}
+		men_at_arms = {
+			type = bowmen
+			stacks = 5
+		}
+		location = capital_province
+		uses_supply = yes
+		inheritable = no
+	}
+	create_maa_regiment = {
+		type = armored_horsemen
+		check_can_recruit = no
+		size = 2
+	}
+	refill_levy = yes
+}
+
+tfast_instant_buildings_effect = {
+	every_held_title = {
+		limit = { tier = tier_barony }
+		title_province = {
+			generate_building = yes
+		}
+	}
+}
+
+tfast_grant_standing_effect = {
+	add_prestige = 2000
+	add_piety = 2000
+	add_stress = -1000
+	if = {
+		limit = { is_landed = yes }
+		capital_county = { change_development_level = 1 }
+	}
+}
+
+tfast_grant_skills_effect = {
+	add_diplomacy_skill = 2
+	add_martial_skill = 2
+	add_stewardship_skill = 2
+	add_intrigue_skill = 2
+	add_learning_skill = 2
+	add_prowess_skill = 2
+}

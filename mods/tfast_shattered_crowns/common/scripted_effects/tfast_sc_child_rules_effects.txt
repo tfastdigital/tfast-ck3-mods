@@ -1,0 +1,146 @@
+﻿# The Ten do not marry. Each may have two children, and only with another of the Ten.
+
+tfast_sc_seal_hollow_children_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_overlord
+			character:tfast_sc_overlord = { is_alive = yes NOT = { has_trait = tfast_sc_white_walker } }
+		}
+		character:tfast_sc_overlord = { add_trait = tfast_sc_white_walker }
+	}
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes NOT = { has_trait = tfast_sc_white_walker } }
+		}
+		character:tfast_sc_vaelith = { add_trait = tfast_sc_white_walker }
+	}
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_vaelor }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_morvath }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_kaedryn }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_draven }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_tharion }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_seralyth }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_nyxara }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_velmora }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_eryndra }
+	tfast_sc_seal_one_child_effect = { WHO = tfast_sc_malethra }
+}
+
+# Root is not the child. WHO is the history id.
+tfast_sc_seal_one_child_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes }
+		}
+		character:$WHO$ = {
+			if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+			if = { limit = { NOT = { has_trait = tfast_sc_hollow_unwed } } add_trait = tfast_sc_hollow_unwed }
+			if = { limit = { NOT = { has_character_flag = tfast_sc_original_child } } add_character_flag = tfast_sc_original_child }
+			if = {
+				limit = { any_child = { count >= 2 is_alive = yes } }
+				if = { limit = { NOT = { has_trait = tfast_sc_hollow_two_born } } add_trait = tfast_sc_hollow_two_born }
+			}
+			else = {
+				if = { limit = { has_trait = tfast_sc_hollow_two_born } remove_trait = tfast_sc_hollow_two_born }
+			}
+			if = {
+				limit = { is_married = yes }
+				primary_spouse = { save_scope_as = hollow_unwanted_spouse }
+				divorce = scope:hollow_unwanted_spouse
+			}
+			random_relation = {
+				type = lover
+				limit = { NOT = { has_character_flag = tfast_sc_original_child } }
+				save_scope_as = hollow_outside_lover
+			}
+			if = {
+				limit = { exists = scope:hollow_outside_lover }
+				remove_relation_lover = scope:hollow_outside_lover
+			}
+		}
+	}
+}
+
+# Once a year, from the Overlord. One pairing. Pregnancy only while both are under two children.
+tfast_sc_couple_hollow_children_effect = {
+	random_list = {
+		10 = {
+			trigger = {
+				character:tfast_sc_seralyth = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_seralyth = { save_scope_as = couple_mother }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_nyxara = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_nyxara = { save_scope_as = couple_mother }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_velmora = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_velmora = { save_scope_as = couple_mother }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_eryndra = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_eryndra = { save_scope_as = couple_mother }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_malethra = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_malethra = { save_scope_as = couple_mother }
+		}
+	}
+	random_list = {
+		10 = {
+			trigger = {
+				character:tfast_sc_vaelor = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_vaelor = { save_scope_as = couple_father }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_morvath = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_morvath = { save_scope_as = couple_father }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_kaedryn = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_kaedryn = { save_scope_as = couple_father }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_draven = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_draven = { save_scope_as = couple_father }
+		}
+		10 = {
+			trigger = {
+				character:tfast_sc_tharion = { is_alive = yes NOT = { any_child = { count >= 2 is_alive = yes } } }
+			}
+			character:tfast_sc_tharion = { save_scope_as = couple_father }
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:couple_mother
+			exists = scope:couple_father
+		}
+		scope:couple_mother = {
+			set_relation_lover = scope:couple_father
+			had_sex_with_effect = {
+				CHARACTER = scope:couple_father
+				PREGNANCY_CHANCE = 50
+			}
+			remove_relation_lover = scope:couple_father
+		}
+	}
+}

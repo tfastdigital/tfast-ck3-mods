@@ -1,0 +1,513 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- yearly director, birth, court, memory
+#                                                            CK3 1.20.x
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  Clamp a council variable into 0..100. Param: VAR
+# ---------------------------------------------------------------------------
+tfast_sc_clamp_variable_effect = {
+	if = { limit = { var:$VAR$ < 0 } set_variable = { name = $VAR$ value = 0 } }
+	if = { limit = { var:$VAR$ > 100 } set_variable = { name = $VAR$ value = 100 } }
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY -- Hollow characters (any landed Hollow; the Overlord carries the
+#  weight of the director here since he is always landed).
+# ---------------------------------------------------------------------------
+tfast_sc_hollow_yearly_effect = {
+	# Every Hollow keeps their mark, whatever else happens.
+	if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+	if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+
+	if = {
+		limit = { has_character_flag = tfast_sc_overlord }
+		tfast_sc_director_yearly_effect = yes
+		tfast_sc_make_room_for_children_effect = yes
+		tfast_sc_population_scythe_effect = yes
+		tfast_sc_couple_hollow_children_effect = yes
+		tfast_sc_advance_long_night_effect = yes
+		tfast_sct_hollow_vengeance_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY -- the Overlord's own bookkeeping.
+# ---------------------------------------------------------------------------
+tfast_sc_director_yearly_effect = {
+	# Readiness recovers; a sealed or dormant Overlord recovers none.
+	if = {
+		limit = { NOT = { has_character_flag = tfast_sc_overlord_sealed } }
+		if = {
+			limit = { global_var:tfast_sc_hollow_readiness < 100 }
+			change_global_variable = { name = tfast_sc_hollow_readiness add = 4 }
+		}
+	}
+	if = {
+		limit = { has_character_flag = tfast_sc_overlord_sealed }
+		if = {
+			limit = { global_var:tfast_sc_hollow_readiness > 10 }
+			change_global_variable = { name = tfast_sc_hollow_readiness add = -5 }
+		}
+	}
+
+	# Raiding and story budgets refill while the world is not yet at war.
+	if = {
+		limit = { global_var:tfast_sc_crisis_phase <= 1 }
+		set_global_variable = { name = tfast_sc_raid_budget value = 2 }
+		set_global_variable = { name = tfast_sc_story_budget value = 10 }
+	}
+
+	# The court of the Ten.
+	tfast_sc_court_drift_effect = yes
+	tfast_sc_court_rebellion_check_effect = yes
+
+	# Have the strongholds fallen to mortal hands?
+	tfast_sc_stronghold_status_check_effect = yes
+
+	# Stronghold counties keep their ward modifier.
+	global_var:tfast_sc_stronghold_1 ?= {
+		if = {
+			limit = { NOT = { has_county_modifier = tfast_sc_stronghold_modifier } }
+			add_county_modifier = { modifier = tfast_sc_stronghold_modifier }
+		}
+	}
+	global_var:tfast_sc_stronghold_2 ?= {
+		if = {
+			limit = { NOT = { has_county_modifier = tfast_sc_stronghold_modifier } }
+			add_county_modifier = { modifier = tfast_sc_stronghold_modifier }
+		}
+	}
+	global_var:tfast_sc_stronghold_3 ?= {
+		if = {
+			limit = { NOT = { has_county_modifier = tfast_sc_stronghold_modifier } }
+			add_county_modifier = { modifier = tfast_sc_stronghold_modifier }
+		}
+	}
+
+	# One world, one tide. Retries until the player is actually in it, so a
+	# failed start (or a save from before the situation existed) is not stuck.
+	tfast_sc_ensure_tide_effect = yes
+
+	# What the Host wants this year, and what it does about it.
+	tfast_sc_hollow_goal_effect = yes
+
+	# The Long Dark maintains itself: decay, endurance, uprising.
+	if = {
+		limit = { tfast_sc_dark_reign_active_trigger = yes }
+		tfast_sc_dark_reign_tick_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW TIDE
+#  Safe to call every quarter. Starts the situation only while this character
+#  is not already in it. Unique, so a second start does not open a second tide.
+# ---------------------------------------------------------------------------
+tfast_sc_ensure_tide_effect = {
+	if = {
+		limit = {
+			NOT = { has_global_variable = tfast_sc_tide_live }
+			NOT = {
+				any_character_situation = {
+					situation_type = tfast_sc_hollow_tide
+				}
+			}
+		}
+		start_situation = {
+			type = tfast_sc_hollow_tide
+			start_phase = tfast_sc_tide_peace
+		}
+		set_global_variable = tfast_sc_tide_live
+		debug_log = "TFAST Shattered Crowns: the Hollow Tide situation is running"
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  STRONGHOLD STATUS
+#  A recorded stronghold held by anyone but the Hollow is a serious loss.
+# ---------------------------------------------------------------------------
+tfast_sc_stronghold_status_check_effect = {
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_1
+			NOT = { global_var:tfast_sc_stronghold_1.holder ?= { has_character_flag = tfast_sc_hollow_host } }
+		}
+		if = {
+			limit = { NOT = { exists = global_var:tfast_sc_stronghold_lost } }
+			set_global_variable = { name = tfast_sc_stronghold_lost value = yes }
+			debug_log = "TFAST Shattered Crowns: a Hollow stronghold has been lost"
+		}
+	}
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_2
+			NOT = { global_var:tfast_sc_stronghold_2.holder ?= { has_character_flag = tfast_sc_hollow_host } }
+		}
+		if = {
+			limit = { NOT = { exists = global_var:tfast_sc_stronghold_lost } }
+			set_global_variable = { name = tfast_sc_stronghold_lost value = yes }
+			debug_log = "TFAST Shattered Crowns: a Hollow stronghold has been lost"
+		}
+	}
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_3
+			NOT = { global_var:tfast_sc_stronghold_3.holder ?= { has_character_flag = tfast_sc_hollow_host } }
+		}
+		if = {
+			limit = { NOT = { exists = global_var:tfast_sc_stronghold_lost } }
+			set_global_variable = { name = tfast_sc_stronghold_lost value = yes }
+			debug_log = "TFAST Shattered Crowns: a Hollow stronghold has been lost"
+		}
+	}
+
+	# A seat torn from the Hollow heartens the world during the Long Dark.
+	if = {
+		limit = {
+			exists = global_var:tfast_sc_stronghold_lost
+			tfast_sc_dark_reign_active_trigger = yes
+			NOT = { exists = global_var:tfast_sc_seat_recovery_news }
+		}
+		set_global_variable = { name = tfast_sc_seat_recovery_news value = yes }
+		tfast_sc_add_dark_resistance_effect = { AMOUNT = 3 }
+		every_player = {
+			trigger_event = { id = tfast_sc.0907 days = { 5 30 } }
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE ETERNAL COURT -- yearly drift on each of the Ten.
+#  Root = the Overlord's scope (called from tfast_sc_director_yearly_effect).
+# ---------------------------------------------------------------------------
+tfast_sc_court_drift_effect = {
+	every_child = {
+		limit = {
+			has_character_flag = tfast_sc_original_child
+			var:tfast_sc_status ?= 0
+		}
+
+		# Ambition pulls against loyalty.
+		if = {
+			limit = { has_variable = tfast_sc_ambition }
+			change_variable = {
+				name = tfast_sc_loyalty
+				add = {
+					value = 2
+					subtract = var:tfast_sc_ambition
+					divide = 20
+				}
+			}
+		}
+
+		# Personality temper.
+		if = { limit = { has_trait = content } change_variable = { name = tfast_sc_loyalty add = 3 } }
+		if = { limit = { has_trait = ambitious } change_variable = { name = tfast_sc_loyalty add = -3 } }
+		if = { limit = { has_trait = vengeful } change_variable = { name = tfast_sc_grievance add = 4 } }
+		if = { limit = { has_trait = patient } change_variable = { name = tfast_sc_grievance add = -4 } }
+		if = { limit = { has_trait = diligent } change_variable = { name = tfast_sc_influence add = 4 } }
+		if = { limit = { has_trait = lazy } change_variable = { name = tfast_sc_influence add = -4 } }
+
+		# What this child of the Overlord wants this year.
+		tfast_sc_child_goal_effect = yes
+
+		# A destroyed sibling is remembered.
+		if = {
+			limit = { exists = global_var:tfast_sc_last_destroyed_original_child }
+			change_variable = { name = tfast_sc_grievance add = 8 }
+		}
+
+		# Sealed Overlord: legitimacy bleeds away.
+		if = {
+			limit = { has_character_flag = tfast_sc_overlord_sealed }
+			change_variable = { name = tfast_sc_loyalty add = -5 }
+			change_variable = { name = tfast_sc_grievance add = 5 }
+		}
+
+		tfast_sc_clamp_variable_effect = { VAR = tfast_sc_loyalty }
+		tfast_sc_clamp_variable_effect = { VAR = tfast_sc_grievance }
+		tfast_sc_clamp_variable_effect = { VAR = tfast_sc_influence }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  RARE REBELLION
+#  Requirements, per design: low loyalty + major grievance + credible
+#  military backing + no active rebellion + long cooldown. The odds are low
+#  even when all of it holds together.
+# ---------------------------------------------------------------------------
+tfast_sc_court_rebellion_check_effect = {
+	if = {
+		limit = {
+			NOT = { exists = global_var:tfast_sc_rebellion_cooldown }
+			NOT = { global_var:tfast_sc_crisis_phase >= 3 }
+		}
+		every_child = {
+			limit = {
+				has_character_flag = tfast_sc_original_child
+				var:tfast_sc_status ?= 0
+				is_landed = yes
+				var:tfast_sc_loyalty <= 20
+				var:tfast_sc_grievance >= 60
+				var:tfast_sc_readiness >= 50
+			}
+			random = {
+				chance = 2
+				tfast_sc_start_rebellion_effect = { REBEL = this }
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Start the rebellion. Param: REBEL
+# ---------------------------------------------------------------------------
+tfast_sc_start_rebellion_effect = {
+	# Only one rebellion at a time.
+	if = {
+		limit = { NOT = { exists = global_var:tfast_sc_rebellion_cooldown } }
+		save_scope_as = tfast_sc_rebel
+		set_global_variable = { name = tfast_sc_rebellion_cooldown value = yes years = 30 }
+
+		# The rebel has real backing: their own war host.
+		$REBEL$ = {
+			add_character_flag = { flag = tfast_sc_hollow_rebel years = 20 }
+			set_variable = { name = tfast_sc_status value = 5 }
+		}
+
+		# The rebel demands the Overlord's seat: a claim war, the vanilla
+		# mechanism (same pattern the Almohad invasion uses: add_pressed_claim
+		# + start_war with claim_cb; see 00_almohad_invasion_effects.txt).
+		$REBEL$ = {
+			add_pressed_claim = scope:tfast_sc_overlord.capital_county
+			start_war = {
+				cb = claim_cb
+				target = scope:tfast_sc_overlord
+				claimant = scope:tfast_sc_rebel
+				target_title = scope:tfast_sc_overlord.capital_county
+			}
+			spawn_army = {
+				uses_supply = yes
+				inheritable = no
+				name = tfast_sc_rebel_event_troops
+				levies = {
+					value = 500
+				}
+				location = capital_province
+			}
+			spawn_army = {
+				uses_supply = yes
+				inheritable = no
+				name = tfast_sc_rebel_event_troops
+				men_at_arms = {
+					type = tfast_sc_reanimated_hordes
+					men = { value = 400 }
+				}
+				location = capital_province
+			}
+		}
+
+		# The Dominion stands on broken ground.
+		scope:tfast_sc_overlord = {
+			add_character_modifier = {
+				modifier = tfast_sc_court_schism_modifier
+				years = 20
+			}
+		}
+
+		# The world hears of it.
+		every_player = {
+			trigger_event = { id = tfast_sc.0810 days = { 10 60 } }
+		}
+
+		debug_log = "TFAST Shattered Crowns: an original child has risen in rebellion"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY -- the human player.
+# ---------------------------------------------------------------------------
+tfast_sc_player_yearly_effect = {
+	# Late bootstrap repair: if the Dominion was never raised (a failed
+	# game-start hook, an exotic load order), raise it now.
+	if = {
+		limit = { NOT = { tfast_sc_hollow_initialized_trigger = yes } }
+		trigger_event = { id = tfast_sc.0001 days = { 1 5 } }
+	}
+
+	# Designated dynasty fallback (after-lobby should have caught it).
+	tfast_sc_capture_designated_dynasty_effect = yes
+
+	# The Overlord and the Ten keep the castles history gave them.
+	tfast_sc_ensure_permanent_seats_effect = yes
+
+	# Crisis diplomacy: a Hollow immortal in your dungeons is a decision
+	# point, exactly once per prisoner.
+	every_prisoner = {
+		limit = {
+			has_trait = tfast_sc_hollow_immortal
+			has_character_flag = tfast_sc_hollow_host
+			NOT = { has_variable = tfast_sc_crisis_handled }
+		}
+		set_variable = { name = tfast_sc_crisis_handled value = yes }
+		trigger_event = { id = tfast_sc.0600 days = { 5 30 } }
+	}
+
+	# Prophecy housekeeping: if the chosen is invalid, clear the registry so
+	# the prophecy story can choose again.
+	if = {
+		limit = { exists = global_var:tfast_sc_chosen_character }
+		if = {
+			limit = { NOT = { global_var:tfast_sc_chosen_character = { is_alive = yes } } }
+			remove_global_variable = tfast_sc_chosen_character
+		}
+	}
+
+	# Wall upkeep: the sponsor pays, or the stones crumble.
+	tfast_sc_wall_yearly_upkeep_effect = yes
+
+	# At most one gold rumor a year, and only for a deposit county this player holds.
+	tfast_sc_gold_rumor_yearly_effect = yes
+	tfast_sc_resource_rumor_yearly_effect = yes
+
+	# Whispers at court: half-believed news of the Hollow, while the world
+	# is still only worried about them.
+	if = {
+		limit = { NOT = { tfast_sc_dark_reign_active_trigger = yes } }
+		random = {
+			chance = 15
+			random_list = {
+				1 = { set_variable = { name = tfast_sc_omen value = 1 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 2 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 3 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 4 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 5 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 6 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 7 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 8 } }
+			}
+			trigger_event = { id = tfast_sc.0921 days = { 2 30 } }
+		}
+	}
+
+	# The Long Dark: omens, the tithe, the blockade, the wall.
+	tfast_sc_dark_player_yearly_effect = yes
+
+	# The automation menu: whatever the player switched on runs itself.
+	tfast_sc_automation_yearly_effect = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  BIRTH -- root is the newborn child.
+#  Two jobs: (1) inherit both parents' Hollow bloodlines; (2) prophecy
+#  candidate detection for the designated dynasty (post-Reckoning only).
+# ---------------------------------------------------------------------------
+tfast_sc_birth_effect = {
+	# ------------------------------------------------------------------
+	# 1. Both recognized Hollow parents pass on their lines.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			OR = {
+				father ?= { has_character_flag = tfast_sc_hollow_host }
+				mother ?= { has_character_flag = tfast_sc_hollow_host }
+			}
+		}
+		add_character_flag = tfast_sc_hollow_born
+	}
+
+	# Immortality and bloodlines are inherited per parent and per line.
+	if = {
+		limit = {
+			OR = {
+				father ?= { has_trait = tfast_sc_hollow_immortal }
+				mother ?= { has_trait = tfast_sc_hollow_immortal }
+			}
+		}
+		add_character_flag = tfast_sc_hollow_born
+	}
+
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_vaelor } } add_trait = tfast_sc_blood_vaelor }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_vaelor } } add_trait = tfast_sc_blood_vaelor }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_morvath } } add_trait = tfast_sc_blood_morvath }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_morvath } } add_trait = tfast_sc_blood_morvath }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_kaedryn } } add_trait = tfast_sc_blood_kaedryn }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_kaedryn } } add_trait = tfast_sc_blood_kaedryn }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_draven } } add_trait = tfast_sc_blood_draven }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_draven } } add_trait = tfast_sc_blood_draven }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_tharion } } add_trait = tfast_sc_blood_tharion }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_tharion } } add_trait = tfast_sc_blood_tharion }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_seralyth } } add_trait = tfast_sc_blood_seralyth }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_seralyth } } add_trait = tfast_sc_blood_seralyth }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_nyxara } } add_trait = tfast_sc_blood_nyxara }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_nyxara } } add_trait = tfast_sc_blood_nyxara }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_velmora } } add_trait = tfast_sc_blood_velmora }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_velmora } } add_trait = tfast_sc_blood_velmora }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_eryndra } } add_trait = tfast_sc_blood_eryndra }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_eryndra } } add_trait = tfast_sc_blood_eryndra }
+	if = { limit = { father ?= { has_trait = tfast_sc_blood_malethra } } add_trait = tfast_sc_blood_malethra }
+	if = { limit = { mother ?= { has_trait = tfast_sc_blood_malethra } } add_trait = tfast_sc_blood_malethra }
+
+	# A Hollow-born child grows into the immortal trait at adulthood
+	# (the trait freezes visual age, so it cannot be given to a newborn).
+	if = {
+		limit = { has_character_flag = tfast_sc_hollow_born }
+		add_character_flag = tfast_sc_hollow_host
+		trigger_event = { id = tfast_sc.0520 days = { 5600 6200 } }
+	}
+
+	# ------------------------------------------------------------------
+	# 2. Prophecy candidate (designated dynasty only, post-Reckoning).
+	#    If a bloodline has already been established, only direct
+	#    descendants of the last chosen are eligible - cousins are never
+	#    silently selected.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			tfast_sc_prophecy_open_trigger = yes
+			NOT = { exists = global_var:tfast_sc_chosen_character }
+			tfast_sc_in_designated_dynasty_trigger = yes
+		}
+		if = {
+			limit = { NOT = { exists = global_var:tfast_sc_last_chosen } }
+			# The first selection ever: any birth of the designated dynasty.
+			set_variable = { name = tfast_sc_prophecy_candidate value = yes }
+			trigger_event = { id = tfast_sc.0400 days = { 30 360 } }
+		}
+		else_if = {
+			limit = { tfast_sc_direct_descendant_of_chosen_trigger = yes }
+			# The bloodline continues: only its own blood may answer.
+			set_variable = { name = tfast_sc_prophecy_candidate value = yes }
+			trigger_event = { id = tfast_sc.0400 days = { 30 360 } }
+		}
+	}
+
+	# A third child of one of the Ten does not remain.
+	if = {
+		limit = {
+			OR = {
+				mother ?= {
+					has_character_flag = tfast_sc_original_child
+					any_child = { count >= 3 is_alive = yes }
+				}
+				father ?= {
+					has_character_flag = tfast_sc_original_child
+					any_child = { count >= 3 is_alive = yes }
+				}
+			}
+		}
+		death = { death_reason = death_vanished }
+	}
+}

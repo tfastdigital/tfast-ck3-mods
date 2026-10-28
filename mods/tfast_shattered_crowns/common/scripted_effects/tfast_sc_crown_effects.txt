@@ -1,0 +1,259 @@
+﻿# Father holds the hegemony and stays independent.
+# Mother holds the empire and answers to the father.
+# The Ten hold kingdoms and answer to the mother, so both parents stand above them.
+
+tfast_sc_raise_crowns_effect = {
+	tfast_sc_raise_father_crown_effect = yes
+	tfast_sc_raise_mother_crown_effect = yes
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_vaelor BLOOD = tfast_sc_blood_vaelor CROWN = title:k_hollow_vaelor SEAT = title:c_rugen NICK = nick_tfast_sc_vaelor CASTLE = tfast_sc_castle_rugen SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_morvath BLOOD = tfast_sc_blood_morvath CROWN = title:k_hollow_morvath SEAT = title:c_isle_of_man NICK = nick_tfast_sc_morvath CASTLE = tfast_sc_castle_man SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_kaedryn BLOOD = tfast_sc_blood_kaedryn CROWN = title:k_hollow_kaedryn SEAT = title:c_osel NICK = nick_tfast_sc_kaedryn CASTLE = tfast_sc_castle_osel SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_draven BLOOD = tfast_sc_blood_draven CROWN = title:k_hollow_draven SEAT = title:c_anglesey NICK = nick_tfast_sc_draven CASTLE = tfast_sc_castle_anglesey SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_tharion BLOOD = tfast_sc_blood_tharion CROWN = title:k_hollow_tharion SEAT = title:c_orkney NICK = nick_tfast_sc_tharion CASTLE = tfast_sc_castle_orkney SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_seralyth BLOOD = tfast_sc_blood_seralyth CROWN = title:k_hollow_seralyth SEAT = title:c_gutland NICK = nick_tfast_sc_seralyth CASTLE = tfast_sc_castle_gutland SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_nyxara BLOOD = tfast_sc_blood_nyxara CROWN = title:k_hollow_nyxara SEAT = title:c_malta NICK = nick_tfast_sc_nyxara CASTLE = tfast_sc_castle_malta SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_velmora BLOOD = tfast_sc_blood_velmora CROWN = title:k_hollow_velmora SEAT = title:c_faereyar NICK = nick_tfast_sc_velmora CASTLE = tfast_sc_castle_faereyar SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_eryndra BLOOD = tfast_sc_blood_eryndra CROWN = title:k_hollow_eryndra SEAT = title:c_shetland NICK = nick_tfast_sc_eryndra CASTLE = tfast_sc_castle_shetland SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_raise_child_crown_effect = { WHO = tfast_sc_malethra BLOOD = tfast_sc_blood_malethra CROWN = title:k_hollow_malethra SEAT = title:c_canarias NICK = nick_tfast_sc_malethra CASTLE = tfast_sc_castle_canarias SHIELD = house:tfast_sc_hollow_house }
+	tfast_sc_bind_family_lieges_effect = yes
+}
+
+tfast_sc_place_mother_crown_effect = {
+	if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+	if = { limit = { NOT = { has_trait = tfast_sc_hollow_immortal } } add_trait = tfast_sc_hollow_immortal }
+	tfast_sc_give_crown_effect = {
+		CROWN = title:e_hollow_vaelith
+		SEAT = title:c_vestisland
+		NICK = nick_tfast_sc_vaelith
+		CASTLE = tfast_sc_castle_vestisland
+		SHIELD = house:tfast_sc_hollow_house
+	}
+}
+
+tfast_sc_raise_father_crown_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_overlord
+			character:tfast_sc_overlord = { is_alive = yes }
+		}
+		character:tfast_sc_overlord = {
+			tfast_sc_give_crown_effect = {
+				CROWN = title:h_hollow_dominion
+				SEAT = title:c_bornholm
+				NICK = nick_tfast_sc_overlord
+				CASTLE = tfast_sc_castle_bornholm
+				SHIELD = house:tfast_sc_hollow_house
+			}
+		}
+	}
+	else_if = {
+		limit = { exists = global_var:tfast_sc_overlord }
+		global_var:tfast_sc_overlord = {
+			tfast_sc_give_crown_effect = {
+				CROWN = title:h_hollow_dominion
+				SEAT = title:c_bornholm
+				NICK = nick_tfast_sc_overlord
+				CASTLE = tfast_sc_castle_bornholm
+				SHIELD = house:tfast_sc_hollow_house
+			}
+		}
+	}
+}
+
+tfast_sc_raise_mother_crown_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes }
+		}
+		character:tfast_sc_vaelith = { tfast_sc_place_mother_crown_effect = yes }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:tfast_sc_overlord
+			global_var:tfast_sc_overlord = { is_married = yes }
+		}
+		global_var:tfast_sc_overlord = {
+			primary_spouse = { tfast_sc_place_mother_crown_effect = yes }
+		}
+	}
+}
+
+tfast_sc_place_child_crown_effect = {
+	if = { limit = { NOT = { has_trait = tfast_sc_hollow_unwed } } add_trait = tfast_sc_hollow_unwed }
+	if = {
+		limit = { is_married = yes }
+		primary_spouse = { save_scope_as = hollow_unwanted_spouse }
+		divorce = scope:hollow_unwanted_spouse
+	}
+	tfast_sc_give_crown_effect = {
+		CROWN = $CROWN$
+		SEAT = $SEAT$
+		NICK = $NICK$
+		CASTLE = $CASTLE$
+		SHIELD = $SHIELD$
+	}
+}
+
+tfast_sc_raise_child_crown_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes }
+		}
+		character:$WHO$ = {
+			tfast_sc_place_child_crown_effect = {
+				CROWN = $CROWN$
+				SEAT = $SEAT$
+				NICK = $NICK$
+				CASTLE = $CASTLE$
+				SHIELD = $SHIELD$
+			}
+		}
+	}
+	else_if = {
+		limit = { exists = global_var:tfast_sc_overlord }
+		global_var:tfast_sc_overlord = {
+			random_child = {
+				limit = {
+					is_alive = yes
+					has_trait = $BLOOD$
+				}
+				tfast_sc_place_child_crown_effect = {
+					CROWN = $CROWN$
+					SEAT = $SEAT$
+					NICK = $NICK$
+					CASTLE = $CASTLE$
+					SHIELD = $SHIELD$
+				}
+			}
+		}
+	}
+}
+
+# Scope is the ruler.
+tfast_sc_give_crown_effect = {
+	save_scope_as = tfast_sc_crown_holder
+	if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+	if = { limit = { NOT = { culture = culture:tfast_sc_hollow_culture } } set_culture = culture:tfast_sc_hollow_culture }
+	if = {
+		limit = { NOT = { has_title = $SEAT$ } }
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = tfast_sc_crown_seat
+			add_claim_on_loss = no
+		}
+		$SEAT$ = {
+			change_title_holder = {
+				holder = scope:tfast_sc_crown_holder
+				change = scope:tfast_sc_crown_seat
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:tfast_sc_crown_seat
+	}
+	if = {
+		limit = { NOT = { has_title = $CROWN$ } }
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = tfast_sc_crown_change
+			add_claim_on_loss = no
+		}
+		$CROWN$ = {
+			change_title_holder = {
+				holder = scope:tfast_sc_crown_holder
+				change = scope:tfast_sc_crown_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:tfast_sc_crown_change
+	}
+	if = {
+		limit = { has_title = $CROWN$ }
+		set_primary_title_to = $CROWN$
+	}
+	if = {
+		limit = { has_title = $SEAT$ }
+		set_realm_capital = $SEAT$
+	}
+	if = {
+		limit = { NOT = { has_nickname = $NICK$ } }
+		give_nickname = $NICK$
+	}
+	$CROWN$ = { set_coa = $SHIELD$ }
+	$SEAT$ = {
+		if = {
+			limit = { NOT = { has_county_modifier = $CASTLE$ } }
+			add_county_modifier = { modifier = $CASTLE$ }
+		}
+		set_county_faith = faith:hollow_faith
+		title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+	}
+}
+
+tfast_sc_bind_family_lieges_effect = {
+	if = {
+		limit = {
+			exists = character:tfast_sc_overlord
+			character:tfast_sc_overlord = { is_alive = yes exists = liege }
+		}
+		character:tfast_sc_overlord = {
+			create_title_and_vassal_change = {
+				type = independency
+				save_scope_as = tfast_sc_father_free
+				add_claim_on_loss = no
+			}
+			becomes_independent = { change = scope:tfast_sc_father_free }
+			resolve_title_and_vassal_change = scope:tfast_sc_father_free
+		}
+	}
+	if = {
+		limit = {
+			exists = character:tfast_sc_vaelith
+			character:tfast_sc_vaelith = { is_alive = yes exists = liege }
+		}
+		character:tfast_sc_vaelith = { tfast_sc_free_ruler_effect = yes }
+	}
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_vaelor }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_morvath }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_kaedryn }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_draven }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_tharion }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_seralyth }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_nyxara }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_velmora }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_eryndra }
+	tfast_sc_child_swears_effect = { WHO = tfast_sc_malethra }
+}
+
+tfast_sc_child_swears_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes exists = liege }
+		}
+		character:$WHO$ = { tfast_sc_free_ruler_effect = yes }
+	}
+}
+
+tfast_sc_free_ruler_effect = {
+	create_title_and_vassal_change = {
+		type = independency
+		save_scope_as = tfast_sc_free_change
+		add_claim_on_loss = no
+	}
+	becomes_independent = { change = scope:tfast_sc_free_change }
+	resolve_title_and_vassal_change = scope:tfast_sc_free_change
+}
+
+tfast_sc_swear_to_effect = {
+	create_title_and_vassal_change = {
+		type = swear_fealty
+		save_scope_as = tfast_sc_swear_change
+		add_claim_on_loss = no
+	}
+	change_liege = {
+		liege = $LIEGE$
+		change = scope:tfast_sc_swear_change
+	}
+	resolve_title_and_vassal_change = scope:tfast_sc_swear_change
+}

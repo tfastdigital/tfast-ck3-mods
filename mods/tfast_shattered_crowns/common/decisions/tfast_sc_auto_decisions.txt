@@ -1,0 +1,305 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the automation menu               CK3 1.20.x
+# ============================================================================
+#  One menu, seven switches. Open it from the Decisions tab, flip what you
+#  want the realm to handle by itself, close it again:
+#
+#    Auto: Maintain the Wall      fund upkeep / patch the stones
+#    Auto: Reinforce the Wall     refit when there is coin to spare
+#    Auto: Rebuild Counties       clear the raided modifier
+#    Auto: Tell the Tale          use a waiting memory
+#    Auto: Rise Against the Hollow  during the Long Dark
+#    Auto: Break Blockades        pay the escorts
+#    Auto: Hire Mercenaries       while at war, keeping a reserve
+#
+#  Every switch is a character flag (tfast_sc_auto_*). The yearly pass
+#  (tfast_sc_automation_yearly_effect) only ever does what the matching
+#  decision could have done, at the same price. is_ai = no throughout:
+#  the AI never sees the menu and never automates anything.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  OPEN / CLOSE
+# ---------------------------------------------------------------------------
+tfast_sc_auto_menu_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9300
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		NOT = { has_character_flag = tfast_sc_auto_menu }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_menu } }
+}
+
+tfast_sc_auto_menu_close = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9301
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_menu }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: MAINTAIN THE WALL
+# ---------------------------------------------------------------------------
+tfast_sc_auto_maintain_wall_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9302
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_maintain_wall }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_maintain_wall } }
+}
+
+tfast_sc_auto_maintain_wall_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9303
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_maintain_wall
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_maintain_wall }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: REINFORCE THE WALL
+# ---------------------------------------------------------------------------
+tfast_sc_auto_reinforce_wall_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9304
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_reinforce_wall }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_reinforce_wall } }
+}
+
+tfast_sc_auto_reinforce_wall_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9305
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_reinforce_wall
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_reinforce_wall }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: REBUILD COUNTIES
+# ---------------------------------------------------------------------------
+tfast_sc_auto_rebuild_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9306
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_rebuild }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_rebuild } }
+}
+
+tfast_sc_auto_rebuild_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9307
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_rebuild
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_rebuild }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: TELL THE TALE
+# ---------------------------------------------------------------------------
+tfast_sc_auto_tale_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9308
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_tale }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_tale } }
+}
+
+tfast_sc_auto_tale_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9309
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_tale
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_tale }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: RISE AGAINST THE HOLLOW
+# ---------------------------------------------------------------------------
+tfast_sc_auto_rise_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9310
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_rise }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_rise } }
+}
+
+tfast_sc_auto_rise_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9311
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_rise
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_rise }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: BREAK BLOCKADES
+# ---------------------------------------------------------------------------
+tfast_sc_auto_blockade_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_wall_breach_decision.dds" }
+	decision_group_type = major
+	sort_order = 9312
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_blockade }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_blockade } }
+}
+
+tfast_sc_auto_blockade_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_wall_breach_decision.dds" }
+	decision_group_type = major
+	sort_order = 9313
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_blockade
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_blockade }
+}
+
+
+# ---------------------------------------------------------------------------
+#  AUTO: HIRE MERCENARIES
+# ---------------------------------------------------------------------------
+tfast_sc_auto_merc_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9314
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		NOT = { has_character_flag = tfast_sc_auto_merc }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_sc_auto_merc } }
+}
+
+tfast_sc_auto_merc_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_gold_raid_decision.dds" }
+	decision_group_type = major
+	sort_order = 9315
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = tfast_sc_auto_menu
+		has_character_flag = tfast_sc_auto_merc
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_sc_auto_merc }
+}

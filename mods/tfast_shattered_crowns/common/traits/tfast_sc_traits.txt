@@ -1,0 +1,264 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- traits                           CK3 1.20.x
+# ============================================================================
+#  Verified against game/common/traits/_traits.info and 00_traits.txt:
+#    * `immortal = yes` stops visual aging and natural death, and is exactly
+#      the engine flag vanilla's own `immortal` trait uses (line 17510).
+#    * `shown_in_ruler_designer = no` keeps these out of the ruler designer.
+#    * `flag = x` values are referenced by script via `has_trait_flag`, and
+#      the game localizes them automatically from TRAIT_FLAG_DESC_<flag>.
+#  Icons are original tfast_sc_*.dds shields in gfx/interface/icons/traits/.
+#  Format matches vanilla immortal.dds: 120x120, uncompressed 32-bit BGRA.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  The Hollow are not alive in the way the living are.
+#  Granted by the bootstrap to the Overlord and all of his blood.
+#  Immortal, unaging, but script-killable (True Death only).
+# ---------------------------------------------------------------------------
+tfast_sc_hollow_immortal = {
+	icon = "tfast_sc_icon_immortal.dds"
+	shown_in_ruler_designer = no
+
+	opposites = { incapable }
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_hollow_immortal_desc
+			}
+			desc = trait_tfast_sc_hollow_immortal_character_desc
+		}
+	}
+
+	immortal = yes
+	flag = tfast_sc_hollow_immortal
+	no_prowess_loss_from_age = yes
+	long_reign_bonus_mult = -1000
+
+	# The Hollow do not sicken.
+	health = 10
+	fertility = 0.25
+}
+
+# Feared by the living, loyal to their own. The twins stay married.
+# The Ten take tfast_sc_hollow_unwed on top of this, so they cannot.
+tfast_sc_white_walker = {
+	icon = "tfast_sc_icon_immortal.dds"
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_white_walker_desc
+			}
+			desc = trait_tfast_sc_white_walker_character_desc
+		}
+	}
+
+	prowess = 20
+	dread_baseline_add = 30
+	general_opinion = -50
+	same_opinion = 80
+	flag = tfast_sc_white_walker
+}
+
+# The Ten. No marriage. Two births, then the line closes.
+tfast_sc_hollow_unwed = {
+	icon = "tfast_sc_icon_immortal.dds"
+	shown_in_ruler_designer = no
+	flag = can_not_marry
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_hollow_unwed_desc
+			}
+			desc = trait_tfast_sc_hollow_unwed_character_desc
+		}
+	}
+}
+
+tfast_sc_hollow_two_born = {
+	icon = "tfast_sc_icon_immortal.dds"
+	shown_in_ruler_designer = no
+	fertility = -10
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_hollow_two_born_desc
+			}
+			desc = trait_tfast_sc_hollow_two_born_character_desc
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  The Awakened Chosen Emperor.
+#  Added ONLY by the awakening event, never at birth; before that the chosen
+#  carries nothing but a hidden variable.
+# ---------------------------------------------------------------------------
+tfast_sc_chosen_awakened = {
+	category = fame
+	icon = "tfast_sc_icon_chosen.dds"
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_chosen_awakened_desc
+			}
+			desc = trait_tfast_sc_chosen_awakened_character_desc
+		}
+	}
+
+	martial = 1
+	prowess = 3
+	monthly_prestige = 0.5
+	same_opinion = 10
+	opposite_opinion = -10
+
+	flag = tfast_sc_chosen_awakened
+}
+
+
+# ---------------------------------------------------------------------------
+#  The watchmen who keep the Great Wall's gates.
+#  Recruited through the Last Watch decision chain.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_watchman = {
+	category = commander
+	icon = "tfast_sc_icon_last_watch.dds"
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_tfast_sc_wall_watchman_desc
+			}
+			desc = trait_tfast_sc_wall_watchman_character_desc
+		}
+	}
+
+	martial = 1
+	prowess = 2
+
+	flag = tfast_sc_wall_watchman
+}
+
+
+# ============================================================================
+#  BLOODLINES OF THE TEN
+# ============================================================================
+#  One trait per original child. A Hollow descendant receives the bloodlines
+#  of both recognized Hollow parents (see tfast_sc_birth_effect in
+#  common/scripted_effects/tfast_sc_birth_effects.txt). No category is set,
+#  so any number of bloodlines can coexist on one character.
+# ============================================================================
+
+# Vaelor, the sword of the Dominion.
+tfast_sc_blood_vaelor = {
+	icon = "tfast_sc_icon_vaelor.dds"
+	shown_in_ruler_designer = no
+	martial = 2
+	prowess = 3
+	same_opinion = 5
+	flag = tfast_sc_blood_vaelor
+}
+
+# Morvath, who calls the fallen back to their feet.
+tfast_sc_blood_morvath = {
+	icon = "tfast_sc_icon_morvath.dds"
+	shown_in_ruler_designer = no
+	learning = 2
+	health = 5
+	same_opinion = 5
+	flag = tfast_sc_blood_morvath
+}
+
+# Kaedryn, whose breath is winter.
+tfast_sc_blood_kaedryn = {
+	icon = "tfast_sc_icon_kaedryn.dds"
+	shown_in_ruler_designer = no
+	learning = 1
+	martial = 1
+	same_opinion = 5
+	flag = tfast_sc_blood_kaedryn
+}
+
+# Draven, who walks in the shadow of every court.
+tfast_sc_blood_draven = {
+	icon = "tfast_sc_icon_draven.dds"
+	shown_in_ruler_designer = no
+	intrigue = 3
+	same_opinion = 5
+	flag = tfast_sc_blood_draven
+}
+
+# Tharion, who breaks gates.
+tfast_sc_blood_tharion = {
+	icon = "tfast_sc_icon_tharion.dds"
+	shown_in_ruler_designer = no
+	martial = 2
+	same_opinion = 5
+	flag = tfast_sc_blood_tharion
+}
+
+# Seralyth, whose words become curses.
+tfast_sc_blood_seralyth = {
+	icon = "tfast_sc_icon_seralyth.dds"
+	shown_in_ruler_designer = no
+	intrigue = 2
+	learning = 1
+	same_opinion = 5
+	flag = tfast_sc_blood_seralyth
+}
+
+# Nyxara, who hears every whisper.
+tfast_sc_blood_nyxara = {
+	icon = "tfast_sc_icon_nyxara.dds"
+	shown_in_ruler_designer = no
+	intrigue = 2
+	diplomacy = 1
+	same_opinion = 5
+	flag = tfast_sc_blood_nyxara
+}
+
+# Velmora, keeper of the souls that were promised.
+tfast_sc_blood_velmora = {
+	icon = "tfast_sc_icon_velmora.dds"
+	shown_in_ruler_designer = no
+	learning = 2
+	monthly_piety = 0.5
+	same_opinion = 5
+	flag = tfast_sc_blood_velmora
+}
+
+# Eryndra, who mends what the war has unmade.
+tfast_sc_blood_eryndra = {
+	icon = "tfast_sc_icon_eryndra.dds"
+	shown_in_ruler_designer = no
+	stewardship = 2
+	health = 5
+	same_opinion = 5
+	flag = tfast_sc_blood_eryndra
+}
+
+# Malethra, who leaves only ash.
+tfast_sc_blood_malethra = {
+	icon = "tfast_sc_icon_malethra.dds"
+	shown_in_ruler_designer = no
+	martial = 1
+	dread_baseline_add = 10
+	same_opinion = 5
+	flag = tfast_sc_blood_malethra
+}

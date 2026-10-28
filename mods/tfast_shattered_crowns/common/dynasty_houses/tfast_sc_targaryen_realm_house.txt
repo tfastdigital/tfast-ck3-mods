@@ -1,0 +1,5 @@
+﻿# Memberless house that only supplies the alternate realm shield.
+tfast_sc_targaryen_realm_house = {
+	name = "tfast_sc_targaryen_realm_name"
+	dynasty = tfast_sc_targaryen_realm_dynasty
+}

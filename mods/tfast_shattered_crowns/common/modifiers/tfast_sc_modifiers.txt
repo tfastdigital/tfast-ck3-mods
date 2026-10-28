@@ -1,0 +1,390 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- modifiers                        CK3 1.20.x
+# ============================================================================
+#  Every modifier key below appears in vanilla modifier files:
+#    - character keys: 00_basic_modifiers.txt, 00_event_modifiers.txt,
+#      00_martial_lifestyle_modifiers.txt, 00_war_and_combat_modifiers.txt
+#    - county keys:    00_county_modifiers.txt
+#  Icons are referenced WITHOUT a .dds suffix (that is how modifier icons
+#  work) and every icon name below is already used by vanilla modifiers.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  CHARACTER MODIFIERS
+# ---------------------------------------------------------------------------
+
+# The ruler who finished a Winter Wall. Prestige, not a second army.
+tfast_sc_wall_founder_modifier = {
+	icon = martial_positive
+	monthly_prestige = 0.4
+	defender_advantage = 5
+	dread_baseline_add = 10
+}
+
+# Vaelith leads in the field. The faith already lets her command.
+tfast_sc_dark_commander_modifier = {
+	icon = martial_positive
+	martial = 2
+	prowess = 6
+	knight_effectiveness_mult = 0.15
+	army_maintenance_mult = -0.1
+	monthly_prestige = 0.3
+}
+
+# Courtiers of the Hollow. They do not bear children.
+tfast_sc_undead_court_modifier = {
+	icon = health_negative
+	fertility = -10
+	health = 2
+}
+
+# The Overlord walks abroad; the host is at his back.
+tfast_sc_overlord_aura_modifier = {
+	icon = martial_positive
+	monthly_prestige = 1
+	dread_gain_mult = 0.5
+	levy_size = 0.3
+	knight_effectiveness_mult = 0.1
+}
+
+# The Overlord is sealed or displaced; the host gropes without its head.
+tfast_sc_overlord_sealed_modifier = {
+	icon = martial_negative
+	monthly_prestige = -1
+	levy_size = -0.5
+	monthly_income_mult = -0.3
+	knight_effectiveness_mult = -0.2
+	stress_gain_mult = 0.5
+}
+
+# After a failed Reckoning the host retreats and licks its wounds.
+tfast_sc_host_retreat_modifier = {
+	icon = martial_negative
+	levy_size = -0.4
+	monthly_income_mult = -0.2
+	knight_effectiveness_mult = -0.15
+}
+
+# After an open rebellion among the Ten, the Dominion stands on broken ground.
+tfast_sc_court_schism_modifier = {
+	icon = diplomacy_negative
+	vassal_opinion = -20
+	general_opinion = -10
+	levy_size = -0.2
+}
+
+# The pledge of the World Council: mortal rulers who swore to stand together.
+tfast_sc_world_pledge_modifier = {
+	icon = diplomacy_positive
+	levy_size = 0.15
+	general_opinion = 5
+	monthly_prestige = 0.25
+}
+
+# The Chosen Emperor's power, tier one: the blood remembers.
+tfast_sc_chosen_power_1_modifier = {
+	icon = martial_positive
+	prowess = 3
+	knight_effectiveness_mult = 0.05
+	dread_gain_mult = 0.25
+}
+
+# Tier two: the mantle settles.
+tfast_sc_chosen_power_2_modifier = {
+	icon = martial_positive
+	prowess = 5
+	martial = 1
+	knight_effectiveness_mult = 0.1
+	dread_gain_mult = 0.5
+}
+
+# Tier three: the prophecy burns bright.
+tfast_sc_chosen_power_3_modifier = {
+	icon = martial_positive
+	prowess = 8
+	martial = 2
+	levy_size = 0.1
+	knight_effectiveness_mult = 0.15
+	dread_gain_mult = 0.75
+}
+
+
+# ---------------------------------------------------------------------------
+#  COUNTY MODIFIERS
+# ---------------------------------------------------------------------------
+
+# A Hollow stronghold: warded, deep, and wrong.
+tfast_sc_stronghold_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 2
+	levy_size = 0.5
+	monthly_county_control_growth_add = 0.5
+	development_growth_factor = -0.1
+}
+
+# Named castle on each seat. The name is the sign on the county.
+# Keys are the same ones already used by tfast_sc_stronghold_modifier.
+tfast_sc_castle_bornholm = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.2
+	monthly_county_control_growth_add = 0.3
+}
+tfast_sc_castle_vestisland = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.2
+	monthly_county_control_growth_add = 0.3
+}
+tfast_sc_castle_rugen = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.25
+	monthly_county_control_growth_add = 0.3
+}
+tfast_sc_castle_man = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.15
+	monthly_county_control_growth_add = 0.3
+}
+tfast_sc_castle_osel = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.15
+	development_growth_factor = -0.05
+}
+tfast_sc_castle_anglesey = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.1
+	monthly_county_control_growth_add = 0.2
+}
+tfast_sc_castle_orkney = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.2
+	monthly_county_control_growth_add = 0.2
+}
+tfast_sc_castle_gutland = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.15
+	monthly_county_control_growth_add = 0.2
+}
+tfast_sc_castle_malta = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.1
+	monthly_county_control_growth_add = 0.2
+}
+tfast_sc_castle_faereyar = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.15
+	monthly_county_control_growth_add = 0.2
+}
+tfast_sc_castle_shetland = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.15
+	development_growth_factor = 0.05
+}
+tfast_sc_castle_canarias = {
+	icon = county_modifier_control_positive
+	fort_level = 3
+	levy_size = 0.2
+	monthly_county_control_growth_add = 0.2
+}
+
+# Stage 1 of a Great Wall: watchtowers on the frontier.
+tfast_sc_wall_towers_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 1
+	levy_size = 0.2
+}
+
+# Stage 2 of a Great Wall: the rampart itself.
+tfast_sc_wall_rampart_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 2
+	defender_holding_advantage = 10
+	monthly_county_control_growth_add = 0.5
+}
+
+# Stage 3 of a Great Wall: the gates. While these stand, scripted Hollow
+# raids cannot pass (see tfast_sc_raid_resolve_effect).
+tfast_sc_wall_gate_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 1
+	defender_holding_advantage = 15
+	monthly_county_control_growth_add = 1
+	county_opinion_add = 5
+}
+
+# Stage 4 of a Great Wall: the wards, which the Hollow cannot cross unbroken.
+tfast_sc_wall_wards_modifier = {
+	icon = county_modifier_development_positive
+	defender_holding_advantage = 10
+	county_opinion_add = 10
+	development_growth_factor = 0.1
+}
+
+# A county the Hollow Host has stripped.
+tfast_sc_raided_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -20
+	development_growth_factor = -0.5
+	monthly_county_control_decline_add = -0.5
+	tax_mult = -0.2
+}
+
+# Kaedryn's frost lies on the fields.
+tfast_sc_frost_county_modifier = {
+	icon = cold_negative
+	development_growth_factor = -0.3
+	levy_size = -0.2
+	county_fertility_growth_mult = -0.5
+}
+
+# Mortal hands rebuild what the Hollow unmade.
+tfast_sc_rebuilding_modifier = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.5
+	build_gold_cost = -0.1
+	county_opinion_add = 10
+}
+
+# A deed of the dynasty told aloud: memory doing real work.
+tfast_sc_tale_modifier = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_prestige = 0.25
+	monthly_legitimacy_add = 0.2
+}
+
+# A small gold working. Income is county tax, not a second treasury.
+tfast_sc_gold_working_small = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.05
+	development_growth_factor = small_development_growth_gain
+}
+
+# A richer gold working. Still one county tax modifier.
+tfast_sc_gold_working_developed = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.1
+	development_growth_factor = small_development_growth_gain
+}
+
+# The richest seeded goldfield, once it is actually worked.
+tfast_sc_gold_working_royal = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.15
+	development_growth_factor = small_development_growth_gain
+}
+
+# Iron, stone, timber, and grain. Same rule as gold: one county tax modifier.
+tfast_sc_iron_working = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.08
+	development_growth_factor = small_development_growth_gain
+}
+
+tfast_sc_stone_working = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.06
+	development_growth_factor = small_development_growth_gain
+}
+
+tfast_sc_timber_working = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.06
+	development_growth_factor = small_development_growth_gain
+}
+
+tfast_sc_grain_working = {
+	icon = county_modifier_development_positive
+	tax_mult = 0.08
+	development_growth_factor = small_development_growth_gain
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE LONG DARK (crisis phase 6) AND ITS WALLS
+# ---------------------------------------------------------------------------
+
+# The Long Dark: plague walks the land.
+tfast_sc_dark_plague_modifier = {
+	icon = county_modifier_opinion_negative
+	development_growth_factor = -0.4
+	levy_size = -0.3
+	tax_mult = -0.2
+	county_opinion_add = -15
+}
+
+# The Long Dark: the granaries are empty and the fields are husks.
+tfast_sc_dark_famine_modifier = {
+	icon = cold_negative
+	levy_size = -0.4
+	development_growth_factor = -0.2
+	county_fertility_growth_mult = -0.5
+	county_opinion_add = -10
+}
+
+# The Long Dark: nobody has coin, and everything costs more.
+tfast_sc_dark_poverty_modifier = {
+	icon = county_modifier_opinion_negative
+	tax_mult = -0.35
+	build_gold_cost = 0.25
+	development_growth_factor = -0.2
+	county_opinion_add = -5
+}
+
+# Routes through the gate are cut; the wall counties live on what was stored.
+tfast_sc_wall_blockade_modifier = {
+	icon = county_modifier_opinion_negative
+	tax_mult = -0.4
+	development_growth_factor = -0.5
+	monthly_county_control_decline_add = -0.5
+	county_opinion_add = -15
+}
+
+# Reinforced wall, first level.
+tfast_sc_wall_reinforced_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 1
+	defender_holding_advantage = 10
+	monthly_county_control_growth_add = 0.5
+}
+
+# Reinforced wall, second level.
+tfast_sc_wall_reinforced_2_modifier = {
+	icon = county_modifier_control_positive
+	fort_level = 2
+	defender_holding_advantage = 20
+	monthly_county_control_growth_add = 0.75
+}
+
+# The dark years on a person: the air itself is wrong.
+tfast_sc_dark_malady_modifier = {
+	icon = martial_negative
+	health = -1
+	stress_gain_mult = 0.5
+}
+
+# The world has risen; those who stood are marked by it.
+tfast_sc_uprising_spirit_modifier = {
+	icon = diplomacy_positive
+	levy_size = 0.25
+	general_opinion = 10
+	monthly_prestige = 0.5
+}
+
+# In hiding: the court whispers, the coin thins - and the Host looks elsewhere.
+tfast_sc_hiding_modifier = {
+	icon = diplomacy_negative
+	monthly_prestige = -1
+	general_opinion = -10
+}

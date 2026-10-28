@@ -1,0 +1,209 @@
+﻿# ============================================================================
+#  TFAST History -- England: the institutions of the English crown
+#                                                            CK3 1.20.x
+# ============================================================================
+#  Six dated acts of the English realm, gated on holding the crown of
+#  England (k_england) or the empire of Britannia - the institutions belong
+#  to the realm, not the blood: Norman kings ruled England too.
+#
+#    tfast_hist_domesday    The Great Survey (Domesday Book),   1086
+#    tfast_hist_exchequer   The Exchequer (the Pipe Rolls),     1130
+#    tfast_hist_jury        The Assize of Clarendon,            1166
+#    tfast_hist_parliament  The Model Parliament,               1295
+#    tfast_hist_garter      The Order of the Garter,            1348
+#    tfast_hist_navy        The Navy Royal,                     1413
+#
+#  Each is founded ONCE in the world (a global flag) and grants a 25-year
+#  standing modifier; the Garter also grants the Founder of the Order trait.
+#
+#  SAFETY CONTRACT (identical to the rest of the TFAST suite)
+#  ---------------------------------------------------------
+#   * is_ai = no             -> only the human player can ever take these.
+#   * ai_check_interval = 0  -> the AI never even evaluates them.
+#   * Additive only          -> no vanilla file is overwritten.
+#   * Every effect, trigger, modifier key and illustration verified against
+#     the installed 1.20 data.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  THE GREAT SURVEY  (Domesday Book, 1086)
+# ---------------------------------------------------------------------------
+tfast_hist_domesday = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9240
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1086
+		NOT = { exists = global_var:tfast_hist_domesday_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { gold = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_domesday_tt
+		set_global_variable = { name = tfast_hist_domesday_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_domesday_modifier
+			years = 25
+		}
+		add_prestige = 250
+		trigger_event = tfast_history.0007
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE EXCHEQUER  (the Pipe Rolls, 1130)
+# ---------------------------------------------------------------------------
+tfast_hist_exchequer = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_social.dds" }
+	decision_group_type = major
+	sort_order = 9241
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1130
+		NOT = { exists = global_var:tfast_hist_exchequer_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_exchequer_tt
+		set_global_variable = { name = tfast_hist_exchequer_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_exchequer_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  TRIAL BY JURY  (Assize of Clarendon, 1166)
+# ---------------------------------------------------------------------------
+tfast_hist_jury = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_tale.dds" }
+	decision_group_type = major
+	sort_order = 9242
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1166
+		NOT = { exists = global_var:tfast_hist_jury_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { prestige = 300 }
+
+	effect = {
+		custom_tooltip = tfast_hist_jury_tt
+		set_global_variable = { name = tfast_hist_jury_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_jury_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE MODEL PARLIAMENT  (1295)
+# ---------------------------------------------------------------------------
+tfast_hist_parliament = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9243
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1295
+		NOT = { exists = global_var:tfast_hist_parliament_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { prestige = 400 }
+
+	effect = {
+		custom_tooltip = tfast_hist_parliament_tt
+		set_global_variable = { name = tfast_hist_parliament_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_parliament_modifier
+			years = 25
+		}
+		add_prestige = 250
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE ORDER OF THE GARTER  (1348)
+# ---------------------------------------------------------------------------
+tfast_hist_garter = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_byz_throne.dds" }
+	decision_group_type = major
+	sort_order = 9244
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1348
+		NOT = { exists = global_var:tfast_hist_garter_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { gold = 300 prestige = 200 }
+
+	effect = {
+		custom_tooltip = tfast_hist_garter_tt
+		set_global_variable = { name = tfast_hist_garter_founded value = yes }
+		add_trait = tfast_hist_order_founder
+		add_character_modifier = {
+			modifier = tfast_hist_garter_modifier
+			years = 25
+		}
+		add_prestige = 300
+		trigger_event = tfast_history.0008
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE NAVY ROYAL  (from 1413)
+# ---------------------------------------------------------------------------
+tfast_hist_navy = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_recruitment.dds" }
+	decision_group_type = major
+	sort_order = 9245
+	ai_check_interval = 0
+
+	is_shown = {
+		tfast_hist_england_can_found_trigger = yes
+		current_year >= 1413
+		NOT = { exists = global_var:tfast_hist_navy_founded }
+	}
+	is_valid = { tfast_hist_england_valid_trigger = yes }
+
+	cost = { gold = 500 }
+
+	effect = {
+		custom_tooltip = tfast_hist_navy_tt
+		set_global_variable = { name = tfast_hist_navy_founded value = yes }
+		add_character_modifier = {
+			modifier = tfast_hist_navy_modifier
+			years = 25
+		}
+		add_prestige = 200
+	}
+}

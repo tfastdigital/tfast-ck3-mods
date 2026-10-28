@@ -1,0 +1,106 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- crisis diplomacy                  CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0600 -- a Hollow immortal is your prisoner.
+#  This is the mod's one direct Hollow-to-mortal negotiation: a crisis, not
+#  routine diplomacy. Release may buy a ceasefire; execution only banishes
+#  (immortals return); the Overlord cannot be killed at all, only sealed.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+tfast_sc.0600 = {
+	type = character_event
+	theme = intrigue
+
+	title = tfast_sc.0600.t
+	desc = { desc = tfast_sc.0600.desc }
+
+	immediate = {
+		every_prisoner = {
+			limit = {
+				has_trait = tfast_sc_hollow_immortal
+				has_character_flag = tfast_sc_hollow_host
+			}
+			save_temporary_scope_as = tfast_sc_captive_hollow
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# Release them: the Host remembers mercy with a ceasefire.
+	# ------------------------------------------------------------------
+	option = {
+		name = tfast_sc.0600.a
+
+		trigger = { exists = scope:tfast_sc_captive_hollow }
+
+		ai_chance = { base = 40 }
+
+		add_prestige = 100
+		set_variable = { name = tfast_sc_raid_cooldown value = yes years = 5 }
+		scope:tfast_sc_captive_hollow = {
+			add_opinion = {
+				modifier = tfast_sc_released_opinion
+				target = root
+			}
+			release_from_prison = yes
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# Execute them. An immortal does not stay dead - only banished.
+	# (Never offered for the Overlord: he cannot be slain, only sealed.)
+	# ------------------------------------------------------------------
+	option = {
+		name = tfast_sc.0600.b
+
+		trigger = {
+			exists = scope:tfast_sc_captive_hollow
+			scope:tfast_sc_captive_hollow = {
+				NOT = { has_character_flag = tfast_sc_overlord }
+			}
+		}
+
+		ai_chance = { base = 30 }
+
+		add_tyranny = medium_tyranny_value
+		scope:tfast_sc_captive_hollow = {
+			death = natural
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# Seal the Overlord away (only offered when the prisoner IS him).
+	# ------------------------------------------------------------------
+	option = {
+		name = tfast_sc.0600.c
+
+		trigger = {
+			exists = scope:tfast_sc_captive_hollow
+			scope:tfast_sc_captive_hollow = {
+				has_character_flag = tfast_sc_overlord
+			}
+		}
+
+		ai_chance = { base = 100 }
+
+		tfast_sc_seal_overlord_effect = yes
+	}
+
+	# ------------------------------------------------------------------
+	# Hold them. The Host will remember.
+	# ------------------------------------------------------------------
+	option = {
+		name = tfast_sc.0600.d
+
+		trigger = { exists = scope:tfast_sc_captive_hollow }
+
+		ai_chance = { base = 30 }
+
+		set_variable = { name = tfast_sc_hostage_held value = yes years = 10 }
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}

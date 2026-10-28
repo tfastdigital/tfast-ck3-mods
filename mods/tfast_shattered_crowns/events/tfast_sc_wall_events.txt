@@ -1,0 +1,66 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- Great Wall events                CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0301 -- the watch reports an assault on the wall
+#  tfast_sc.0302 -- a gate has been breached (the world is told)
+#  tfast_sc.0303 -- the wall stands unfunded
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  THE WATCH REPORTS
+# ---------------------------------------------------------------------------
+tfast_sc.0301 = {
+	type = character_event
+	theme = war
+	override_background = { reference = tfast_sc_winter_wall }
+
+	title = tfast_sc.0301.t
+	desc = { desc = tfast_sc.0301.desc }
+
+	option = {
+		name = tfast_sc.0301.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE GATE IS BREACHED
+# ---------------------------------------------------------------------------
+tfast_sc.0302 = {
+	type = character_event
+	theme = dread
+	override_background = { reference = tfast_sc_wall_breach }
+
+	title = tfast_sc.0302.t
+	desc = { desc = tfast_sc.0302.desc }
+
+	option = {
+		name = tfast_sc.0302.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WALL STANDS UNFUNDED
+# ---------------------------------------------------------------------------
+tfast_sc.0303 = {
+	type = character_event
+	theme = realm
+	override_background = { reference = tfast_sc_winter_wall }
+
+	title = tfast_sc.0303.t
+	desc = { desc = tfast_sc.0303.desc }
+
+	option = {
+		name = tfast_sc.0303.a
+
+		ai_chance = { base = 100 }
+	}
+}

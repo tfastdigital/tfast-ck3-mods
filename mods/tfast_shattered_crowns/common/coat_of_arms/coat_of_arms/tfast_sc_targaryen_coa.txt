@@ -1,0 +1,17 @@
+﻿# Template 548 is the Mathrafal shield in game/common/coat_of_arms/coat_of_arms/90_dynasties.txt.
+# The house points at 548 and nothing else uses that number.
+# Replacing 548 changes the house flag without a second definition of the house key.
+
+548 = {
+	pattern = "pattern_solid.dds"
+	color1 = "black"
+	color2 = "red"
+	color3 = "white"
+	colored_emblem = {
+		texture = "ce_dragon.dds"
+		color1 = "red"
+		color2 = "red"
+		color3 = "white"
+		instance = { position = { 0.50 0.52 } scale = { 0.88 0.88 } }
+	}
+}

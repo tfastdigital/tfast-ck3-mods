@@ -1,0 +1,56 @@
+﻿# ============================================================================
+#  TFAST Fun Pack -- modifiers                                 CK3 1.20.x
+# ============================================================================
+#  Every key was verified to exist in game/common/modifiers/ and every icon in
+#  gfx/interface/icons/modifiers/.
+# ============================================================================
+
+
+# A tournament won and talked about for years.
+tfast_fun_tournament_modifier = {
+	icon = social_positive
+	knight_effectiveness_mult = 0.2
+	monthly_prestige_gain_mult = 0.1
+}
+
+
+# A menagerie that every visitor wants to see.
+tfast_fun_menagerie_modifier = {
+	icon = learning_positive
+	learning = 1
+	monthly_prestige_gain_mult = 0.1
+}
+
+
+# A court famous for its craftsmen.
+tfast_fun_patron_arts_modifier = {
+	icon = diplomacy_positive
+	diplomacy = 1
+	monthly_prestige_gain_mult = 0.15
+}
+
+
+# A house at war with another, in spirit if not on the field.
+tfast_fun_bloodfeud_modifier = {
+	icon = social_positive
+	dread_gain_mult = 0.3
+	knight_effectiveness_mult = 0.15
+	general_opinion = -10
+}
+
+
+# Gold kept close, and counted often.
+tfast_fun_hoard_modifier = {
+	icon = social_positive
+	monthly_income_mult = 0.15
+	general_opinion = -10
+}
+
+
+# A year given over to wine, hunting and good company.
+tfast_fun_pleasure_modifier = {
+	icon = social_positive
+	stress_loss_mult = 0.3
+	diplomacy = 1
+	monthly_income_mult = -0.05
+}

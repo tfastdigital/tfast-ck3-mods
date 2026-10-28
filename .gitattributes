@@ -1,0 +1,29 @@
+# CK3 script and localization files are byte-sensitive.
+#
+# Paradox tools expect UTF-8 **with BOM** on localization files, and the engine
+# is happy with either line ending as long as it is not rewritten mid-file.
+# `-text` on everything tells Git to store the exact bytes it was given and to
+# never normalise line endings or encoding. Do not change this lightly: the
+# fastest way to break every localization key in the repository is to let Git
+# convert these files.
+* -text
+
+# Explicit binary types (belt and braces, in case -text is ever relaxed)
+*.dds  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.tga  binary
+*.bin  binary
+*.dmp  binary
+*.ck3  binary
+
+# Localization: never merge these automatically; a bad merge silently drops keys
+*.yml  -text -merge diff
+
+# Diff these as text so pull requests are readable
+*.txt  diff
+*.md   diff
+*.gui  diff
+*.py   diff
+*.json diff

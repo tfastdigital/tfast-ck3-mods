@@ -1,0 +1,559 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Long Dark (Hollow victory), the uprising,
+#  and the wall projects                                   CK3 1.20.x
+# ============================================================================
+#  Crisis phase 6 (tfast_sc_crisis_phase = 6) is the Long Dark: a Great
+#  Reckoning the world lost on at least one front. While it runs:
+#
+#    * the world decays (bounded yearly strikes: plague, famine, poverty,
+#      development loss, occasional deaths);
+#    * the Overlord's court extracts a tithe from the living;
+#    * walls are blockaded (no routes in) and assaulted until they come down;
+#    * any ruler may rise, storm a stronghold, or break a blockade - each
+#      deed feeds tfast_sc_dark_resistance.
+#
+#  At 8 resistance (or 20 years of dark), the uprising begins. At 14
+#  resistance, the Long Dark ends: the Host retreats, the prophecy window
+#  opens, and the world records who stood.
+#
+#  Everything here is bounded: per-player effects and one small random roll
+#  per ruler per year. No daily scans, no unbounded loops.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  RESISTANCE  (Param: AMOUNT)
+# ---------------------------------------------------------------------------
+tfast_sc_add_dark_resistance_effect = {
+	if = {
+		limit = { exists = global_var:tfast_sc_dark_resistance }
+		change_global_variable = { name = tfast_sc_dark_resistance add = $AMOUNT$ }
+	}
+	else = {
+		set_global_variable = { name = tfast_sc_dark_resistance value = $AMOUNT$ }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BEGIN THE LONG DARK
+#  Called from tfast_sc_reckoning_end_effect when a front was lost to the
+#  Host and the game rule allows it.
+# ---------------------------------------------------------------------------
+tfast_sc_dark_reign_begin_effect = {
+	set_global_variable = { name = tfast_sc_crisis_phase value = 6 }
+	set_global_variable = { name = tfast_sc_dark_years value = 0 }
+	set_global_variable = { name = tfast_sc_dark_resistance value = 0 }
+	trigger_situation_catalyst = catalyst_tfast_sc_dark
+
+	# The Dominion is already cracked if the Ten fought among themselves.
+	if = {
+		limit = { exists = global_var:tfast_sc_rebellion_result }
+		tfast_sc_add_dark_resistance_effect = { AMOUNT = 2 }
+	}
+	if = { limit = { exists = global_var:tfast_sc_reckoning_attacker_won } remove_global_variable = tfast_sc_reckoning_attacker_won }
+
+	every_player = {
+		trigger_event = { id = tfast_sc.0904 days = { 5 60 } }
+	}
+	debug_log = "TFAST Shattered Crowns: the Long Dark begins; the Hollow hold the world"
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY DARK TICK  (root = the Overlord, called from the director)
+# ---------------------------------------------------------------------------
+tfast_sc_dark_reign_tick_effect = {
+	if = { limit = { exists = global_var:tfast_sc_dark_years } change_global_variable = { name = tfast_sc_dark_years add = 1 } }
+
+	# The world darkens: one small roll per ruler. The human player's own
+	# realm is handled separately (with events) in tfast_sc_dark_player_yearly_effect.
+	every_ruler = {
+		limit = {
+			is_ai = yes
+			is_alive = yes
+			is_landed = yes
+			NOT = { has_character_flag = tfast_sc_hollow_host }
+		}
+		random = {
+			chance = 4
+			tfast_sc_dark_realm_strike_effect = yes
+		}
+	}
+
+	if = {
+		limit = { exists = global_var:tfast_sc_uprising }
+
+		# While the world is up, the Host bleeds.
+		if = {
+			limit = { tfast_sc_overlord_valid_trigger = yes }
+			global_var:tfast_sc_overlord = {
+				change_global_variable = { name = tfast_sc_hollow_readiness add = -6 }
+			}
+			random = {
+				chance = 40
+				global_var:tfast_sc_overlord = {
+					spawn_army = {
+						uses_supply = yes
+						inheritable = no
+						name = tfast_sc_suppression_host
+						levies = { value = 900 }
+						location = capital_province
+					}
+				}
+			}
+		}
+
+		# The uprising is won when the world has pushed far enough.
+		if = {
+			limit = { global_var:tfast_sc_dark_resistance >= 14 }
+			tfast_sc_uprising_win_effect = yes
+		}
+	}
+	else = {
+		# Not risen yet: enough deeds (or enough endurance) starts it.
+		if = {
+			limit = {
+				OR = {
+					global_var:tfast_sc_dark_resistance >= 8
+					global_var:tfast_sc_dark_years >= 20
+				}
+			}
+			tfast_sc_uprising_begin_effect = yes
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  STRIKE A REALM  (root = the ruler; bounded)
+# ---------------------------------------------------------------------------
+tfast_sc_dark_realm_strike_effect = {
+	if = {
+		limit = { capital_county = { is_landless_type_title = no } }
+		capital_county = { tfast_sc_dark_county_strike_effect = yes }
+	}
+	random = {
+		chance = 50
+		random_sub_realm_county = {
+			limit = { is_landless_type_title = no }
+			tfast_sc_dark_county_strike_effect = yes
+		}
+	}
+
+	# The dark reaps its share.
+	random = {
+		chance = 12
+		random_courtier = {
+			limit = { is_alive = yes }
+			death = { death_reason = death_bubonic_plague }
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  STRIKE A COUNTY  (root = the county)
+# ---------------------------------------------------------------------------
+tfast_sc_dark_county_strike_effect = {
+	random = {
+		chance = 40
+		add_county_modifier = { modifier = tfast_sc_dark_plague_modifier years = 10 }
+	}
+	random = {
+		chance = 35
+		add_county_modifier = { modifier = tfast_sc_dark_famine_modifier years = 8 }
+	}
+	random = {
+		chance = 25
+		add_county_modifier = { modifier = tfast_sc_dark_poverty_modifier years = 12 }
+	}
+
+	random = {
+		chance = 25
+		change_development_level = -1
+	}
+	change_county_control = minor_county_control_loss
+}
+
+
+# ---------------------------------------------------------------------------
+#  YEARLY, THE HUMAN PLAYER  (root = the player)
+#  Omens, the tithe, the blockade and the assault on the wall.
+# ---------------------------------------------------------------------------
+tfast_sc_dark_player_yearly_effect = {
+	if = {
+		limit = { tfast_sc_dark_reign_active_trigger = yes }
+
+		# The realm endures the dark like any other.
+		if = { limit = { is_landed = yes } tfast_sc_dark_realm_strike_effect = yes }
+
+		# A fever year.
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_fever_recent } }
+			random = {
+				chance = 30
+				trigger_event = { id = tfast_sc.0901 days = { 5 40 } }
+			}
+		}
+
+		# The Hollow tithe.
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_tithe_recent } }
+			random = {
+				chance = 30
+				trigger_event = { id = tfast_sc.0900 days = { 5 40 } }
+			}
+		}
+
+		# An omen of the dark, drawn from the pool.
+		random = {
+			chance = 30
+			random_list = {
+				1 = { set_variable = { name = tfast_sc_omen value = 1 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 2 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 3 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 4 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 5 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 6 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 7 } }
+				1 = { set_variable = { name = tfast_sc_omen value = 8 } }
+			}
+			trigger_event = { id = tfast_sc.0920 days = { 2 30 } }
+		}
+
+		# The walls: blockades and assaults.
+		if = {
+			limit = {
+				has_variable = tfast_sc_wall_stage
+				var:tfast_sc_wall_stage >= 2
+			}
+			random = {
+				chance = 35
+				tfast_sc_wall_blockade_effect = yes
+			}
+			random = {
+				chance = 30
+				tfast_sc_wall_dark_assault_effect = yes
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WORLD RISES
+#  Root = the Overlord (or any context with the globals in reach).
+# ---------------------------------------------------------------------------
+tfast_sc_uprising_begin_effect = {
+	if = { limit = { NOT = { exists = global_var:tfast_sc_uprising } } set_global_variable = { name = tfast_sc_uprising value = yes } }
+	trigger_situation_catalyst = catalyst_tfast_sc_uprising
+
+	# Those who swore the pledge raise their banners.
+	every_player = {
+		limit = {
+			is_landed = yes
+			has_variable = tfast_sc_world_pledge
+		}
+		spawn_army = {
+			uses_supply = yes
+			inheritable = no
+			name = tfast_sc_uprising_host
+			levies = { value = 1500 }
+			location = capital_province
+		}
+	}
+
+	every_player = {
+		trigger_event = { id = tfast_sc.0905 days = { 5 40 } }
+	}
+	debug_log = "TFAST Shattered Crowns: the world rises against the Long Dark"
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE LONG DARK ENDS
+#  Root = the Overlord. The Host retreats; the world records who stood.
+# ---------------------------------------------------------------------------
+tfast_sc_uprising_win_effect = {
+	remove_global_variable = tfast_sc_uprising
+	remove_global_variable = tfast_sc_seat_recovery_news
+	set_global_variable = { name = tfast_sc_crisis_phase value = 5 }
+	trigger_situation_catalyst = catalyst_tfast_sc_dawnbreak
+	set_global_variable = { name = tfast_sc_reckoning_cooldown value = yes years = 30 }
+	set_global_variable = { name = tfast_sc_prophecy_open value = yes years = 10 }
+
+	if = {
+		limit = { tfast_sc_overlord_valid_trigger = yes }
+		global_var:tfast_sc_overlord = {
+			add_character_flag = { flag = tfast_sc_overlord_dormant years = 10 }
+			if = {
+				limit = { NOT = { has_character_modifier = tfast_sc_host_retreat_modifier } }
+				add_character_modifier = { modifier = tfast_sc_host_retreat_modifier }
+			}
+		}
+	}
+	every_player = {
+		trigger_event = { id = tfast_sc.0906 days = { 5 40 } }
+		add_character_modifier = {
+			modifier = tfast_sc_uprising_spirit_modifier
+			years = 10
+		}
+	}
+	debug_log = "TFAST Shattered Crowns: the Long Dark is broken; the Host retreats"
+}
+
+
+# ---------------------------------------------------------------------------
+#  RISE AGAINST THE HOLLOW  (decision effect, root = the player)
+# ---------------------------------------------------------------------------
+tfast_sc_rise_against_effect = {
+	tfast_sc_add_dark_resistance_effect = { AMOUNT = 2 }
+	add_prestige = 100
+	add_character_modifier = {
+		modifier = tfast_sc_uprising_spirit_modifier
+		years = 3
+	}
+	debug_log = "TFAST Shattered Crowns: a ruler has risen against the Long Dark"
+	debug_log_scopes = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  STORM A HOLLOW STRONGHOLD  (decision effect, root = the player)
+#  A real war for the seat, plus the volunteers that follow the banners.
+# ---------------------------------------------------------------------------
+tfast_sc_storm_stronghold_effect = {
+	if = {
+		limit = { tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_1 } }
+		global_var:tfast_sc_stronghold_1 = { save_temporary_scope_as = tfast_sc_storm_target }
+	}
+	else_if = {
+		limit = { tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_2 } }
+		global_var:tfast_sc_stronghold_2 = { save_temporary_scope_as = tfast_sc_storm_target }
+	}
+	else_if = {
+		limit = { tfast_sc_stronghold_is_hollow_trigger = { STRONGHOLD = tfast_sc_stronghold_3 } }
+		global_var:tfast_sc_stronghold_3 = { save_temporary_scope_as = tfast_sc_storm_target }
+	}
+
+	if = {
+		limit = { exists = scope:tfast_sc_storm_target }
+		add_pressed_claim = scope:tfast_sc_storm_target
+		start_war = {
+			cb = claim_cb
+			target = scope:tfast_sc_storm_target.holder
+			claimant = root
+			target_title = scope:tfast_sc_storm_target
+		}
+		spawn_army = {
+			uses_supply = yes
+			inheritable = no
+			name = tfast_sc_storm_host
+			levies = { value = 1200 }
+			location = capital_province
+		}
+		spawn_army = {
+			uses_supply = yes
+			inheritable = no
+			name = tfast_sc_storm_host
+			men_at_arms = {
+				type = bowmen
+				men = { value = 150 }
+			}
+			location = capital_province
+		}
+		debug_log = "TFAST Shattered Crowns: a mortal host marches on a Hollow stronghold"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE ROADS ARE CUT  (root = the wall sponsor)
+#  A blockade: nothing comes in while the modifiers stand.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_blockade_effect = {
+	if = {
+		limit = { NOT = { capital_county = { has_county_modifier = tfast_sc_wall_blockade_modifier } } }
+		capital_county = {
+			add_county_modifier = {
+				modifier = tfast_sc_wall_blockade_modifier
+				years = 3
+			}
+		}
+		trigger_event = { id = tfast_sc.0902 days = { 2 25 } }
+		debug_log = "TFAST Shattered Crowns: the roads into the wall have been cut"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BREAK THE BLOCKADE  (decision effect, root = the sponsor)
+# ---------------------------------------------------------------------------
+tfast_sc_break_blockade_effect = {
+	capital_county = {
+		remove_county_modifier = tfast_sc_wall_blockade_modifier
+	}
+	if = { limit = { has_variable = tfast_sc_wall_counties } every_in_list = { variable = tfast_sc_wall_counties limit = { is_landless_type_title = no } remove_county_modifier = tfast_sc_wall_blockade_modifier } }
+	debug_log = "TFAST Shattered Crowns: the blockade has been broken"
+	debug_log_scopes = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HOLLOW AT THE WALL  (root = the sponsor)
+#  The Host spends the dark years bringing the stones down, stage by stage.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_dark_assault_effect = {
+	if = {
+		limit = {
+			has_variable = tfast_sc_wall_stage
+			var:tfast_sc_wall_stage >= 2
+			NOT = { has_variable = tfast_sc_wall_ruined }
+		}
+		trigger_event = { id = tfast_sc.0903 days = { 2 25 } }
+		change_variable = { name = tfast_sc_wall_integrity add = -25 }
+
+		if = {
+			limit = { var:tfast_sc_wall_integrity <= 0 }
+			change_variable = { name = tfast_sc_wall_stage add = -1 }
+			set_variable = { name = tfast_sc_wall_integrity value = 50 }
+			tfast_sc_wall_downgrade_effect = yes
+			if = {
+				limit = { var:tfast_sc_wall_stage < 2 }
+				tfast_sc_wall_destroy_effect = yes
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  A STAGE COMES DOWN  (root = the sponsor)
+#  The modifier of the stage that was just lost is stripped from the counties.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_downgrade_effect = {
+	if = {
+		limit = { var:tfast_sc_wall_stage = 4 }
+		every_in_list = { variable = tfast_sc_wall_counties limit = { is_landless_type_title = no } remove_county_modifier = tfast_sc_wall_wards_modifier }
+	}
+	else_if = {
+		limit = { var:tfast_sc_wall_stage = 3 }
+		every_in_list = { variable = tfast_sc_wall_counties limit = { is_landless_type_title = no } remove_county_modifier = tfast_sc_wall_gate_modifier }
+	}
+	else_if = {
+		limit = { var:tfast_sc_wall_stage = 2 }
+		every_in_list = { variable = tfast_sc_wall_counties limit = { is_landless_type_title = no } remove_county_modifier = tfast_sc_wall_rampart_modifier }
+	}
+	debug_log = "TFAST Shattered Crowns: a stage of the Great Wall has come down"
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE WALL IS UNMADE  (root = the sponsor)
+# ---------------------------------------------------------------------------
+tfast_sc_wall_destroy_effect = {
+	if = {
+		limit = { has_variable = tfast_sc_wall_counties }
+		every_in_list = {
+			variable = tfast_sc_wall_counties
+			limit = { is_landless_type_title = no }
+			remove_variable = tfast_sc_wall_county
+			remove_variable = tfast_sc_wall_sponsor
+			remove_variable = tfast_sc_wall_gate
+			remove_county_modifier = tfast_sc_wall_towers_modifier
+			remove_county_modifier = tfast_sc_wall_rampart_modifier
+			remove_county_modifier = tfast_sc_wall_gate_modifier
+			remove_county_modifier = tfast_sc_wall_wards_modifier
+			remove_county_modifier = tfast_sc_wall_reinforced_modifier
+			remove_county_modifier = tfast_sc_wall_reinforced_2_modifier
+			remove_county_modifier = tfast_sc_wall_blockade_modifier
+		}
+		clear_variable_list = tfast_sc_wall_counties
+	}
+	remove_variable = tfast_sc_wall_stage
+	remove_variable = tfast_sc_wall_integrity
+	remove_variable = tfast_sc_wall_upkeep_years
+	remove_variable = tfast_sc_wall_gate_county
+	remove_variable = tfast_sc_wall_upgrade_level
+	remove_variable = tfast_sc_wall_count_guard
+	set_variable = { name = tfast_sc_wall_ruined value = yes }
+
+	every_player = {
+		trigger_event = { id = tfast_sc.0908 days = { 5 40 } }
+	}
+	debug_log = "TFAST Shattered Crowns: a Great Wall has been unmade"
+	debug_log_scopes = yes
+}
+
+
+# ---------------------------------------------------------------------------
+#  REINFORCE THE WALL  (decision effect, root = the sponsor)
+#  Two levels. Each level refaces every wall county.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_reinforce_effect = {
+	if = {
+		limit = { var:tfast_sc_wall_stage >= 3 }
+		if = {
+			limit = { NOT = { has_variable = tfast_sc_wall_upgrade_level } }
+			set_variable = { name = tfast_sc_wall_upgrade_level value = 1 }
+		}
+		else = {
+			change_variable = { name = tfast_sc_wall_upgrade_level add = 1 }
+		}
+
+		if = { limit = { has_variable = tfast_sc_wall_counties } every_in_list = {
+			variable = tfast_sc_wall_counties
+			limit = { is_landless_type_title = no }
+			remove_county_modifier = tfast_sc_wall_reinforced_modifier
+			remove_county_modifier = tfast_sc_wall_reinforced_2_modifier
+			if = {
+				limit = { root.var:tfast_sc_wall_upgrade_level >= 2 }
+				add_county_modifier = { modifier = tfast_sc_wall_reinforced_2_modifier }
+			}
+			else = {
+				add_county_modifier = { modifier = tfast_sc_wall_reinforced_modifier }
+			}
+		} }
+
+		debug_log = "TFAST Shattered Crowns: the Great Wall has been reinforced"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DISMANTLE THE WALL  (decision effect, root = the sponsor)
+#  The sponsor takes the stones down themselves - nothing is refunded.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_dismantle_effect = {
+	if = {
+		limit = { has_variable = tfast_sc_wall_counties }
+		every_in_list = {
+			variable = tfast_sc_wall_counties
+			limit = { is_landless_type_title = no }
+			remove_variable = tfast_sc_wall_county
+			remove_variable = tfast_sc_wall_sponsor
+			remove_variable = tfast_sc_wall_gate
+			remove_county_modifier = tfast_sc_wall_towers_modifier
+			remove_county_modifier = tfast_sc_wall_rampart_modifier
+			remove_county_modifier = tfast_sc_wall_gate_modifier
+			remove_county_modifier = tfast_sc_wall_wards_modifier
+			remove_county_modifier = tfast_sc_wall_reinforced_modifier
+			remove_county_modifier = tfast_sc_wall_reinforced_2_modifier
+			remove_county_modifier = tfast_sc_wall_blockade_modifier
+		}
+		clear_variable_list = tfast_sc_wall_counties
+	}
+	remove_variable = tfast_sc_wall_stage
+	remove_variable = tfast_sc_wall_integrity
+	remove_variable = tfast_sc_wall_upkeep_years
+	remove_variable = tfast_sc_wall_gate_county
+	remove_variable = tfast_sc_wall_upgrade_level
+	remove_variable = tfast_sc_wall_count_guard
+
+	debug_log = "TFAST Shattered Crowns: the Great Wall has been dismantled by its sponsor"
+	debug_log_scopes = yes
+}

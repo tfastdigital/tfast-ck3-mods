@@ -1,0 +1,126 @@
+﻿namespace = tfast_cheat
+
+tfast_cheat.1 = {
+	type = character_event
+	title = tfast_cheat.1.t
+	desc = tfast_cheat.1.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = { name = tfast_cheat.gold.500 scope:tfast_cheat_target = { add_gold = 500 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.2000 scope:tfast_cheat_target = { add_gold = 2000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.10000 scope:tfast_cheat_target = { add_gold = 10000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.50000 scope:tfast_cheat_target = { add_gold = 50000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.250000 scope:tfast_cheat_target = { add_gold = 250000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.m500 scope:tfast_cheat_target = { remove_short_term_gold = 500 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.m10000 scope:tfast_cheat_target = { remove_short_term_gold = 10000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.gold.m50000 scope:tfast_cheat_target = { remove_short_term_gold = 50000 } trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.next trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.close }
+}
+
+tfast_cheat.2 = {
+	type = character_event
+	title = tfast_cheat.2.t
+	desc = tfast_cheat.2.desc
+	theme = diplomacy
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = { name = tfast_cheat.prestige.500 scope:tfast_cheat_target = { add_prestige = 500 } trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.prestige.5000 scope:tfast_cheat_target = { add_prestige = 5000 } trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.prestige.25000 scope:tfast_cheat_target = { add_prestige = 25000 } trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.prestige.m5000 scope:tfast_cheat_target = { add_prestige = -5000 } trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.next trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.back trigger_event = tfast_cheat.1 }
+	option = { name = tfast_cheat.close }
+}
+
+tfast_cheat.3 = {
+	type = character_event
+	title = tfast_cheat.3.t
+	desc = tfast_cheat.3.desc
+	theme = faith
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = { name = tfast_cheat.piety.500 scope:tfast_cheat_target = { add_piety = 500 } trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.piety.5000 scope:tfast_cheat_target = { add_piety = 5000 } trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.piety.25000 scope:tfast_cheat_target = { add_piety = 25000 } trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.piety.m5000 scope:tfast_cheat_target = { add_piety = -5000 } trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.next trigger_event = tfast_cheat.4 }
+	option = { name = tfast_cheat.back trigger_event = tfast_cheat.2 }
+	option = { name = tfast_cheat.close }
+}
+
+tfast_cheat.4 = {
+	type = character_event
+	title = tfast_cheat.4.t
+	desc = tfast_cheat.4.desc
+	theme = dynasty
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = {
+		name = tfast_cheat.renown.500
+		scope:tfast_cheat_target = { dynasty = { add_dynasty_prestige = 500 } }
+		trigger_event = tfast_cheat.4
+	}
+	option = {
+		name = tfast_cheat.renown.2500
+		scope:tfast_cheat_target = { dynasty = { add_dynasty_prestige = 2500 } }
+		trigger_event = tfast_cheat.4
+	}
+	option = {
+		name = tfast_cheat.renown.10000
+		scope:tfast_cheat_target = { dynasty = { add_dynasty_prestige = 10000 } }
+		trigger_event = tfast_cheat.4
+	}
+	option = { name = tfast_cheat.next trigger_event = tfast_cheat.5 }
+	option = { name = tfast_cheat.back trigger_event = tfast_cheat.3 }
+	option = { name = tfast_cheat.close }
+}
+
+tfast_cheat.5 = {
+	type = character_event
+	title = tfast_cheat.5.t
+	desc = tfast_cheat.5.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = { name = tfast_cheat.legitimacy.100 scope:tfast_cheat_target = { add_legitimacy = 100 } trigger_event = tfast_cheat.5 }
+	option = { name = tfast_cheat.legitimacy.500 scope:tfast_cheat_target = { add_legitimacy = 500 } trigger_event = tfast_cheat.5 }
+	option = { name = tfast_cheat.legitimacy.1000 scope:tfast_cheat_target = { add_legitimacy = 1000 } trigger_event = tfast_cheat.5 }
+	option = { name = tfast_cheat.next trigger_event = tfast_cheat.6 }
+	option = { name = tfast_cheat.back trigger_event = tfast_cheat.4 }
+	option = { name = tfast_cheat.close }
+}
+
+tfast_cheat.6 = {
+	type = character_event
+	title = tfast_cheat.6.t
+	desc = tfast_cheat.6.desc
+	theme = intrigue
+	left_portrait = {
+		character = scope:tfast_cheat_target
+		animation = personality_bold
+	}
+
+	option = { name = tfast_cheat.dread.25 scope:tfast_cheat_target = { add_dread = 25 } trigger_event = tfast_cheat.6 }
+	option = { name = tfast_cheat.dread.50 scope:tfast_cheat_target = { add_dread = 50 } trigger_event = tfast_cheat.6 }
+	option = { name = tfast_cheat.dread.100 scope:tfast_cheat_target = { add_dread = 100 } trigger_event = tfast_cheat.6 }
+	option = { name = tfast_cheat.back trigger_event = tfast_cheat.5 }
+	option = { name = tfast_cheat.close }
+}

@@ -1,0 +1,38 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- situation catalysts              CK3 1.20.x
+# ============================================================================
+#  Named catalysts for the Hollow Tide situation. Each empty definition is
+#  all the engine needs (a database entry); the points they are worth are
+#  declared in tfast_sc_hollow_tide.txt, and they are fired by name from
+#  the crisis scripts with `trigger_situation_catalyst = <catalyst>`.
+# ============================================================================
+
+catalyst_tfast_sc_escalation = {
+}
+
+catalyst_tfast_sc_reckoning = {
+}
+
+catalyst_tfast_sc_aftermath = {
+}
+
+catalyst_tfast_sc_dark = {
+}
+
+catalyst_tfast_sc_uprising = {
+}
+
+catalyst_tfast_sc_dawnbreak = {
+}
+
+catalyst_tfast_sc_peace = {
+}
+
+catalyst_tfast_sc_cold_thaw = {
+}
+
+catalyst_tfast_sc_cold_winter = {
+}
+
+catalyst_tfast_sc_cold_long_night = {
+}

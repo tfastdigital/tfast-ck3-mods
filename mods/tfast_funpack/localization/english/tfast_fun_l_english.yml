@@ -1,0 +1,89 @@
+﻿l_english:
+
+ # ============================================================
+ #  TFAST Fun Pack - Court Life & Character
+ # ============================================================
+
+ # ---- decisions ----
+ tfast_fun_grand_tournament:0 "Host a Grand Tournament"
+ tfast_fun_grand_tournament_desc:0 "Send heralds to every court within a month's ride. Let knights come to break lances for a prize, and let the world see whose court they came to."
+ tfast_fun_grand_tournament_tt:0 "Gain the #P Tournament Champion#! trait, #P 400#! [prestige|E], and #P 20 years#! of a #P Famous Tournament#!."
+ tfast_fun_grand_tournament_confirm:0 "Send the heralds"
+
+ tfast_fun_menagerie:0 "Commission a Menagerie"
+ tfast_fun_menagerie_desc:0 "Pay ship captains and hunters to bring you creatures no one in your lands has seen. Keep them in a garden, and let your guests wonder."
+ tfast_fun_menagerie_tt:0 "Gain the #P Menagerist#! trait and #P 25 years#! of a #P Wondrous Menagerie#!."
+ tfast_fun_menagerie_confirm:0 "Gather the beasts"
+
+ tfast_fun_patron_arts:0 "Retain a Master Artisan"
+ tfast_fun_patron_arts_desc:0 "Bring a celebrated craftsman into your household, and give him the gold and the leave to make what he will. Your court will be the richer for it."
+ tfast_fun_patron_arts_tt:0 "Gain the #P Patron of the Arts#! trait and #P 25 years#! of a #P Artists' Court#!."
+ tfast_fun_patron_arts_confirm:0 "Retain the artisan"
+
+ tfast_fun_blood_feud:0 "Declare a Blood Feud"
+ tfast_fun_blood_feud_desc:0 "Name the house that wronged yours, and swear before your court that the debt will be paid. Some will call it honour. Others will call it an excuse."
+ tfast_fun_blood_feud_tt:0 "Gain the #P Bloodfeud#! trait, #P 25#! [dread|E], #P 15#! [tyranny|E], and #P 25 years#! of a #P Sworn Feud#!."
+ tfast_fun_blood_feud_confirm:0 "Swear the feud"
+
+ tfast_fun_amass_hoard:0 "Amass a Private Hoard"
+ tfast_fun_amass_hoard_desc:0 "Set aside coin not for the realm but for yourself. Count it in private, and let the court notice that you count it at all."
+ tfast_fun_amass_hoard_tt:0 "Gain the #P Hoarder#! trait and #P 25 years#! of a #P Private Hoard#!."
+ tfast_fun_amass_hoard_confirm:0 "Begin the hoard"
+
+ tfast_fun_year_of_pleasure:0 "Take a Year of Pleasure"
+ tfast_fun_year_of_pleasure_desc:0 "Hand the ledgers to your steward, the petitions to your chancellor, and spend a year on hunting, wine and good company. Your crown will not shine the brighter for it."
+ tfast_fun_year_of_pleasure_tt:0 "Lose a great deal of [stress|E], gain the #P Bon Vivant#! trait, and gain #P 15 years#! of a #P Year of Pleasure#!.\n\n#italic Your dignity - and your treasury - suffer somewhat.#!"
+ tfast_fun_year_of_pleasure_confirm:0 "Away with the ledgers"
+
+ # ---- traits ----
+ trait_tfast_fun_tournament_champion:0 "Tournament Champion"
+ trait_tfast_fun_tournament_champion_desc:0 "This ruler has carried the crown of a great tournament, and every knight in the realm knows it."
+ trait_tfast_fun_tournament_champion_character_desc:0 "This ruler has carried the crown of a great tournament, and every knight in the realm knows it."
+
+ trait_tfast_fun_menagerist:0 "Menagerist"
+ trait_tfast_fun_menagerist_desc:0 "This ruler keeps a collection of exotic beasts, and is forever asking travellers whether they have seen stranger ones."
+ trait_tfast_fun_menagerist_character_desc:0 "This ruler keeps a collection of exotic beasts, and is forever asking travellers whether they have seen stranger ones."
+
+ trait_tfast_fun_patron_arts:0 "Patron of the Arts"
+ trait_tfast_fun_patron_arts_desc:0 "This ruler surrounds themselves with craftsmen, and pays them properly - which is rarer than it sounds."
+ trait_tfast_fun_patron_arts_character_desc:0 "This ruler surrounds themselves with craftsmen, and pays them properly - which is rarer than it sounds."
+
+ trait_tfast_fun_bloodfeud:0 "Bloodfeud"
+ trait_tfast_fun_bloodfeud_desc:0 "This ruler has sworn a feud that will not be settled while either house still stands."
+ trait_tfast_fun_bloodfeud_character_desc:0 "This ruler has sworn a feud that will not be settled while either house still stands."
+
+ trait_tfast_fun_hoarder:0 "Hoarder"
+ trait_tfast_fun_hoarder_desc:0 "This ruler keeps a private store of coin, and visits it more often than is healthy for a ruler to admit."
+ trait_tfast_fun_hoarder_character_desc:0 "This ruler keeps a private store of coin, and visits it more often than is healthy for a ruler to admit."
+
+ trait_tfast_fun_bon_vivant:0 "Bon Vivant"
+ trait_tfast_fun_bon_vivant_desc:0 "This ruler holds that a sovereign who cannot enjoy their own court has learned nothing from ruling it."
+ trait_tfast_fun_bon_vivant_character_desc:0 "This ruler holds that a sovereign who cannot enjoy their own court has learned nothing from ruling it."
+
+ # ---- modifiers ----
+ tfast_fun_tournament_modifier:0 "Famous Tournament"
+ tfast_fun_tournament_modifier_desc:0 "The tournament this ruler held is still spoken of, and knights still come hoping for another."
+
+ tfast_fun_menagerie_modifier:0 "Wondrous Menagerie"
+ tfast_fun_menagerie_modifier_desc:0 "Travellers and envoys alike ask to be shown the beasts, and stay longer than they intended."
+
+ tfast_fun_patron_arts_modifier:0 "Artists' Court"
+ tfast_fun_patron_arts_modifier_desc:0 "Craftsmen and artists work under this ruler's roof, and their reputations carry the court's far and wide."
+
+ tfast_fun_bloodfeud_modifier:0 "Sworn Feud"
+ tfast_fun_bloodfeud_modifier_desc:0 "A house has been named, and the naming has not been forgotten by anyone who heard it."
+
+ tfast_fun_hoard_modifier:0 "Private Hoard"
+ tfast_fun_hoard_modifier_desc:0 "Coin that would have been spent on the realm sits instead in a strong room, and the court has drawn its own conclusions."
+
+ tfast_fun_pleasure_modifier:0 "Year of Pleasure"
+ tfast_fun_pleasure_modifier_desc:0 "A year given over to hunting, wine and good company. The ruler is the better for it; the treasury somewhat less so."
+
+ # ---- selection tooltips (auto-generated; the engine derives
+ #      <decision>_tooltip and logs an error when it is absent) ----
+ tfast_fun_grand_tournament_tooltip:0 "$tfast_fun_grand_tournament_tt$"
+ tfast_fun_menagerie_tooltip:0 "$tfast_fun_menagerie_tt$"
+ tfast_fun_patron_arts_tooltip:0 "$tfast_fun_patron_arts_tt$"
+ tfast_fun_blood_feud_tooltip:0 "$tfast_fun_blood_feud_tt$"
+ tfast_fun_amass_hoard_tooltip:0 "$tfast_fun_amass_hoard_tt$"
+ tfast_fun_year_of_pleasure_tooltip:0 "$tfast_fun_year_of_pleasure_tt$"

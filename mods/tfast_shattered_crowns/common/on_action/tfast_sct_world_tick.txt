@@ -1,0 +1,64 @@
+﻿# Runs yearly for every playable ruler in the world, so it reaches as far as the map does.
+tfast_sct_world_tick = {
+effect = {
+if = {
+limit = {
+tfast_sc_hollow_ruler_trigger = no
+any_character_war = {
+OR = {
+any_war_attacker = { tfast_sc_hollow_ruler_trigger = yes }
+any_war_defender = { tfast_sc_hollow_ruler_trigger = yes }
+}
+}
+}
+if = {
+limit = { NOT = { has_character_modifier = tfast_sct_resisting_hollow_modifier } }
+add_character_modifier = { modifier = tfast_sct_resisting_hollow_modifier years = 3 }
+}
+}
+
+# A dragon at court makes a realm feared and sought after.
+if = {
+limit = {
+any_courtier_or_guest = { has_character_modifier = tfast_sct_dragonbound_modifier }
+NOT = { has_character_modifier = tfast_sct_dragon_court_modifier }
+}
+add_character_modifier = { modifier = tfast_sct_dragon_court_modifier years = 2 }
+}
+
+if = {
+limit = {
+tfast_sc_hollow_ruler_trigger = no
+is_landed = yes
+exists = global_var:tfast_sc_hollow_readiness
+}
+
+# Pale riders on the horizon, anywhere on the map.
+if = {
+limit = {
+is_ai = no
+global_var:tfast_sc_hollow_readiness >= 40
+NOT = { has_character_flag = tfast_sct_riders_seen }
+}
+add_character_flag = { flag = tfast_sct_riders_seen years = 5 }
+trigger_event = { id = tfast_sct.0050 days = { 5 120 } }
+}
+
+# The Hollow winter: a hard year for every realm.
+if = {
+limit = {
+global_var:tfast_sc_hollow_readiness >= 70
+NOT = { has_character_modifier = tfast_sct_hollow_winter_modifier }
+}
+random = {
+chance = 30
+add_character_modifier = { modifier = tfast_sct_hollow_winter_modifier years = 1 }
+if = {
+limit = { is_ai = no }
+trigger_event = { id = tfast_sct.0060 days = { 5 60 } }
+}
+}
+}
+}
+}
+}

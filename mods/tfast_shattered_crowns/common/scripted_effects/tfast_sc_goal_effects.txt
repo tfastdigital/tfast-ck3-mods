@@ -1,0 +1,226 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- Hollow goals (the Host wants things)
+#                                                            CK3 1.20.x
+# ============================================================================
+#  The Overlord and the Ten are not scenery. Every year the Host picks what
+#  it wants most, and acts on it in the peacetime world:
+#
+#    goal 1 blood    - feed on a neighbouring realm: development and lives
+#    goal 2 treasure - greed; the raid director's default appetite
+#    goal 3 terror   - dread campaigns: fear itself as a tool
+#    goal 4 hunt     - someone is hiding; the Host goes looking
+#    goal 5 vendetta - someone made the Host lose; they are marked, and the
+#                      raid director hammers them (tfast_sc_raid_marked)
+#
+#  The Ten each carry a personal obsession (tfast_sc_goal) that colours their
+#  court drift: blood feeds their readiness, treasure their influence, terror
+#  their grievance, the hunt their ambition.
+#
+#  Everything is bounded: a handful of chances per year, one victim per deed.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  THE OVERLORD'S GOAL  (root = the Overlord, yearly)
+# ---------------------------------------------------------------------------
+tfast_sc_hollow_goal_effect = {
+	# ------------------------------------------------------------------
+	# Choose what the Host wants this year.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			has_variable = tfast_sc_grievance_vendetta
+			var:tfast_sc_grievance_vendetta ?= { is_alive = yes }
+		}
+		# Someone made the Host lose. That one is marked.
+		set_global_variable = { name = tfast_sc_hollow_goal value = 5 }
+		var:tfast_sc_grievance_vendetta = {
+			set_variable = { name = tfast_sc_raid_marked value = yes years = 2 }
+		}
+	}
+	else_if = {
+		limit = { any_player = { has_variable = tfast_sc_in_hiding } }
+		# Someone is hiding from the Host. The Host takes that personally.
+		set_global_variable = { name = tfast_sc_hollow_goal value = 4 }
+		every_player = {
+			limit = { has_variable = tfast_sc_in_hiding }
+			set_variable = { name = tfast_sc_raid_marked value = yes years = 2 }
+		}
+	}
+	else_if = {
+		limit = { global_var:tfast_sc_hollow_readiness < 60 }
+		set_global_variable = { name = tfast_sc_hollow_goal value = 1 }
+	}
+	else_if = {
+		limit = { dread < 50 }
+		set_global_variable = { name = tfast_sc_hollow_goal value = 3 }
+	}
+	else = {
+		set_global_variable = { name = tfast_sc_hollow_goal value = 2 }
+	}
+
+	# Caprice: the Host is not a machine. One year in five it simply wants
+	# something else, and no one - including the Ten - can say why.
+	random = {
+		chance = 20
+		random_list = {
+			30 = { set_global_variable = { name = tfast_sc_hollow_goal value = 1 } }
+			25 = { set_global_variable = { name = tfast_sc_hollow_goal value = 2 } }
+			20 = { set_global_variable = { name = tfast_sc_hollow_goal value = 3 } }
+			15 = { set_global_variable = { name = tfast_sc_hollow_goal value = 4 } }
+			10 = { set_global_variable = { name = tfast_sc_hollow_goal value = 5 } }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	# Act on it - but the Host does not feed while a Reckoning is on.
+	# ------------------------------------------------------------------
+	if = {
+		limit = { global_var:tfast_sc_crisis_phase <= 1 }
+		if = {
+			limit = { global_var:tfast_sc_hollow_goal = 1 }
+			random = {
+				chance = 45
+				tfast_sc_blood_feeding_effect = yes
+			}
+		}
+		if = {
+			limit = { global_var:tfast_sc_hollow_goal = 3 }
+			random = {
+				chance = 40
+				tfast_sc_terror_effect = yes
+			}
+		}
+		if = {
+			limit = { global_var:tfast_sc_hollow_goal = 4 }
+			random = {
+				chance = 50
+				tfast_sc_hunt_effect = yes
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BLOOD  (root = the Overlord)
+#  The Host feeds: a neighbouring realm loses people and years.
+# ---------------------------------------------------------------------------
+tfast_sc_blood_feeding_effect = {
+	random_neighboring_top_liege_realm_owner = {
+		limit = {
+			is_alive = yes
+			is_landed = yes
+			NOT = { has_character_flag = tfast_sc_hollow_host }
+		}
+		save_temporary_scope_as = tfast_sc_blood_victim
+	}
+
+	if = {
+		limit = { exists = scope:tfast_sc_blood_victim }
+		scope:tfast_sc_blood_victim = {
+			capital_county = {
+				change_development_level = -1
+				change_county_control = minor_county_control_loss
+			}
+			random = {
+				chance = 35
+				random_courtier = {
+					limit = { is_alive = yes }
+					death = { death_reason = death_consumption }
+				}
+			}
+		}
+		change_global_variable = { name = tfast_sc_hollow_readiness add = 10 }
+		every_player = {
+			trigger_event = { id = tfast_sc.0910 days = { 5 40 } }
+		}
+		debug_log = "TFAST Shattered Crowns: the Host has fed"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  TERROR  (root = the Overlord)
+#  Fear is the point: dread for him, a broken county for someone else.
+# ---------------------------------------------------------------------------
+tfast_sc_terror_effect = {
+	add_dread = 8
+
+	random_neighboring_top_liege_realm_owner = {
+		limit = {
+			is_alive = yes
+			is_landed = yes
+			NOT = { has_character_flag = tfast_sc_hollow_host }
+		}
+		save_temporary_scope_as = tfast_sc_terror_victim
+	}
+
+	if = {
+		limit = { exists = scope:tfast_sc_terror_victim }
+		scope:tfast_sc_terror_victim = {
+			capital_county = {
+				change_county_control = major_county_control_loss
+				add_county_modifier = {
+					modifier = tfast_sc_raided_modifier
+					years = 5
+				}
+			}
+		}
+		every_player = {
+			trigger_event = { id = tfast_sc.0911 days = { 5 40 } }
+		}
+		debug_log = "TFAST Shattered Crowns: the Host has made an example"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE HUNT  (root = the Overlord)
+#  A hidden ruler is found. Hiding buys time, never safety.
+# ---------------------------------------------------------------------------
+tfast_sc_hunt_effect = {
+	random_player = {
+		limit = { has_variable = tfast_sc_in_hiding }
+		save_temporary_scope_as = tfast_sc_hunted
+	}
+
+	if = {
+		limit = { exists = scope:tfast_sc_hunted }
+		scope:tfast_sc_hunted = {
+			remove_variable = tfast_sc_in_hiding
+			set_variable = { name = tfast_sc_raid_marked value = yes years = 2 }
+			trigger_event = { id = tfast_sc.0912 days = { 1 10 } }
+		}
+		debug_log = "TFAST Shattered Crowns: the Host has found the one who hid"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  A CHILD'S OBSESSION  (root = one of the Ten, yearly, from court drift)
+# ---------------------------------------------------------------------------
+tfast_sc_child_goal_effect = {
+	random_list = {
+		35 = { set_variable = { name = tfast_sc_goal value = 1 } }
+		25 = { set_variable = { name = tfast_sc_goal value = 2 } }
+		22 = { set_variable = { name = tfast_sc_goal value = 3 } }
+		18 = { set_variable = { name = tfast_sc_goal value = 4 } }
+	}
+
+	# Personality has the last word.
+	# 1.20 has no trait named cruel. Sadistic is that cruelty trait, and it
+	# pushes the blood goal the same way.
+	if = { limit = { has_trait = sadistic } set_variable = { name = tfast_sc_goal value = 1 } }
+	if = { limit = { has_trait = greedy } set_variable = { name = tfast_sc_goal value = 2 } }
+	if = { limit = { has_trait = ambitious } set_variable = { name = tfast_sc_goal value = 4 } }
+
+	# The obsession colours the court.
+	if = { limit = { var:tfast_sc_goal = 1 } change_variable = { name = tfast_sc_readiness add = 3 } }
+	if = { limit = { var:tfast_sc_goal = 2 } change_variable = { name = tfast_sc_influence add = 2 } }
+	if = { limit = { var:tfast_sc_goal = 3 } change_variable = { name = tfast_sc_grievance add = 2 } }
+	if = { limit = { var:tfast_sc_goal = 4 } change_variable = { name = tfast_sc_ambition add = 2 } }
+}

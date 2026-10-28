@@ -1,0 +1,5 @@
+﻿# One dynasty, one house. The children are not cadet branches.
+tfast_sc_hollow_house = {
+	name = "tfast_sc_hollow_house_name"
+	dynasty = tfast_sc_hollow_dynasty
+}

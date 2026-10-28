@@ -1,0 +1,322 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- raiding director                CK3 1.20.x
+# ============================================================================
+#  Peacetime Hollow aggression. The Host never declares war to raid: the
+#  director picks a target dynamically (wealth, distraction, exhaustion,
+#  walls, readiness), warns the victim with a real event, and resolves with
+#  real consequences (gold, county control, devastation modifier, possible
+#  prisoners and frost).
+#
+#  Scripted raids were chosen over native CK3 raiding because the base game
+#  only permits native raiding to specific governments (tribal/nomadic/
+#  hermit); the Hollow are a settled feudal-style dominion and the design
+#  requires visible warnings, cooldowns and a wall check. This is the
+#  fallback documented in the build spec, section 3.3.
+#
+#  A closed, unbreached wall gate blocks scripted entry: the raid is
+#  redirected to the wall defense chain in tfast_sc_wall_effects.txt.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  DIRECTOR TICK
+#  Root = the Hollow Host story cycle (tfast_sc_hollow_host).
+# ---------------------------------------------------------------------------
+tfast_sc_raid_director_effect = {
+	if = {
+		limit = {
+			tfast_sc_overlord_active_trigger = yes
+			global_var:tfast_sc_crisis_phase <= 1
+			global_var:tfast_sc_raid_budget > 0
+		}
+
+		# The Host's temper this season: bold, measured, or cautious.
+		# It changes how hard a raid lands, so no two seasons feel alike.
+		global_var:tfast_sc_overlord = {
+			random_list = {
+				34 = { set_variable = { name = tfast_sc_raid_mood value = 1 } }
+				33 = { set_variable = { name = tfast_sc_raid_mood value = 2 } }
+				33 = { set_variable = { name = tfast_sc_raid_mood value = 3 } }
+			}
+		}
+
+		tfast_sc_raid_build_candidates_effect = yes
+
+		ordered_in_list = {
+			variable = tfast_sc_raid_candidates
+			position = 0
+			order_by = tfast_sc_raid_target_score
+			save_scope_as = tfast_sc_raid_target
+		}
+
+		if = {
+			limit = { exists = scope:tfast_sc_raid_target }
+			change_global_variable = { name = tfast_sc_raid_budget add = -1 }
+			scope:tfast_sc_raid_target = {
+				set_variable = { name = tfast_sc_incoming_raid value = 1 }
+				set_variable = { name = tfast_sc_raid_stance value = 2 }
+				# One of the eight omens; the warning event shows the one drawn.
+				random_list = {
+					1 = { set_variable = { name = tfast_sc_omen value = 1 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 2 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 3 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 4 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 5 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 6 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 7 } }
+					1 = { set_variable = { name = tfast_sc_omen value = 8 } }
+				}
+				trigger_event = { id = tfast_sc.0100 days = { 5 15 } }
+			}
+			debug_log = "TFAST Shattered Crowns: a Hollow raid has been despatched"
+			debug_log_scopes = yes
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  CANDIDATE LIST
+#  Neighboring top liege realm owners of the Hollow realm, filtered by
+#  cooldown/exhaustion/hostility, scored by tfast_sc_raid_target_score.
+# ---------------------------------------------------------------------------
+tfast_sc_raid_build_candidates_effect = {
+	save_temporary_scope_as = tfast_sc_story_host
+	clear_variable_list = tfast_sc_raid_candidates
+
+	global_var:tfast_sc_overlord = {
+		every_neighboring_top_liege_realm_owner = {
+			limit = {
+				is_alive = yes
+				is_landed = yes
+				NOT = { has_character_flag = tfast_sc_hollow_host }
+				NOT = { has_variable = tfast_sc_raid_cooldown }
+				NOT = { has_variable = tfast_sc_incoming_raid }
+				NOT = { is_at_war_with = global_var:tfast_sc_overlord }
+			}
+			save_temporary_scope_as = tfast_sc_raid_candidate
+			scope:tfast_sc_story_host = {
+				add_to_variable_list = {
+					name = tfast_sc_raid_candidates
+					target = scope:tfast_sc_raid_candidate
+				}
+			}
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  RESOLUTION
+#  Root = the victim. Called by event tfast_sc.0101.
+# ---------------------------------------------------------------------------
+tfast_sc_raid_resolve_effect = {
+	save_scope_as = tfast_sc_victim
+	remove_variable = tfast_sc_incoming_raid
+
+	# ------------------------------------------------------------------
+	# If the Host lost its head between warning and arrival, the raid
+	# collapses on its own.
+	# ------------------------------------------------------------------
+	if = {
+		limit = {
+			NOT = { capital_county = { tfast_sc_walled_county_trigger = yes } }
+			NOT = { tfast_sc_overlord_valid_trigger = yes }
+		}
+		custom_tooltip = tfast_sc_raid_defended_tt
+		capital_county = { change_county_control = minor_county_control_loss }
+		tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_raid_defeated YEARS = 75 }
+	}
+	# ------------------------------------------------------------------
+	# The wall comes first. A closed gate means the raid never reaches
+	# the streets; it breaks against the stones (and hurts them).
+	# ------------------------------------------------------------------
+	else_if = {
+		limit = { capital_county = { tfast_sc_walled_county_trigger = yes } }
+		tfast_sc_wall_defense_effect = yes
+	}
+	else = {
+		# The raider and the rolls.
+		global_var:tfast_sc_overlord = { save_scope_as = tfast_sc_raider }
+
+		scope:tfast_sc_raider = {
+			set_variable = {
+				name = tfast_sc_raid_power
+				value = tfast_sc_raid_strength_value
+			}
+		}
+
+		# All numbers are kept in the victim's own scope so every comparison
+		# below is a same-scope variable comparison (the vanilla-safe way).
+		set_variable = {
+			name = tfast_sc_raid_power
+			value = scope:tfast_sc_raider.var:tfast_sc_raid_power
+		}
+		set_variable = {
+			name = tfast_sc_raid_power_60
+			value = {
+				value = scope:tfast_sc_raider.var:tfast_sc_raid_power
+				multiply = 0.6
+			}
+		}
+		set_variable = {
+			name = tfast_sc_defense_power
+			value = tfast_sc_raid_defense_value
+		}
+
+		# ------------------------------------------------------------------
+		# Defended: the raid is thrown back.
+		# ------------------------------------------------------------------
+		if = {
+			limit = { var:tfast_sc_defense_power >= var:tfast_sc_raid_power }
+
+			custom_tooltip = tfast_sc_raid_defended_tt
+			set_variable = { name = tfast_sc_loot value = { value = gold multiply = 0.05 floor = yes } }
+			remove_short_term_gold = var:tfast_sc_loot
+			scope:tfast_sc_raider = {
+				add_gold = scope:tfast_sc_victim.var:tfast_sc_loot
+				change_global_variable = { name = tfast_sc_hollow_readiness add = -10 }
+			}
+
+			capital_county = { change_county_control = minor_county_control_loss }
+
+			tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_raid_defeated YEARS = 75 }
+			if = {
+				limit = { exists = global_var:tfast_sc_memory_raid_defeats }
+				change_global_variable = { name = tfast_sc_memory_raid_defeats add = 1 }
+			}
+			else = {
+				set_global_variable = { name = tfast_sc_memory_raid_defeats value = 1 }
+			}
+
+			# The raider remembers the humiliation - and marks the one who did it.
+			scope:tfast_sc_raider = {
+				set_variable = { name = tfast_sc_grievance_humiliation value = scope:tfast_sc_victim years = 20 }
+				set_variable = { name = tfast_sc_grievance_vendetta value = scope:tfast_sc_victim years = 50 }
+			}
+
+			# In the Long Dark, every thrown-back raid is a deed of resistance.
+			if = {
+				limit = { tfast_sc_dark_reign_active_trigger = yes }
+				tfast_sc_add_dark_resistance_effect = { AMOUNT = 1 }
+			}
+		}
+		# ------------------------------------------------------------------
+		# Contested: the raid takes its cut and goes.
+		# ------------------------------------------------------------------
+		else_if = {
+			limit = {
+				var:tfast_sc_defense_power >= var:tfast_sc_raid_power_60
+			}
+
+			custom_tooltip = tfast_sc_raid_contested_tt
+			set_variable = { name = tfast_sc_loot value = { value = gold multiply = 0.2 floor = yes } }
+			remove_short_term_gold = var:tfast_sc_loot
+			scope:tfast_sc_raider = {
+				add_gold = scope:tfast_sc_victim.var:tfast_sc_loot
+				change_global_variable = { name = tfast_sc_hollow_readiness add = -5 }
+			}
+
+			capital_county = {
+				change_county_control = major_county_control_loss
+				add_county_modifier = {
+					modifier = tfast_sc_raided_modifier
+					years = 5
+				}
+			}
+			tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_raided YEARS = 50 }
+		}
+		# ------------------------------------------------------------------
+		# Overrun: the Host takes what it came for.
+		# ------------------------------------------------------------------
+		else = {
+			custom_tooltip = tfast_sc_raid_overrun_tt
+			set_variable = { name = tfast_sc_loot value = { value = gold multiply = 0.4 floor = yes } }
+			remove_short_term_gold = var:tfast_sc_loot
+			scope:tfast_sc_raider = {
+				add_gold = scope:tfast_sc_victim.var:tfast_sc_loot
+			}
+
+			capital_county = {
+				change_county_control = extreme_county_control_loss
+				add_county_modifier = {
+					modifier = tfast_sc_raided_modifier
+					years = 15
+				}
+			}
+			tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_raided YEARS = 75 }
+
+			# Prisoners of the Host.
+			random = {
+				chance = 35
+				random_courtier_or_guest = {
+					limit = {
+						is_adult = yes
+						NOT = { has_trait = tfast_sc_hollow_immortal }
+						is_imprisoned = no
+					}
+					save_scope_as = tfast_sc_captive
+				}
+				if = {
+					limit = { exists = scope:tfast_sc_captive }
+					scope:tfast_sc_raider = {
+						imprison = {
+							target = scope:tfast_sc_captive
+							type = house_arrest
+						}
+					}
+					tfast_sc_record_memory_effect = { MEMORY = tfast_sc_memory_raid_captive YEARS = 20 }
+				}
+			}
+
+			# Kaedryn's breath lies on some of the fields it touches.
+			if = {
+				limit = {
+					global_var:tfast_sc_overlord = {
+						any_child = {
+							has_trait = tfast_sc_blood_kaedryn
+							var:tfast_sc_status ?= 0
+						}
+					}
+				}
+				random = {
+					chance = 50
+					capital_county = {
+						add_county_modifier = {
+							modifier = tfast_sc_frost_county_modifier
+							years = 3
+						}
+					}
+				}
+			}
+		}
+
+		# Cooldowns and exhaustion. A raided realm is left alone for years.
+		set_variable = { name = tfast_sc_raid_cooldown value = yes years = 4 }
+		set_variable = { name = tfast_sc_raid_exhausted value = yes years = 7 }
+
+		scope:tfast_sc_raider = {
+			remove_variable = tfast_sc_raid_power
+		}
+		remove_variable = tfast_sc_defense_power
+		remove_variable = tfast_sc_raid_power
+		remove_variable = tfast_sc_raid_power_60
+
+		if = {
+			limit = { exists = global_var:tfast_sc_raid_count }
+			change_global_variable = { name = tfast_sc_raid_count add = 1 }
+		}
+		else = {
+			set_global_variable = { name = tfast_sc_raid_count value = 1 }
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  MEMORY -- store a bounded memory entry on the current character.
+#  Param: MEMORY (variable name), YEARS
+# ---------------------------------------------------------------------------
+tfast_sc_record_memory_effect = {
+	set_variable = { name = $MEMORY$ value = yes years = $YEARS$ }
+}

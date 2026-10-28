@@ -1,0 +1,60 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- hiding from the Host              CK3 1.20.x
+# ============================================================================
+#  The player may choose to hide. Hiding is not cowardice - it is weather:
+#  while it lasts the raid director passes over you... unless the Host makes
+#  the hunt its goal (see tfast_sc_goal_effects.txt). Hiding costs standing
+#  and coin-adjacent dignity, and it ends.
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  GO INTO HIDING
+# ---------------------------------------------------------------------------
+tfast_sc_go_into_hiding = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9290
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		NOT = { has_variable = tfast_sc_in_hiding }
+	}
+	is_valid = { is_landed = yes }
+
+	cost = { prestige = 150 }
+
+	effect = {
+		custom_tooltip = tfast_sc_go_into_hiding_tt
+		set_variable = { name = tfast_sc_in_hiding value = yes years = 5 }
+		add_character_modifier = {
+			modifier = tfast_sc_hiding_modifier
+			years = 5
+		}
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  COME OUT OF HIDING
+# ---------------------------------------------------------------------------
+tfast_sc_come_out_of_hiding = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_hollow_omens_decision.dds" }
+	decision_group_type = major
+	sort_order = 9291
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		has_variable = tfast_sc_in_hiding
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		custom_tooltip = tfast_sc_come_out_of_hiding_tt
+		remove_variable = tfast_sc_in_hiding
+		remove_character_modifier = tfast_sc_hiding_modifier
+	}
+}

@@ -1,0 +1,64 @@
+﻿# Capital baronies of the permanent seats. Province ids are the capital
+# barony of each county in game/common/landed_titles/00_landed_titles.txt.
+# The castle is in place the day before every bookmark start.
+
+77 = { # Bornholm, Vaelos
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+2811 = { # Rugen, Vaelor
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+1698 = { # Isle of Man, Morvath
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+88 = { # Osel, Kaedryn
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+1673 = { # Anglesey, Draven
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+8 = { # Orkney, Tharion
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+369 = { # Gotland, Seralyth
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+2646 = { # Malta, Nyxara
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+6 = { # Faroes, Velmora
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+7 = { # Shetland, Eryndra
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+2 = { # Vestisland, Vaelith
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}
+8713 = { # Canarias, Malethra
+	866.12.31 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1066.9.14 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+	1178.9.30 = { holding = castle_holding buildings = { castle_04 } rite = hollow_rite }
+}

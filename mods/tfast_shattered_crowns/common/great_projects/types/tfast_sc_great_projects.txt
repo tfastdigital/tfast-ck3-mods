@@ -1,0 +1,213 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Winter Wall as a Great Project   CK3 1.20
+# ============================================================================
+#  Shows in Decisions -> Great Projects, beside the Grand Cathedral.
+#  Gold, not treasury, so feudal, clan, tribal and administrative rulers can
+#  all fund it. Vassals, the liege and allies can pay a contribution.
+#
+#  Planning marks the capital and the sponsor's other counties in that duchy.
+#  Once the three mandatory contributions are paid, towers and the rampart go
+#  up and the build timer starts. Completion closes the gates and sets the
+#  wards: that is the point scripted Hollow raids break against the wall.
+#
+#  Repair, reinforce, upkeep and dismantle stay as decisions. They are what
+#  you do to a wall that already stands.
+# ============================================================================
+
+tfast_sc_great_wall = {
+	icon = { reference = "gfx/interface/icons/great_projects/great_wall.dds" }
+	illustration = { reference = "gfx/interface/illustrations/event_scenes/tfast_sc_winter_wall.dds" }
+
+	name = {
+		desc = great_project_type_tfast_sc_great_wall
+	}
+
+	is_important = yes
+
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier >= tier_county
+		NOT = { has_variable = tfast_sc_wall_stage }
+		NOT = { is_planning_great_project = tfast_sc_great_wall }
+		trigger_if = {
+			limit = { is_ai = yes }
+			is_independent_ruler = yes
+			highest_held_title_tier >= tier_kingdom
+			gold > 800
+		}
+	}
+
+	province_filter = capital
+	owner = province_owner
+
+	is_location_valid = {
+		scope:province = {
+			custom_tooltip = {
+				text = tfast_sc_great_wall_at_capital_tt
+				this = root.capital_province
+			}
+		}
+	}
+
+	can_start_planning = {
+		is_landed = yes
+		highest_held_title_tier >= tier_county
+		NOT = { has_variable = tfast_sc_wall_stage }
+		NOT = { is_planning_great_project = tfast_sc_great_wall }
+		capital_county = { is_landless_type_title = no }
+	}
+
+	cost = {
+		gold = 250
+	}
+
+	# Three years once the mandatory contributions are in.
+	construction_time = 1095
+	contribution_threshold = 50
+	contributor_cooldown = 90
+
+	allowed_contributor_filter = {
+		owner = yes
+		founder = yes
+		vassals = yes
+		liege = yes
+		top_liege = yes
+		allies = yes
+	}
+
+	on_plan_build = {
+		scope:founder = {
+			if = {
+				limit = { is_alive = yes }
+				tfast_sc_wall_plan_effect = yes
+			}
+		}
+	}
+
+	on_start_build = {
+		scope:founder = {
+			if = {
+				limit = { is_alive = yes }
+				tfast_sc_wall_build_towers_effect = yes
+				tfast_sc_wall_build_rampart_effect = yes
+			}
+		}
+	}
+
+	on_complete = {
+		scope:founder = {
+			if = {
+				limit = { is_alive = yes }
+				tfast_sc_wall_build_gates_effect = yes
+				tfast_sc_wall_build_wards_effect = yes
+				add_prestige = 500
+				add_piety = 200
+				add_character_modifier = {
+					modifier = tfast_sc_wall_founder_modifier
+					years = 20
+				}
+			}
+		}
+	}
+
+	on_cancel = {
+		scope:founder = {
+			if = {
+				limit = { is_alive = yes }
+				tfast_sc_wall_abandon_plan_effect = yes
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { gold > 1500 }
+			add = 20
+		}
+		if = {
+			limit = {
+				any_character_situation = {
+					situation_type = tfast_sc_hollow_tide
+				}
+			}
+			add = 15
+		}
+	}
+
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 8
+		kingdom = 4
+		empire = 4
+		hegemony = 4
+	}
+
+	project_contributions = {
+		stone = {
+			is_required = yes
+			contributor_is_valid = {
+				is_at_war = no
+			}
+			cost = { gold = 400 }
+			ai_will_do = { value = 30 }
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 6
+				kingdom = 3
+				empire = 3
+				hegemony = 3
+			}
+		}
+
+		timber = {
+			is_required = yes
+			contributor_is_valid = {
+				is_at_war = no
+			}
+			cost = { gold = 300 }
+			ai_will_do = { value = 25 }
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 6
+				kingdom = 3
+				empire = 3
+				hegemony = 3
+			}
+		}
+
+		labor = {
+			is_required = yes
+			cost = { prestige = 250 }
+			ai_will_do = { value = 20 }
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 6
+				kingdom = 3
+				empire = 3
+				hegemony = 3
+			}
+		}
+
+		wards = {
+			is_required = no
+			cost = { piety = 200 }
+			on_complete = {
+				add_piety = 100
+			}
+			ai_will_do = { value = 10 }
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 18
+				duchy = 12
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+		}
+	}
+}

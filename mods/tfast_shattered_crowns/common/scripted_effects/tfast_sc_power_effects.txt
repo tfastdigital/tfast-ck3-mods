@@ -1,0 +1,144 @@
+﻿# Parents are the stronger beings. The Ten are high and each one is different,
+# and none of them reach the parents. Courtiers do not give birth.
+# Empty baronies in the parents' realm, and in their vassals' land, become castles
+# and the castle is raised to the top level.
+
+tfast_sc_raise_parent_skills_effect = {
+	tfast_sc_one_parent_skills_effect = { WHO = tfast_sc_overlord }
+	tfast_sc_one_parent_skills_effect = { WHO = tfast_sc_vaelith }
+}
+
+tfast_sc_one_parent_skills_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = {
+				is_alive = yes
+				NOT = { has_character_flag = tfast_sc_parent_skills }
+			}
+		}
+		character:$WHO$ = {
+			if = { limit = { diplomacy < 100 } add_diplomacy_skill = 83 }
+			if = { limit = { martial < 100 } add_martial_skill = 80 }
+			if = { limit = { stewardship < 100 } add_stewardship_skill = 83 }
+			if = { limit = { intrigue < 100 } add_intrigue_skill = 79 }
+			if = { limit = { learning < 100 } add_learning_skill = 67 }
+			if = { limit = { prowess < 100 } add_prowess_skill = 78 }
+			add_character_flag = tfast_sc_parent_skills
+		}
+	}
+}
+
+# Added once. Bases in history are already under 100 and not equal to each other.
+# This lifts a court-spawned child without putting them on the parents' numbers.
+tfast_sc_raise_child_skills_effect = {
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_vaelor DIP = 44 MAR = 72 STE = 41 INT = 43 LEA = 43 PRO = 55 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_morvath DIP = 50 MAR = 55 STE = 53 INT = 57 LEA = 69 PRO = 48 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_kaedryn DIP = 50 MAR = 68 STE = 57 INT = 47 LEA = 67 PRO = 60 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_draven DIP = 58 MAR = 50 STE = 46 INT = 67 LEA = 59 PRO = 49 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_tharion DIP = 43 MAR = 68 STE = 69 INT = 49 LEA = 53 PRO = 62 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_seralyth DIP = 55 MAR = 46 STE = 44 INT = 67 LEA = 64 PRO = 42 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_nyxara DIP = 62 MAR = 43 STE = 48 INT = 67 LEA = 56 PRO = 43 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_velmora DIP = 58 MAR = 40 STE = 54 INT = 60 LEA = 69 PRO = 38 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_eryndra DIP = 65 MAR = 44 STE = 67 INT = 49 LEA = 60 PRO = 40 }
+	tfast_sc_one_child_skills_effect = { WHO = tfast_sc_malethra DIP = 45 MAR = 68 STE = 47 INT = 63 LEA = 51 PRO = 64 }
+}
+
+tfast_sc_one_child_skills_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = {
+				is_alive = yes
+				NOT = { has_character_flag = tfast_sc_child_skills }
+			}
+		}
+		character:$WHO$ = {
+			if = { limit = { diplomacy < 50 } add_diplomacy_skill = $DIP$ }
+			if = { limit = { martial < 50 } add_martial_skill = $MAR$ }
+			if = { limit = { stewardship < 50 } add_stewardship_skill = $STE$ }
+			if = { limit = { intrigue < 50 } add_intrigue_skill = $INT$ }
+			if = { limit = { learning < 50 } add_learning_skill = $LEA$ }
+			if = { limit = { prowess < 50 } add_prowess_skill = $PRO$ }
+			add_character_flag = tfast_sc_child_skills
+		}
+	}
+}
+
+# Courtiers of the Hollow do not give birth. Human vassals are left alone,
+# so a conquered ruler still has a living court of his own.
+tfast_sc_quiet_courts_effect = {
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_overlord }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_vaelith }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_vaelor }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_morvath }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_kaedryn }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_draven }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_tharion }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_seralyth }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_nyxara }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_velmora }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_eryndra }
+	tfast_sc_quiet_one_court_effect = { WHO = tfast_sc_malethra }
+}
+
+tfast_sc_quiet_one_court_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes }
+		}
+		character:$WHO$ = {
+			every_courtier = {
+				limit = {
+					is_alive = yes
+					NOT = { has_character_modifier = tfast_sc_undead_court_modifier }
+					NOT = { has_trait = tfast_sc_hollow_immortal }
+				}
+				add_character_modifier = { modifier = tfast_sc_undead_court_modifier }
+				if = { limit = { NOT = { has_trait = tfast_sc_white_walker } } add_trait = tfast_sc_white_walker }
+			}
+		}
+	}
+}
+
+tfast_sc_upgrade_family_land_effect = {
+	tfast_sc_upgrade_one_realm_effect = { WHO = tfast_sc_overlord }
+	tfast_sc_upgrade_one_realm_effect = { WHO = tfast_sc_vaelith }
+}
+
+tfast_sc_upgrade_one_realm_effect = {
+	if = {
+		limit = {
+			exists = character:$WHO$
+			character:$WHO$ = { is_alive = yes }
+		}
+		character:$WHO$ = {
+			every_held_title = {
+				limit = { tier = tier_barony }
+				title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+			}
+			every_vassal = {
+				limit = { is_alive = yes }
+				every_held_title = {
+					limit = { tier = tier_barony }
+					title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+				}
+				every_vassal = {
+					limit = { is_alive = yes }
+					every_held_title = {
+						limit = { tier = tier_barony }
+						title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+					}
+					every_vassal = {
+						limit = { is_alive = yes }
+						every_held_title = {
+							limit = { tier = tier_barony }
+							title_province = { tfast_sc_raise_permanent_castle_effect = yes }
+						}
+					}
+				}
+			}
+		}
+	}
+}

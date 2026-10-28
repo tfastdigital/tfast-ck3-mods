@@ -1,0 +1,142 @@
+﻿# Pale skin, white hair, ice eyes, an iron circlet, dark war-clothes.
+# Applied after the royal-outfit group (priority 8) so the gold human
+# crown does not win. Matches the White Walker trait, not a flag.
+
+tfast_sc_walker_look = {
+	usage = game
+	selection_behavior = max
+	priority = 50
+
+	walker_male = {
+		dna_modifiers = {
+			color = {
+				gene = skin_color
+				mode = modify
+				x = -0.15
+				y = -0.85
+			}
+			color = {
+				gene = hair_color
+				mode = modify
+				x = -1.0
+				y = -1.0
+			}
+			color = {
+				gene = eye_color
+				mode = modify
+				x = 0.55
+				y = 0.75
+			}
+			morph = {
+				mode = modify
+				gene = gene_bs_body_type
+				value = -0.45
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp1_royalty
+				type = male
+				accessory = male_headgear_secular_fp1_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = male
+				accessory = m_clothes_sec_western_war_nob_01_lo
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = all_cloaks
+				type = male
+				accessory = male_furs_secular_fp1_nobility_01
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2000
+				has_trait = tfast_sc_white_walker
+				is_male = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+
+	walker_female = {
+		dna_modifiers = {
+			color = {
+				gene = skin_color
+				mode = modify
+				x = -0.15
+				y = -0.85
+			}
+			color = {
+				gene = hair_color
+				mode = modify
+				x = -1.0
+				y = -1.0
+			}
+			color = {
+				gene = eye_color
+				mode = modify
+				x = 0.55
+				y = 0.75
+			}
+			morph = {
+				mode = modify
+				gene = gene_bs_body_type
+				value = -0.35
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp1_royalty
+				type = female
+				accessory = female_headgear_secular_fp1_royalty_01
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_war_nobility_clothes
+				type = female
+				accessory = f_clothes_sec_western_war_nob_01_lo
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2000
+				has_trait = tfast_sc_white_walker
+				is_female = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_imprisoned = yes
+					should_be_naked_trigger = yes
+				}
+			}
+		}
+	}
+}

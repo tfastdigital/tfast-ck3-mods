@@ -1,0 +1,22 @@
+﻿heritage_tfast_sc_elder = {
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_tfast_sc_elder
+		}
+	}
+	audio_parameter = european
+}
+
+language_tfast_sc_cold = {
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_tfast_sc_cold
+		}
+	}
+	ai_will_do = {
+		value = 0
+	}
+	color = norse
+}

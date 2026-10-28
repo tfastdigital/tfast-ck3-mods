@@ -1,0 +1,26 @@
+﻿# Name who receives the family chest. The gold is already out of the treasury.
+
+tfast_sc_name_chest_keeper_interaction = {
+	category = interaction_category_friendly
+	icon = icon_gold
+	desc = tfast_sc_name_chest_keeper_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			has_variable = tfast_sc_chest
+		}
+		scope:recipient = {
+			is_alive = yes
+			is_adult = yes
+			this != scope:actor
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			set_variable = { name = tfast_sc_financial_heir value = scope:recipient }
+		}
+	}
+}

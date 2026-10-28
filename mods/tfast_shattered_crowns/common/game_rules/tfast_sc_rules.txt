@@ -1,0 +1,115 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- game rules                       CK3 1.20.x
+# ============================================================================
+#  Structure verified against game/common/game_rules/_game_rules.info and
+#  00_game_rules.txt (categories / default / empty setting blocks).
+#
+#  Script reads these with the `has_game_rule = <setting_key>` trigger, the
+#  same shorthand vanilla itself uses in common/on_action/game_start.txt
+#  (e.g. `has_game_rule = historicity_extra_admin_player_wherever_...`).
+#
+#  Localization keys produced (all present in tfast_sc_l_english.yml):
+#    rule_<rule>           - rule name
+#    setting_<setting>     - setting name
+#    setting_<setting>_desc - setting description
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  When the first Great Reckoning comes.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_timing = {
+	categories = {
+		game_modes
+	}
+
+	default = tfast_sc_timing_standard
+
+	tfast_sc_timing_early = {
+	}
+
+	tfast_sc_timing_standard = {
+	}
+
+	tfast_sc_timing_late = {
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  How hard the Hollow Host presses the mortal world.
+# ---------------------------------------------------------------------------
+tfast_sc_reckoning_difficulty = {
+	categories = {
+		difficulty
+	}
+
+	default = tfast_sc_reckoning_standard
+
+	tfast_sc_reckoning_lenient = {
+	}
+
+	tfast_sc_reckoning_standard = {
+	}
+
+	tfast_sc_reckoning_harrowing = {
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Whether the prophecy of the Chosen Emperor runs at all.
+#  (With the prophecy disabled the Reckoning still happens and still has to
+#  be survived by ordinary means; True Death is then unreachable.)
+# ---------------------------------------------------------------------------
+tfast_sc_prophecy = {
+	categories = {
+		game_modes
+	}
+
+	default = tfast_sc_prophecy_enabled
+
+	tfast_sc_prophecy_enabled = {
+	}
+
+	tfast_sc_prophecy_disabled = {
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Hidden gold deposits and the decisions that find them.
+#  Off leaves the map untouched. On seeds six historical gold counties once.
+# ---------------------------------------------------------------------------
+tfast_sc_economy = {
+	categories = {
+		game_modes
+	}
+
+	default = tfast_sc_economy_on
+
+	tfast_sc_economy_on = {
+	}
+
+	tfast_sc_economy_off = {
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  Whether a Reckoning the world loses becomes the Long Dark.
+#  Off keeps the old outcome: an ordinary aftermath, whatever the fronts did.
+# ---------------------------------------------------------------------------
+tfast_sc_dark_reign = {
+	categories = {
+		game_modes
+	}
+
+	default = tfast_sc_dark_reign_on
+
+	tfast_sc_dark_reign_on = {
+	}
+
+	tfast_sc_dark_reign_off = {
+	}
+}

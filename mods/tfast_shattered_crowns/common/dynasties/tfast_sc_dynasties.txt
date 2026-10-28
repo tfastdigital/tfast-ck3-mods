@@ -1,0 +1,7 @@
+﻿# The Hollow dynasty exists in the database, so the Overlord does not
+# have to create_dynasty at runtime (that call fails when he is already
+# head of a generated house).
+tfast_sc_hollow_dynasty = {
+	name = "tfast_sc_hollow_dynasty_name"
+	culture = "tfast_sc_hollow_culture"
+}

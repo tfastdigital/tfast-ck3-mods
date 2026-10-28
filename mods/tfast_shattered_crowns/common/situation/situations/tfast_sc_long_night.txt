@@ -1,0 +1,146 @@
+﻿# The Long Night, beside the Hollow Tide.
+# It covers landed rulers whose capital is in vanilla world_europe_north,
+# plus the Hollow wherever they stand. No AGOT map, no Wall, no Night's Watch.
+
+tfast_sc_long_night = {
+	gui_window_name = "window_situation"
+	illustration = "gfx/interface/illustrations/event_scenes/tfast_sc_hollow_omens.dds"
+	situation_group_type = major
+
+	is_unique = yes
+	keep_full_history = yes
+
+	sub_regions = {
+		core = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_core.dds"
+		}
+	}
+
+	participant_groups = {
+		the_north = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_world.dds"
+			require_realm_in_sub_region = no
+			require_capital_in_sub_region = no
+
+			is_character_valid = {
+				is_landed = yes
+				NOT = { has_character_flag = tfast_sc_hollow_host }
+				capital_province = {
+					geographical_region = world_europe_north
+				}
+			}
+
+			map_color = hsv{ 0.55 0.25 0.85 }
+		}
+
+		the_cold = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+			require_realm_in_sub_region = no
+			require_capital_in_sub_region = no
+
+			is_character_valid = {
+				has_trait = tfast_sc_white_walker
+			}
+
+			map_color = hsv{ 0.55 0.05 0.95 }
+		}
+	}
+
+	start_phase = tfast_sc_cold_thaw
+
+	phases = {
+		tfast_sc_cold_thaw = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_peace.dds"
+
+			modifier_sets = {
+				tfast_sc_cold_thaw_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_north = {
+						character_modifier = {
+							monthly_prestige = 0.1
+						}
+					}
+					the_cold = {
+						character_modifier = {
+							monthly_prestige = 0.2
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_cold_winter = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_cold_winter = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_cold_winter = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_escalation.dds"
+
+			modifier_sets = {
+				tfast_sc_cold_winter_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_north = {
+						character_modifier = {
+							supply_duration = -0.1
+							levy_reinforcement_rate = -0.1
+						}
+					}
+					the_cold = {
+						character_modifier = {
+							army_damage_mult = 0.05
+							martial = 1
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_cold_long_night = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_cold_long_night = 100
+					}
+				}
+			}
+		}
+
+		tfast_sc_cold_long_night = {
+			icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_dark.dds"
+
+			modifier_sets = {
+				tfast_sc_cold_long_night_effects = {
+					icon = "gfx/interface/icons/situations/tfast_sc/tfast_sc_tide_hollow.dds"
+					the_north = {
+						character_modifier = {
+							stress_gain_mult = 0.15
+							levy_size = -0.05
+						}
+					}
+					the_cold = {
+						character_modifier = {
+							army_damage_mult = 0.1
+							dread_gain_mult = 0.2
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				tfast_sc_cold_thaw = {
+					takeover_type = points
+					takeover_points = 100
+					catalysts = {
+						catalyst_tfast_sc_cold_thaw = 100
+					}
+				}
+			}
+		}
+	}
+}

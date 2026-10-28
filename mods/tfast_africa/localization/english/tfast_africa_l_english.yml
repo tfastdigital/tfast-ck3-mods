@@ -1,0 +1,143 @@
+﻿l_english:
+
+ # ============================================================
+ #  TFAST Africa - Historical Depth
+ # ============================================================
+
+ # ---- decisions ----
+ tfast_africa_gold_road:0 "Open the Gold Road"
+ tfast_africa_gold_road_desc:0 "Send caravans north across the desert with gold, and bring back the salt that preserves a kingdom's food and pays its soldiers. The road is long, the camels die, and the profit is enormous."
+ tfast_africa_gold_road_tt:0 "Gain the #P Gold Merchant#! trait, #P 300#! [prestige|E], and #P 25 years#! of the #P Gold Road#!."
+ tfast_africa_gold_road_confirm:0 "Send the caravans"
+
+ tfast_africa_silent_trade:0 "Conduct the Silent Trade"
+ tfast_africa_silent_trade_desc:0 "Leave your goods at the agreed place and withdraw. Return, and find what the other party has left in exchange. Neither side speaks the other's tongue, and neither side needs to."
+ tfast_africa_silent_trade_tt:0 "Gain #P 150#! [gold|E] and #P 20 years#! of the #P Silent Trade#!."
+ tfast_africa_silent_trade_confirm:0 "Leave the goods"
+
+ tfast_africa_great_pilgrimage:0 "Undertake the Great Pilgrimage"
+ tfast_africa_great_pilgrimage_desc:0 "Cross the desert and the sea to the holy cities, with an escort and a treasury large enough to be remembered. Give generously at every stopping place, and let the chroniclers do the rest."
+ tfast_africa_great_pilgrimage_tt:0 "Gain #P 500#! [piety|E], #P 1000#! [prestige|E], #P 500#! [renown|E], and #P 30 years#! of a #P Great Pilgrimage#!."
+ tfast_africa_great_pilgrimage_confirm:0 "Begin the pilgrimage"
+
+ tfast_africa_house_of_learning:0 "Endow a House of Learning"
+ tfast_africa_house_of_learning_desc:0 "Pay for scribes, jurists and copyists, and give them a roof and a stipend. They will copy everything they can find, and your city will become a place men travel to in order to read."
+ tfast_africa_house_of_learning_tt:0 "Gain the #P Patron of Scholars#! trait, #P 25 years#! of a #P House of Learning#!, and #P 1#! [development|E] in your [capital|E] [county|E]."
+ tfast_africa_house_of_learning_confirm:0 "Endow the scholars"
+
+ tfast_africa_oral_charter:0 "Proclaim the Oral Charter"
+ tfast_africa_oral_charter_desc:0 "Have the law spoken aloud before the assembled clans: what each owes, what each is owed, and what no ruler may take. A law remembered by appointed reciters is harder to quietly amend than one written down."
+ tfast_africa_oral_charter_tt:0 "Gain #P 300#! [legitimacy|E], the #P Charter Keeper#! trait, and #P 25 years#! of the #P Oral Charter#!."
+ tfast_africa_oral_charter_confirm:0 "Have the law spoken"
+
+ tfast_africa_dry_stone_walls:0 "Raise the Dry-Stone Walls"
+ tfast_africa_dry_stone_walls_desc:0 "Cut the granite, shape it, and lay it so closely that no mortar is needed and no blade fits between. Such walls are not built in a season, nor in a lifetime, and they do not fall down."
+ tfast_africa_dry_stone_walls_tt:0 "Gain the #P Stone Builder#! trait, #P 25 years#! of #P Mortarless Walls#!, and #P 1#! [development|E] in your [capital|E] [county|E]."
+ tfast_africa_dry_stone_walls_confirm:0 "Cut the stone"
+
+ tfast_africa_rock_churches:0 "Carve the Rock Churches"
+ tfast_africa_rock_churches_desc:0 "Do not build upward in stone. Cut downward into the living rock instead, so that each church is carved out of a single piece and the roof is the ground you walked in on."
+ tfast_africa_rock_churches_tt:0 "Gain #P 400#! [piety|E], #P 400#! [prestige|E], and #P 25 years#! of the #P Rock Churches#!."
+ tfast_africa_rock_churches_confirm:0 "Begin the carving"
+
+ tfast_africa_solomonic_claim:0 "Assert the Solomonic Line"
+ tfast_africa_solomonic_claim_desc:0 "Have the claim set down and recited: that your house descends from Solomon and the Queen of Sheba, and that the Ark came south with them. A genealogy nobody can check is a genealogy nobody can refute."
+ tfast_africa_solomonic_claim_tt:0 "Gain #P 400#! [legitimacy|E], #P 800#! [renown|E], and #P 30 years#! of a #P Solomonic Claim#!."
+ tfast_africa_solomonic_claim_confirm:0 "Set down the claim"
+
+ tfast_africa_cowrie_currency:0 "Mint Cowrie Currency"
+ tfast_africa_cowrie_currency_desc:0 "Make the cowrie shell lawful money for small dealings, and take hold of the supply. A ruler who controls what a market uses to make change does not need to tax it to profit from it."
+ tfast_africa_cowrie_currency_tt:0 "Gain #P 25 years#! of #P Cowrie Currency#!."
+ tfast_africa_cowrie_currency_confirm:0 "Fix the currency"
+
+ tfast_africa_age_grades:0 "Institute the Age-Grade System"
+ tfast_africa_age_grades_desc:0 "Set the offices of state upon the generations, each grade taking its turn and handing on in its season, so that authority passes by the cycle rather than by the deathbed."
+ tfast_africa_age_grades_tt:0 "Gain the #P Elder of the Grades#! trait and #P 25 years#! of the #P Graded Assembly#!."
+ tfast_africa_age_grades_confirm:0 "Set the cycle"
+
+ tfast_africa_bronze_casting:0 "Cast the Bronze Heads"
+ tfast_africa_bronze_casting_desc:0 "Retain the casters and give them the metal. Wax, clay, fire and patience, and what comes out is a likeness so exact it is kept in the shrine of the ancestors it depicts."
+ tfast_africa_bronze_casting_tt:0 "Gain #P 300#! [prestige|E] and #P 25 years#! of a #P Casters' Court#!."
+ tfast_africa_bronze_casting_confirm:0 "Retain the casters"
+
+ tfast_africa_ocean_trade:0 "Open the Ocean Trade"
+ tfast_africa_ocean_trade_desc:0 "Fit out ships to ride the monsoon out and back, carrying gold and ivory and brought cloth. The coast cities that learned this are rich beyond anything their hinterland can explain."
+ tfast_africa_ocean_trade_tt:0 "Gain the #P Ocean Merchant#! trait and #P 25 years#! of the #P Monsoon Trade#!."
+ tfast_africa_ocean_trade_confirm:0 "Fit out the ships"
+
+ # ---- traits ----
+ trait_tfast_africa_gold_merchant:0 "Gold Merchant"
+ trait_tfast_africa_gold_merchant_desc:0 "This ruler's fortune travels north across the desert and comes back heavier."
+ trait_tfast_africa_gold_merchant_character_desc:0 "This ruler's fortune travels north across the desert and comes back heavier."
+
+ trait_tfast_africa_scholar_patron:0 "Patron of Scholars"
+ trait_tfast_africa_scholar_patron_desc:0 "This ruler pays scribes and jurists to copy and argue, and their city has become a place men travel to in order to read."
+ trait_tfast_africa_scholar_patron_character_desc:0 "This ruler pays scribes and jurists to copy and argue, and their city has become a place men travel to in order to read."
+
+ trait_tfast_africa_charter_keeper:0 "Charter Keeper"
+ trait_tfast_africa_charter_keeper_desc:0 "This ruler's law is held in memory by appointed reciters, and is the harder to amend discreetly for it."
+ trait_tfast_africa_charter_keeper_character_desc:0 "This ruler's law is held in memory by appointed reciters, and is the harder to amend discreetly for it."
+
+ trait_tfast_africa_stone_builder:0 "Stone Builder"
+ trait_tfast_africa_stone_builder_desc:0 "This ruler builds walls that need no mortar, and that will outlast the hands that cut them."
+ trait_tfast_africa_stone_builder_character_desc:0 "This ruler builds walls that need no mortar, and that will outlast the hands that cut them."
+
+ trait_tfast_africa_gadaa_master:0 "Elder of the Grades"
+ trait_tfast_africa_gadaa_master_desc:0 "This ruler came up through the grades, and holds office by the cycle rather than by birth alone."
+ trait_tfast_africa_gadaa_master_character_desc:0 "This ruler came up through the grades, and holds office by the cycle rather than by birth alone."
+
+ trait_tfast_africa_ocean_merchant:0 "Ocean Merchant"
+ trait_tfast_africa_ocean_merchant_desc:0 "This ruler's ships ride the monsoon out and back, carrying gold and ivory and brought cloth."
+ trait_tfast_africa_ocean_merchant_character_desc:0 "This ruler's ships ride the monsoon out and back, carrying gold and ivory and brought cloth."
+
+ # ---- modifiers ----
+ tfast_africa_gold_road_modifier:0 "Gold Road"
+ tfast_africa_gold_road_modifier_desc:0 "Caravans carry gold north and salt south, and the tolls on that road are worth more than most counties."
+
+ tfast_africa_silent_trade_modifier:0 "Silent Trade"
+ tfast_africa_silent_trade_modifier_desc:0 "Goods are left at the agreed place and exchanged without a word spoken between the parties."
+
+ tfast_africa_pilgrim_modifier:0 "Great Pilgrimage"
+ tfast_africa_pilgrim_modifier_desc:0 "The pilgrimage this ruler made is still spoken of in every city it passed through, and the alms given are still remembered."
+
+ tfast_africa_learning_modifier:0 "House of Learning"
+ tfast_africa_learning_modifier_desc:0 "Scribes, jurists and copyists work under this ruler's stipend, and copy everything they can find."
+
+ tfast_africa_charter_modifier:0 "Oral Charter"
+ tfast_africa_charter_modifier_desc:0 "The law was spoken aloud before the clans, and every clan remembers what was said."
+
+ tfast_africa_walls_modifier:0 "Mortarless Walls"
+ tfast_africa_walls_modifier_desc:0 "Walls of shaped granite laid so closely that no blade fits between them."
+
+ tfast_africa_churches_modifier:0 "Rock Churches"
+ tfast_africa_churches_modifier_desc:0 "Churches cut downward into the living rock, each out of a single piece."
+
+ tfast_africa_dynastic_modifier:0 "Solomonic Claim"
+ tfast_africa_dynastic_modifier_desc:0 "A genealogy set down and recited, tracing this house to Solomon and the Queen of Sheba."
+
+ tfast_africa_currency_modifier:0 "Cowrie Currency"
+ tfast_africa_currency_modifier_desc:0 "Cowrie shells pass as lawful small coin, and this ruler holds the supply."
+
+ tfast_africa_assembly_modifier:0 "Graded Assembly"
+ tfast_africa_assembly_modifier_desc:0 "Office passes through the generations by a fixed cycle, and the assembly decides in its season."
+
+ tfast_africa_court_modifier:0 "Casters' Court"
+ tfast_africa_court_modifier_desc:0 "The casters of this court work in wax, clay and fire, and what they produce is kept in the shrines."
+
+ tfast_africa_trade_modifier:0 "Monsoon Trade"
+ tfast_africa_trade_modifier_desc:0 "Ships ride the monsoon out and back, and the coast cities grow rich on what they carry."
+
+ # ---- selection tooltips (auto-generated; the engine derives
+ #      <decision>_tooltip and logs an error when it is absent) ----
+ tfast_africa_gold_road_tooltip:0 "$tfast_africa_gold_road_tt$"
+ tfast_africa_silent_trade_tooltip:0 "$tfast_africa_silent_trade_tt$"
+ tfast_africa_great_pilgrimage_tooltip:0 "$tfast_africa_great_pilgrimage_tt$"
+ tfast_africa_house_of_learning_tooltip:0 "$tfast_africa_house_of_learning_tt$"
+ tfast_africa_oral_charter_tooltip:0 "$tfast_africa_oral_charter_tt$"
+ tfast_africa_dry_stone_walls_tooltip:0 "$tfast_africa_dry_stone_walls_tt$"
+ tfast_africa_rock_churches_tooltip:0 "$tfast_africa_rock_churches_tt$"
+ tfast_africa_solomonic_claim_tooltip:0 "$tfast_africa_solomonic_claim_tt$"
+ tfast_africa_cowrie_currency_tooltip:0 "$tfast_africa_cowrie_currency_tt$"
+ tfast_africa_age_grades_tooltip:0 "$tfast_africa_age_grades_tt$"
+ tfast_africa_bronze_casting_tooltip:0 "$tfast_africa_bronze_casting_tt$"
+ tfast_africa_ocean_trade_tooltip:0 "$tfast_africa_ocean_trade_tt$"

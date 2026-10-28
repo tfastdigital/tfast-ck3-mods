@@ -1,0 +1,40 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- memory events                     CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0700 -- the tell-the-tale follow-up. The description resolves
+#  against the memories the dynasty actually recorded (raid thrown back,
+#  wall defended, an immortal destroyed) - the saved state drives the text.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+tfast_sc.0700 = {
+	type = character_event
+	theme = dynasty
+
+	title = tfast_sc.0700.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = tfast_sc_memory_true_death }
+				desc = tfast_sc.0700.desc.true_death
+			}
+			triggered_desc = {
+				trigger = { has_variable = tfast_sc_memory_wall_defense }
+				desc = tfast_sc.0700.desc.wall
+			}
+			triggered_desc = {
+				trigger = { has_variable = tfast_sc_memory_raid_defeated }
+				desc = tfast_sc.0700.desc.raid
+			}
+			desc = tfast_sc.0700.desc.generic
+		}
+	}
+
+	option = {
+		name = tfast_sc.0700.a
+
+		ai_chance = { base = 100 }
+	}
+}

@@ -1,0 +1,50 @@
+﻿# ============================================================
+#  TFAST Template Mod - example decision
+#  Game version: CK3 1.20.0.3 "Crozier"
+#
+#  WHY THIS CANNOT BREAK THE GAME:
+#   * is_ai = no           -> only the human player can ever see/take it.
+#                             The AI never touches it, so it cannot affect
+#                             the simulation or your save's balance.
+#   * ai_check_interval = 0 -> tells the AI to never evaluate this decision.
+#   * Decision is pure vanilla script - no vanilla file is overwritten.
+# ============================================================
+
+tfast_hello_world_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	# Valid group types in 1.20:
+	#   decisions, major, debug, adventurer, adventurer_minor, admin, roman,
+	#   courtier, struggle, house_unity, nomad_major, nomad_minor,
+	#   tutorial_objectives, realm, oaths, dynastic_cycle, religious
+	decision_group_type = major
+	sort_order = 9000
+
+	# AI must never pick this up.
+	ai_check_interval = 0
+
+	# Who may SEE the decision. root = the player character.
+	is_shown = {
+		always = no
+		is_ai = no
+		is_landed = yes
+	}
+
+	# Who may actually TAKE the decision.
+	is_valid = {
+		is_landed = yes
+	}
+
+	# Cannot be spammed.
+	cooldown = {
+		days = 90
+	}
+
+	# What happens when taken.
+	effect = {
+		custom_tooltip = tfast_hello_world_decision_tt
+		add_prestige = 25
+	}
+}

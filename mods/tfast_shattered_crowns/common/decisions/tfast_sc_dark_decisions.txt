@@ -1,0 +1,159 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- the Long Dark decisions          CK3 1.20.x
+# ============================================================================
+#  Same safety contract: is_ai = no + ai_check_interval = 0 for every
+#  player-facing decision. Additive only.
+#
+#  These are the human answers to the Long Dark: rise, storm a stronghold,
+#  break a blockade - and the wall projects the sponsor still commands
+#  (reinforce, or tear down what they built).
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  RISE AGAINST THE HOLLOW
+#  The one deed that always feeds the resistance.
+# ---------------------------------------------------------------------------
+tfast_sc_rise_against_the_hollow = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_reckoning_decision.dds" }
+	decision_group_type = major
+	sort_order = 9520
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_dark_reign_active_trigger = yes
+	}
+	is_valid = { is_landed = yes }
+
+	cooldown = { days = 730 }
+
+	effect = {
+		custom_tooltip = tfast_sc_rise_against_tt
+		tfast_sc_rise_against_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  STORM A HOLLOW STRONGHOLD
+#  A real war for one of the three seats, with volunteers that follow you.
+# ---------------------------------------------------------------------------
+tfast_sc_storm_hollow_stronghold = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_wall_breach_decision.dds" }
+	decision_group_type = major
+	sort_order = 9521
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		tfast_sc_dark_reign_active_trigger = yes
+		tfast_sc_any_stronghold_hollow_trigger = yes
+	}
+	is_valid = {
+		is_landed = yes
+		tfast_sc_any_stronghold_hollow_trigger = yes
+	}
+
+	cost = { gold = 100 prestige = 100 }
+	cooldown = { days = 1460 }
+
+	effect = {
+		custom_tooltip = tfast_sc_storm_stronghold_tt
+		tfast_sc_storm_stronghold_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  BREAK THE BLOCKADE
+#  The wall counties are cut off; gold reopens the roads.
+# ---------------------------------------------------------------------------
+tfast_sc_break_the_blockade = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9522
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		capital_county = { has_county_modifier = tfast_sc_wall_blockade_modifier }
+	}
+	is_valid = {
+		capital_county = { has_county_modifier = tfast_sc_wall_blockade_modifier }
+	}
+
+	cost = { gold = 100 }
+
+	effect = {
+		custom_tooltip = tfast_sc_break_blockade_tt
+		tfast_sc_break_blockade_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  REINFORCE THE WALL
+#  Two levels of refacing for a standing wall. Nothing beyond stage gates.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_reinforce = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9523
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 3
+		OR = {
+			NOT = { has_variable = tfast_sc_wall_upgrade_level }
+			var:tfast_sc_wall_upgrade_level < 2
+		}
+	}
+	is_valid = {
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 3
+	}
+
+	cost = { gold = 300 }
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_reinforce_tt
+		tfast_sc_wall_reinforce_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  DISMANTLE THE WALL
+#  The sponsor takes their own stones down. Standing is an honour; tearing
+#  it down is remembered.
+# ---------------------------------------------------------------------------
+tfast_sc_wall_dismantle = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_sc_winter_wall_decision.dds" }
+	decision_group_type = major
+	sort_order = 9524
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 2
+	}
+	is_valid = {
+		has_variable = tfast_sc_wall_stage
+		var:tfast_sc_wall_stage >= 2
+	}
+
+	effect = {
+		custom_tooltip = tfast_sc_wall_dismantle_tt
+		add_prestige = -100
+		tfast_sc_wall_dismantle_effect = yes
+	}
+}

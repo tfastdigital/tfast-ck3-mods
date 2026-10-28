@@ -1,0 +1,104 @@
+﻿# The Targaryen line (vanilla house Mathrafal) is already in the world before 867.
+# These four are ancestors of Gwaithfoed, who is the father of the later line
+# down to Brian (vanilla character 6358, Bleddyn ap Cynfyn). They are not copies
+# of anyone already in history.
+
+# The chosen Targaryen who killed Darkness, mother of the Hollow, in year 21.
+# The Hollow have hated the line ever since.
+tfast_sc_targ_slayer = {
+	name = "Aelfhere"
+	dynasty_house = house_british_isles_mathrafal
+	rite = roman_rite
+	culture = "anglo_saxon"
+	trait = brave
+	trait = wrathful
+	1.1.2 = {
+		birth = "1.1.2"
+		effect = {
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+			add_character_flag = tfast_sc_darkness_slayer
+		}
+	}
+	60.1.1 = {
+		death = yes
+	}
+}
+
+tfast_sc_targ_alfred = {
+	name = "Alfred"
+	dynasty_house = house_british_isles_mathrafal
+	rite = roman_rite
+	culture = "anglo_saxon"
+	760.1.1 = {
+		birth = "760.1.1"
+		effect = {
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+		}
+	}
+	840.1.1 = {
+		death = "840.1.1"
+	}
+}
+
+tfast_sc_targ_edward = {
+	name = "Edward"
+	dynasty_house = house_british_isles_mathrafal
+	rite = roman_rite
+	culture = "anglo_saxon"
+	father = tfast_sc_targ_alfred
+	800.1.1 = {
+		birth = "800.1.1"
+		effect = {
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+		}
+	}
+	830.1.1 = {
+		add_spouse = tfast_sc_targ_edith
+	}
+	880.1.1 = {
+		death = "880.1.1"
+	}
+}
+
+tfast_sc_targ_edith = {
+	name = "Edith"
+	female = yes
+	dynasty_house = house_british_isles_mathrafal
+	rite = roman_rite
+	culture = "anglo_saxon"
+	father = tfast_sc_targ_alfred
+	808.1.1 = {
+		birth = "808.1.1"
+		effect = {
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+		}
+	}
+	882.1.1 = {
+		death = "882.1.1"
+	}
+}
+
+# Alive at the 867 bookmark. Father of Gwaithfoed (159076), linked by effect
+# because that character already exists in vanilla history.
+tfast_sc_targ_edmund = {
+	name = "Edmund"
+	dynasty_house = house_british_isles_mathrafal
+	rite = roman_rite
+	culture = "anglo_saxon"
+	father = tfast_sc_targ_edward
+	mother = tfast_sc_targ_edith
+	835.1.1 = {
+		birth = "835.1.1"
+		effect = {
+			add_character_flag = tfast_sc_targaryen
+			add_character_flag = tfast_sc_english_named
+		}
+	}
+	930.1.1 = {
+		death = "930.1.1"
+	}
+}

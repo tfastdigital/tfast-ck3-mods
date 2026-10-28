@@ -1,0 +1,137 @@
+﻿# Father is above the mother. The mother is above the Ten.
+# Counties stay in the vanilla de jure map. These titles are titular.
+
+h_hollow_dominion = {
+	color = { 12 14 22 }
+	capital = c_bornholm
+	definite_form = yes
+	can_be_named_after_dynasty = no
+	ruler_uses_title_name = no
+	no_automatic_claims = yes
+	de_jure_drift_disabled = yes
+	can_create = { always = no }
+	ai_primary_priority = { add = 1000 }
+
+	e_hollow_vaelith = {
+		color = { 36 44 58 }
+		capital = c_vestisland
+		definite_form = yes
+		can_be_named_after_dynasty = no
+		ruler_uses_title_name = no
+		no_automatic_claims = yes
+		de_jure_drift_disabled = yes
+		can_create = { always = no }
+		ai_primary_priority = { add = 900 }
+
+		k_hollow_vaelor = {
+			color = { 72 18 18 }
+			capital = c_rugen
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_morvath = {
+			color = { 28 32 24 }
+			capital = c_isle_of_man
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_kaedryn = {
+			color = { 150 170 185 }
+			capital = c_osel
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_draven = {
+			color = { 22 16 32 }
+			capital = c_anglesey
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_tharion = {
+			color = { 64 48 36 }
+			capital = c_orkney
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_seralyth = {
+			color = { 48 16 28 }
+			capital = c_gutland
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_nyxara = {
+			color = { 36 20 48 }
+			capital = c_malta
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_velmora = {
+			color = { 70 70 90 }
+			capital = c_faereyar
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_eryndra = {
+			color = { 90 40 28 }
+			capital = c_shetland
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+		k_hollow_malethra = {
+			color = { 90 28 16 }
+			capital = c_canarias
+			definite_form = yes
+			can_be_named_after_dynasty = no
+			ruler_uses_title_name = no
+			no_automatic_claims = yes
+			de_jure_drift_disabled = yes
+			can_create = { always = no }
+			ai_primary_priority = { add = 800 }
+		}
+	}
+}

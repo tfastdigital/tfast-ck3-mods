@@ -1,0 +1,129 @@
+﻿# ============================================================================
+#  TFAST History -- flavor events                                CK3 1.20.x
+# ============================================================================
+#  Short narrative payoffs for the larger historic decisions. These are only
+#  ever fired by the player's own decisions, never by the AI or a pulse, so
+#  they cannot appear in a game the player did not ask for.
+#
+#  Structure verified against vanilla character_events:
+#    namespace = x   ->   x.0001 = { theme, title, desc, option = { name } }
+#  with localization keys x.0001.t, x.0001.desc and x.0001.a
+#
+#  `theme` is REQUIRED. A live run logged "Theme missing in event" for both of
+#  these before the field was added - see docs/RUNTIME-CHECKING.md.
+# ============================================================================
+
+namespace = tfast_history
+
+
+# Fired by: tfast_hist_hanseatic_league
+tfast_history.0001 = {
+	type = character_event
+	theme = diplomacy
+	title = tfast_history.0001.t
+	desc = { desc = tfast_history.0001.desc }
+
+	option = {
+		name = tfast_history.0001.a
+		add_prestige = 150
+	}
+}
+
+
+# Fired by: tfast_hist_cathedral
+tfast_history.0002 = {
+	type = character_event
+	theme = faith
+	title = tfast_history.0002.t
+	desc = { desc = tfast_history.0002.desc }
+
+	option = {
+		name = tfast_history.0002.a
+		add_piety = 150
+	}
+}
+
+
+# Fired by: tfast_hist_gwageo (Korea, 958)
+tfast_history.0003 = {
+	type = character_event
+	theme = learning
+	title = tfast_history.0003.t
+	desc = { desc = tfast_history.0003.desc }
+
+	option = {
+		name = tfast_history.0003.a
+		add_prestige = 150
+	}
+}
+
+
+# Fired by: tfast_hist_hangul (Korea, 1443)
+tfast_history.0004 = {
+	type = character_event
+	theme = learning
+	title = tfast_history.0004.t
+	desc = { desc = tfast_history.0004.desc }
+
+	option = {
+		name = tfast_history.0004.a
+		add_piety = 100
+		add_prestige = 150
+	}
+}
+
+
+# Fired by: tfast_hist_jiaozi (China, 1023)
+tfast_history.0005 = {
+	type = character_event
+	theme = learning
+	title = tfast_history.0005.t
+	desc = { desc = tfast_history.0005.desc }
+
+	option = {
+		name = tfast_history.0005.a
+		add_prestige = 150
+	}
+}
+
+
+# Fired by: tfast_hist_treasure (China, 1405)
+tfast_history.0006 = {
+	type = character_event
+	theme = diplomacy
+	title = tfast_history.0006.t
+	desc = { desc = tfast_history.0006.desc }
+
+	option = {
+		name = tfast_history.0006.a
+		add_prestige = 200
+	}
+}
+
+
+# Fired by: tfast_hist_domesday (England, 1086)
+tfast_history.0007 = {
+	type = character_event
+	theme = learning
+	title = tfast_history.0007.t
+	desc = { desc = tfast_history.0007.desc }
+
+	option = {
+		name = tfast_history.0007.a
+		add_prestige = 150
+	}
+}
+
+
+# Fired by: tfast_hist_garter (England, 1348)
+tfast_history.0008 = {
+	type = character_event
+	theme = diplomacy
+	title = tfast_history.0008.t
+	desc = { desc = tfast_history.0008.desc }
+
+	option = {
+		name = tfast_history.0008.a
+		add_prestige = 150
+	}
+}

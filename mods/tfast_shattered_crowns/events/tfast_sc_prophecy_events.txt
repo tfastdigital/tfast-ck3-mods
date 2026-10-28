@@ -1,0 +1,83 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- prophecy events                  CK3 1.20.x
+# ============================================================================
+#  tfast_sc.0400 -- hidden: the randomized marking of a candidate
+#  tfast_sc.0402 -- an omen (subtle; the chosen stays hidden)
+#  tfast_sc.0403 -- THE AWAKENING
+#  tfast_sc.0404 -- the prophecy ends (bloodline extinct)
+# ============================================================================
+
+namespace = tfast_sc
+
+
+# ---------------------------------------------------------------------------
+#  HIDDEN MARKING
+# ---------------------------------------------------------------------------
+tfast_sc.0400 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_variable = tfast_sc_prophecy_candidate
+	}
+
+	immediate = {
+		tfast_sc_prophecy_mark_effect = yes
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  AN OMEN
+# ---------------------------------------------------------------------------
+tfast_sc.0402 = {
+	type = character_event
+	theme = faith
+	override_background = { reference = tfast_sc_hollow_omens }
+
+	title = tfast_sc.0402.t
+	desc = { desc = tfast_sc.0402.desc }
+
+	option = {
+		name = tfast_sc.0402.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE AWAKENING
+# ---------------------------------------------------------------------------
+tfast_sc.0403 = {
+	type = character_event
+	theme = dynasty
+	override_background = { reference = tfast_sc_awakening }
+
+	title = tfast_sc.0403.t
+	desc = { desc = tfast_sc.0403.desc }
+
+	option = {
+		name = tfast_sc.0403.a
+
+		ai_chance = { base = 100 }
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE PROPHECY ENDS
+# ---------------------------------------------------------------------------
+tfast_sc.0404 = {
+	type = character_event
+	theme = dynasty
+
+	title = tfast_sc.0404.t
+	desc = { desc = tfast_sc.0404.desc }
+
+	option = {
+		name = tfast_sc.0404.a
+
+		ai_chance = { base = 100 }
+	}
+}

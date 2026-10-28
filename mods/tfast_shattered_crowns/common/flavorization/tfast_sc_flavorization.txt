@@ -1,0 +1,86 @@
+﻿# Father outranks the mother. The mother outranks the Ten.
+# The word on the portrait follows that order.
+
+tfast_sc_supreme_overlord_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 600
+	titles = { h_hollow_dominion }
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}
+
+tfast_sc_supreme_overlord_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 600
+	titles = { h_hollow_dominion }
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}
+
+tfast_sc_mother_overlord_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 560
+	titles = { e_hollow_vaelith }
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}
+
+tfast_sc_mother_overlord_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 560
+	titles = { e_hollow_vaelith }
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}
+
+tfast_sc_warden_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 520
+	titles = {
+		k_hollow_vaelor
+		k_hollow_morvath
+		k_hollow_kaedryn
+		k_hollow_draven
+		k_hollow_tharion
+	}
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}
+
+tfast_sc_warden_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 520
+	titles = {
+		k_hollow_seralyth
+		k_hollow_nyxara
+		k_hollow_velmora
+		k_hollow_eryndra
+		k_hollow_malethra
+	}
+	flavourization_rules = {
+		top_liege = no
+		spouse_takes_title = no
+	}
+}

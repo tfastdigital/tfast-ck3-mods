@@ -1,0 +1,34 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- generated flavor pools
+# ============================================================================
+#  Source: deepseek. Regenerate with:
+#    python C:\Games\ck3-ai-automation\tools\tfast_flavor_deepseek.py
+#  Referenced by tfast_sc.0100 (raid), tfast_sc.0920 (dark), tfast_sc.0921
+#  (whispers) through the tfast_sc_omen variable.
+# ============================================================================
+
+l_english:
+ tfast_sc_flavor_raid_1:0 "The wine in your cellar has gone warm and salt-sweet, though no one has touched the casks since dawn."
+ tfast_sc_flavor_raid_2:0 "Last night the hounds would not enter the granary, and this morning their water bowls were full of frost."
+ tfast_sc_flavor_raid_3:0 "Every sack of grain you open now spills a trickle of red-black sand that was not there when it was weighed."
+ tfast_sc_flavor_raid_4:0 "The torches along your larder wall gutter blue when the wind comes from the east, as if something breathed on them."
+ tfast_sc_flavor_raid_5:0 "You dream of counting your winter stores and waking to find the numbers lower by the weight of thirteen men."
+ tfast_sc_flavor_raid_6:0 "The miller swears he heard your grain whispering, and he will not go back after dark for any wage you offer."
+ tfast_sc_flavor_raid_7:0 "Thin hoofprints circle your storehouses each morning, ending nowhere, soundless except for a faint chime of hilt against buckle."
+ tfast_sc_flavor_raid_8:0 "A pale child came to the gate asking only to see your salt cellar, and the guards cannot remember whether they let her in."
+ tfast_sc_flavor_dark_1:0 "The sun still rises, which everyone agrees is a clerical error."
+ tfast_sc_flavor_dark_2:0 "They tax you in firewood now, and the collectors arrive at dusk."
+ tfast_sc_flavor_dark_3:0 "The last honest tax ledger for our village is written in a hand that stopped being human years ago."
+ tfast_sc_flavor_dark_4:0 "Do not hang garlic to ward them off; it only flatters their kitchens."
+ tfast_sc_flavor_dark_5:0 "The wolves have filed no complaints because all the wolves are employed elsewhere."
+ tfast_sc_flavor_dark_6:0 "Pestilence has become customary, the way rain once was."
+ tfast_sc_flavor_dark_7:0 "The night watch arms itself each evening, mostly with invitations."
+ tfast_sc_flavor_dark_8:0 "Your grandchildren will ask who harvested before the Hunger, and you will honestly forget."
+ tfast_sc_flavor_whisper_1:0 "They say the lights above the eastern woods are not stars but windows, and the windows belong to something patient."
+ tfast_sc_flavor_whisper_2:0 "Three shepherds went up the salt road at dusk and only their dogs came back, fat and quiet."
+ tfast_sc_flavor_whisper_3:0 "My grandmother swore her grandfather signed a paper with them, and the family has done well ever since, which is the troubling part."
+ tfast_sc_flavor_whisper_4:0 "The lord keeps a cellar door locked that no servant has opened in forty years, yet the hinges are oiled."
+ tfast_sc_flavor_whisper_5:0 "When the river ran red last spring, the villagers said it was only iron from the hills, and the priest said nothing at all."
+ tfast_sc_flavor_whisper_6:0 "They send no envoys and receive no guests, yet somehow they always hear the terms before you offer them."
+ tfast_sc_flavor_whisper_7:0 "The oldest families burn a candle on the first cold night that nobody admits to lighting."
+ tfast_sc_flavor_whisper_8:0 "Every generation or so a local boy returns wealthy, ageless, and with no love at all for the sun."

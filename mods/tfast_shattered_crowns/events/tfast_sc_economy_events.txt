@@ -1,0 +1,76 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- gold deposit events              CK3 1.20.x
+# ============================================================================
+#  tfast_sc.1000 -- an unasked rumor from a county you hold.
+#  tfast_sc.1001 -- the result of questioning or a hired survey.
+#  tfast_sc.1002 -- the gold working is opened, or an older mine is already there.
+# ============================================================================
+
+namespace = tfast_sc
+
+
+tfast_sc.1000 = {
+	type = character_event
+	theme = realm
+
+	title = tfast_sc.1000.t
+	desc = { desc = tfast_sc.1000.desc }
+
+	option = {
+		name = tfast_sc.1000.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_rumor_county
+	}
+}
+
+
+tfast_sc.1001 = {
+	type = character_event
+	theme = realm
+
+	title = tfast_sc.1001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 2 }
+				desc = tfast_sc.1001.desc.advanced
+			}
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 1 }
+				desc = tfast_sc.1001.desc.missed
+			}
+			desc = tfast_sc.1001.desc.empty
+		}
+	}
+
+	option = {
+		name = tfast_sc.1001.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_survey_result
+		remove_variable = tfast_sc_rumor_county
+	}
+}
+
+
+tfast_sc.1002 = {
+	type = character_event
+	theme = realm
+
+	title = tfast_sc.1002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:tfast_sc_survey_result = 0 }
+				desc = tfast_sc.1002.desc.already
+			}
+			desc = tfast_sc.1002.desc.opened
+		}
+	}
+
+	option = {
+		name = tfast_sc.1002.a
+		ai_chance = { base = 100 }
+		remove_variable = tfast_sc_survey_result
+		remove_variable = tfast_sc_rumor_county
+	}
+}

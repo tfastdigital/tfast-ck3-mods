@@ -1,0 +1,329 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- realm automation decisions                 CK3 1.20.x
+# ============================================================================
+#  Open the cheat menu, then Automation. The switches keep working after
+#  the menu is closed. Building spends tfast_build_budget gold per year
+#  and always leaves 200 in the treasury.
+# ============================================================================
+
+
+tfast_menu_page_auto_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8998
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_auto }
+	}
+}
+
+tfast_auto_realm_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 9060
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		NOT = { has_character_flag = tfast_auto_build }
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_auto_realm_on }
+		add_character_flag = { flag = tfast_auto_build }
+		add_character_flag = { flag = tfast_auto_council }
+		add_character_flag = { flag = tfast_auto_court }
+		add_character_flag = { flag = tfast_auto_legacy }
+		if = {
+			limit = { NOT = { has_variable = tfast_build_budget } }
+			set_variable = { name = tfast_build_budget value = 500 }
+		}
+		tfast_auto_build_effect = yes
+		tfast_auto_council_effect = yes
+		tfast_auto_court_effect = yes
+		tfast_auto_legacy_effect = yes
+	}
+}
+
+tfast_auto_realm_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_close.dds" }
+	decision_group_type = major
+	sort_order = 9061
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		OR = {
+			has_character_flag = tfast_auto_build
+			has_character_flag = tfast_auto_council
+			has_character_flag = tfast_auto_court
+			has_character_flag = tfast_auto_legacy
+		}
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_auto_realm_off }
+		remove_character_flag = tfast_auto_build
+		remove_character_flag = tfast_auto_council
+		remove_character_flag = tfast_auto_court
+		remove_character_flag = tfast_auto_legacy
+	}
+}
+
+tfast_auto_build_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9062
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		NOT = { has_character_flag = tfast_auto_build }
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		add_character_flag = { flag = tfast_auto_build }
+		if = {
+			limit = { NOT = { has_variable = tfast_build_budget } }
+			set_variable = { name = tfast_build_budget value = 500 }
+		}
+		tfast_auto_build_effect = yes
+	}
+}
+
+tfast_auto_build_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9063
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		has_character_flag = tfast_auto_build
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_auto_build }
+}
+
+tfast_budget_250 = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 9064
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		trigger_if = {
+			limit = { has_variable = tfast_build_budget }
+			NOT = { var:tfast_build_budget = 250 }
+		}
+	}
+	is_valid = { is_ai = no }
+	effect = { set_variable = { name = tfast_build_budget value = 250 } }
+}
+
+tfast_budget_500 = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 9065
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		trigger_if = {
+			limit = { has_variable = tfast_build_budget }
+			NOT = { var:tfast_build_budget = 500 }
+		}
+	}
+	is_valid = { is_ai = no }
+	effect = { set_variable = { name = tfast_build_budget value = 500 } }
+}
+
+tfast_budget_1000 = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 9066
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		trigger_if = {
+			limit = { has_variable = tfast_build_budget }
+			NOT = { var:tfast_build_budget = 1000 }
+		}
+	}
+	is_valid = { is_ai = no }
+	effect = { set_variable = { name = tfast_build_budget value = 1000 } }
+}
+
+tfast_budget_2500 = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 9067
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		trigger_if = {
+			limit = { has_variable = tfast_build_budget }
+			NOT = { var:tfast_build_budget = 2500 }
+		}
+	}
+	is_valid = { is_ai = no }
+	effect = { set_variable = { name = tfast_build_budget value = 2500 } }
+}
+
+tfast_auto_council_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9068
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		NOT = { has_character_flag = tfast_auto_council }
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		add_character_flag = { flag = tfast_auto_council }
+		tfast_auto_council_effect = yes
+	}
+}
+
+tfast_auto_council_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9069
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		has_character_flag = tfast_auto_council
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_auto_council }
+}
+
+tfast_auto_court_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds" }
+	decision_group_type = major
+	sort_order = 9070
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		NOT = { has_character_flag = tfast_auto_court }
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		add_character_flag = { flag = tfast_auto_court }
+		tfast_auto_court_effect = yes
+	}
+}
+
+tfast_auto_court_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds" }
+	decision_group_type = major
+	sort_order = 9071
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		has_character_flag = tfast_auto_court
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_auto_court }
+}
+
+tfast_auto_legacy_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9072
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		NOT = { has_character_flag = tfast_auto_legacy }
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		add_character_flag = { flag = tfast_auto_legacy }
+		tfast_auto_legacy_effect = yes
+	}
+}
+
+tfast_auto_legacy_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	sort_order = 9073
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_auto
+		has_character_flag = tfast_auto_legacy
+	}
+	is_valid = { is_ai = no }
+
+	effect = { remove_character_flag = tfast_auto_legacy }
+}

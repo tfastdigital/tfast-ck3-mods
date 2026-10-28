@@ -1,0 +1,3 @@
+﻿tfast_sc_hollow_legacy_track = {
+	is_shown = { always = yes }
+}

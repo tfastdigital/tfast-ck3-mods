@@ -1,0 +1,245 @@
+﻿# ============================================================================
+#  TFAST AI Suite -- cheat menu shell                            CK3 1.20.x
+# ============================================================================
+#  Daddy Pika-style flag menu. The cheat and automation decisions in the other
+#  files are hidden until their page is open:
+#
+#    Open TFAST Cheat Menu
+#      -> Debug On / Debug Off   (stays visible on every page)
+#      -> Resources / Domain / Military / Character / Realm  (page tabs)
+#      -> the cheats of that page
+#      -> Back to Menu
+#      -> Close Cheat Menu
+#
+#  The whole shell is character flags (tfast_menu_open, tfast_menu_page_*).
+#  Nothing here touches the map, the AI, or any vanilla file.
+#
+#  Same safety contract as every other decision in this mod:
+#    is_ai = no  +  ai_check_interval = 0
+# ============================================================================
+
+
+# ------------------------------------------------------------ OPEN / CLOSE --
+tfast_menu_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_open.dds" }
+	decision_group_type = major
+	sort_order = 8990
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		NOT = { has_character_flag = tfast_menu_open }
+	}
+	is_valid = { is_ai = no }
+
+	effect = { add_character_flag = { flag = tfast_menu_open } }
+}
+
+tfast_menu_close = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_close.dds" }
+	decision_group_type = major
+	sort_order = 8991
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		remove_character_flag = tfast_menu_open
+	}
+}
+
+
+# ------------------------------------------------------------------- DEBUG --
+# Stays on screen for as long as the menu is open, including inside a page,
+# so it can be flipped without going back. The flag is global: it survives
+# switching character and saving.
+tfast_debug_on = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8980
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { has_global_variable = tfast_debug }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		set_global_variable = tfast_debug
+		debug_log = "TFAST debug: on"
+	}
+}
+
+tfast_debug_off = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_close.dds" }
+	decision_group_type = major
+	sort_order = 8981
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_global_variable = tfast_debug
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		remove_global_variable = tfast_debug
+		debug_log = "TFAST debug: off"
+	}
+}
+
+tfast_debug_inspect = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8982
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		has_global_variable = tfast_debug
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		custom_tooltip = tfast_debug_inspect_tt
+		debug_log = "TFAST debug: inspect"
+		debug_log_scopes = yes
+	}
+}
+
+
+# ------------------------------------------------------------------ PAGES ---
+# A page tab appears only while the menu is open and no page is open yet.
+# Opening a page closes any other page, so exactly one page is ever open.
+tfast_menu_page_resources_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8992
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_resources }
+	}
+}
+
+tfast_menu_page_domain_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8993
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_domain }
+	}
+}
+
+tfast_menu_page_military_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8994
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_military }
+	}
+}
+
+tfast_menu_page_character_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8995
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_character }
+	}
+}
+
+tfast_menu_page_realm_open = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_page.dds" }
+	decision_group_type = major
+	sort_order = 8996
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		NOT = { tfast_menu_any_page_open_trigger = yes }
+	}
+	is_valid = { is_ai = no }
+
+	effect = {
+		tfast_menu_clear_pages_effect = yes
+		add_character_flag = { flag = tfast_menu_page_realm }
+	}
+}
+
+
+# ------------------------------------------------------------------- BACK ---
+tfast_menu_page_back = {
+	picture = { reference = "gfx/interface/illustrations/decisions/tfast_menu_tab_close.dds" }
+	decision_group_type = major
+	sort_order = 8997
+	ai_check_interval = 0
+
+	is_shown = {
+		always = no
+		is_ai = no
+		has_character_flag = tfast_menu_open
+		tfast_menu_any_page_open_trigger = yes
+	}
+	is_valid = { is_ai = no }
+
+	effect = { tfast_menu_clear_pages_effect = yes }
+}

@@ -1,0 +1,323 @@
+﻿# ============================================================================
+#  TFAST Shattered Crowns -- scripted character templates     CK3 1.20.x
+# ============================================================================
+#  Structure verified against
+#  game/common/scripted_character_templates/00_invader_templates.txt
+#  (age / gender / skills / faith / culture / trait / random_traits).
+#
+#  These templates build the Supreme Immortal Overlord and his ten original
+#  children. Faith and culture are the mod's own Hollow faith and the greek
+#  culture (the Hollow are strangers everywhere; their culture is deliberately
+#  one of the world's old book-cultures so they disturb no cultural group).
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+#  THE SUPREME IMMORTAL OVERLORD
+#  Single eternal head of the Hollow Dominion. Never permanently killable.
+# ---------------------------------------------------------------------------
+tfast_sc_overlord_template = {
+	age = 41
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 17
+	martial = 19
+	stewardship = 16
+	intrigue = 18
+	learning = 22
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = ambitious
+	trait = patient
+	trait = callous
+	trait = education_learning_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_overlord
+		add_character_flag = tfast_sc_outfit_overlord
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE TEN -- FIVE SONS
+# ---------------------------------------------------------------------------
+
+# Vaelor, lord of war. Iron Crown bloc.
+tfast_sc_vaelor_template = {
+	age = 29
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 12
+	martial = 25
+	stewardship = 11
+	intrigue = 13
+	learning = 12
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_vaelor
+	trait = brave
+	trait = wrathful
+	trait = education_martial_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_vaelor
+		add_character_flag = tfast_sc_outfit_vaelor
+	}
+}
+
+# Morvath, who calls the fallen back to their feet. Death Covenant bloc.
+tfast_sc_morvath_template = {
+	age = 34
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 10
+	martial = 15
+	stewardship = 13
+	intrigue = 17
+	learning = 21
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_morvath
+	trait = patient
+	trait = callous
+	trait = education_learning_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_morvath
+		add_character_flag = tfast_sc_outfit_morvath
+	}
+}
+
+# Kaedryn, whose breath is winter. Eternal Keepers bloc.
+tfast_sc_kaedryn_template = {
+	age = 27
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 13
+	martial = 20
+	stewardship = 15
+	intrigue = 12
+	learning = 17
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_kaedryn
+	trait = calm
+	trait = sadistic
+	trait = education_martial_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_kaedryn
+		add_character_flag = tfast_sc_outfit_kaedryn
+	}
+}
+
+# Draven, who walks in the shadow of every court. Silent Court bloc.
+tfast_sc_draven_template = {
+	age = 26
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 12
+	martial = 14
+	stewardship = 11
+	intrigue = 24
+	learning = 14
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_draven
+	trait = deceitful
+	trait = patient
+	trait = education_intrigue_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_draven
+		add_character_flag = tfast_sc_outfit_draven
+	}
+}
+
+# Tharion, who breaks gates. Iron Crown bloc.
+tfast_sc_tharion_template = {
+	age = 31
+	gender = male
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 9
+	martial = 22
+	stewardship = 17
+	intrigue = 11
+	learning = 14
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_tharion
+	trait = diligent
+	trait = stubborn
+	trait = education_martial_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_tharion
+		add_character_flag = tfast_sc_outfit_tharion
+	}
+}
+
+
+# ---------------------------------------------------------------------------
+#  THE TEN -- FIVE DAUGHTERS
+# ---------------------------------------------------------------------------
+
+# Seralyth, whose words become curses. Ashen Conspiracy bloc.
+tfast_sc_seralyth_template = {
+	age = 30
+	gender = female
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 13
+	martial = 12
+	stewardship = 11
+	intrigue = 22
+	learning = 18
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_seralyth
+	trait = vengeful
+	trait = arbitrary
+	trait = education_intrigue_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_seralyth
+		add_character_flag = tfast_sc_outfit_seralyth
+	}
+}
+
+# Nyxara, who hears every whisper. Silent Court bloc.
+tfast_sc_nyxara_template = {
+	age = 24
+	gender = female
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 16
+	martial = 11
+	stewardship = 12
+	intrigue = 23
+	learning = 15
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_nyxara
+	trait = deceitful
+	trait = gregarious
+	trait = education_intrigue_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_nyxara
+		add_character_flag = tfast_sc_outfit_nyxara
+	}
+}
+
+# Velmora, keeper of the souls that were promised. Death Covenant bloc.
+tfast_sc_velmora_template = {
+	age = 33
+	gender = female
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 14
+	martial = 10
+	stewardship = 14
+	intrigue = 16
+	learning = 22
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_velmora
+	trait = zealous
+	trait = callous
+	trait = education_learning_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_velmora
+		add_character_flag = tfast_sc_outfit_velmora
+	}
+}
+
+# Eryndra, who mends what the war has unmade. Eternal Keepers bloc.
+tfast_sc_eryndra_template = {
+	age = 28
+	gender = female
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 15
+	martial = 12
+	stewardship = 23
+	intrigue = 12
+	learning = 17
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_eryndra
+	trait = generous
+	trait = diligent
+	trait = education_stewardship_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_eryndra
+		add_character_flag = tfast_sc_outfit_eryndra
+	}
+}
+
+# Malethra, who leaves only ash. Ashen Conspiracy bloc.
+tfast_sc_malethra_template = {
+	age = 25
+	gender = female
+	random_traits = no
+	dynasty_house = house:tfast_sc_hollow_house
+
+	diplomacy = 10
+	martial = 21
+	stewardship = 11
+	intrigue = 17
+	learning = 13
+
+	faith = faith:hollow_faith
+	culture = culture:tfast_sc_hollow_culture
+
+	trait = tfast_sc_hollow_immortal
+	trait = tfast_sc_blood_malethra
+	trait = wrathful
+	trait = sadistic
+	trait = education_martial_4
+	after_creation = {
+		copy_inheritable_appearance_from = character:tfast_sc_dna_malethra
+		add_character_flag = tfast_sc_outfit_malethra
+	}
+}

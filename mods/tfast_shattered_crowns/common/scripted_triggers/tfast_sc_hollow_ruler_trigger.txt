@@ -1,0 +1,8 @@
+﻿tfast_sc_hollow_ruler_trigger = {
+	is_alive = yes
+	OR = {
+		has_character_flag = tfast_sc_hollow_host
+		has_character_flag = tfast_sc_original_child
+		has_character_flag = tfast_sc_dark_twin
+	}
+}
