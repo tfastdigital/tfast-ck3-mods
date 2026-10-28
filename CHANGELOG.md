@@ -15,6 +15,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 ### tfast_shattered_crowns — 1.1.0 (in progress)
 
 #### Added
+
 - **World-level yearly tick** (`tfast_sct_world_tick`) that reaches every
   playable ruler on the map, up to the eastern edge: resisting-the-Hollow
   modifier, dragon-at-court modifier, pale riders, Hollow winter.
@@ -46,6 +47,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
   heritage pillar, Hollow legacy track.
 
 #### Changed
+
 - All Hollow rulers are **independent** at start (previously vassals), so they
   can be fought and can lose land without losing their permanent seat.
 - `tfast_sc_ensure_permanent_seats_effect` now runs at **every** start date, not
@@ -54,6 +56,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
   character previously did not exist, which is why no Hollow title resolved.
 
 #### Fixed
+
 - Unset `root` scope in `tfast_sc_give_crown_effect` that silently failed every
   title grant.
 - `becomes_vassal_of` replaced with `change_liege`.
@@ -71,11 +74,13 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 ### tfast_ai_suite — 1.1.0
 
 #### Added
+
 - Exportable flag-menu framework: open, page, back, close — 23 cheats across five
   pages (Resources, Domain, Military, Character, Realm).
 - Landless-adventurer path for the full usable kit.
 
 #### Changed
+
 - All cheats gated behind a single menu flag so the Decisions tab stays clean
   while the menu is closed.
 
@@ -84,33 +89,42 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 ## 1.0.0 — initial public release
 
 ### tfast_shattered_crowns — 1.0.0
+
 The Hollow Dominion, the Great Wall, the Chosen Emperor, the Great Reckoning, the
 Long Dark, mercenaries, Hollow goals, hiding and hunting, the automation menu,
 the in-game handbook, the Hollow Tide situation, six Hollow men-at-arms, and a
 generated flavor pool.
 
 ### tfast_africa — 1.0.0
+
 12 decisions, 6 traits, 12 modifiers drawn from documented African history.
 
 ### tfast_history — 1.0.0
+
 35 decisions modelling real medieval institutions, with real costs and cooldowns.
 
 ### tfast_funpack — 1.0.0
+
 6 court decisions — tournament, menagerie, artisan, blood feud, hoard, year of
 pleasure — each with a genuine downside.
 
 ### tfast_lategame — 1.0.0
+
 Partial override of four population-growth defines. Explicitly not a lag fix.
 
 ### tfast_performance — 1.0.0
+
 16 AI keys retuned to reduce recalculation. Deliberately trades intelligence for
 speed; conflicts with `tfast_smarter_ai` by design.
 
 ### tfast_smarter_ai — 1.0.0
+
 16 AI keys retuned for faster reactions and wider search. Makes the game harder.
 
 ### tfast_ui_readable — 1.0.0
+
 All four CK3 font templates raised ~11%.
 
 ### tfast_template — 1.0.0
+
 Empty starting scaffold for a new TFAST-style mod.

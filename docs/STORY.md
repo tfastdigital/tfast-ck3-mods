@@ -40,18 +40,18 @@ Draven, Tharion, Seralyth, Nyxara, Velmora, Eryndra, Malethra** — each hold a
 crown of their own, and each inherited a single facet of their parents'
 obsession.
 
-| Name | Facet |
-|---|---|
-| Vaelor | Command |
-| Morvath | Endurance — bounded reinforcements |
-| Kaedryn | Frost |
-| Draven | Terror |
-| Tharion | The hunt |
-| Seralyth | Blood |
-| Nyxara | Secrets |
-| Velmora | Treasure |
-| Eryndra | Omen |
-| Malethra | Law |
+| Name     | Facet                              |
+| -------- | ---------------------------------- |
+| Vaelor   | Command                            |
+| Morvath  | Endurance — bounded reinforcements |
+| Kaedryn  | Frost                              |
+| Draven   | Terror                             |
+| Tharion  | The hunt                           |
+| Seralyth | Blood                              |
+| Nyxara   | Secrets                            |
+| Velmora  | Treasure                           |
+| Eryndra  | Omen                               |
+| Malethra | Law                                |
 
 > **In script:** Vaelos holds `h_hollow_dominion`, Vaelith holds
 > `e_hollow_vaelith`, and the Ten hold kingdoms and counties of their own. All
@@ -66,7 +66,7 @@ There is a thing older than the Hollow that is not one of them.
 
 It is called **the Darkness** — the first of the Hollow, or the thing the Hollow
 were made from, depending on which courtier you ask. It does not want to rule.
-It wants to be *owed*.
+It wants to be _owed_.
 
 In the early years of the common era it rose out of the Dominion, walked into
 the world, and went looking for a throne to sit on. It found a dragonlord
@@ -80,7 +80,7 @@ instead.
 ## Chapter IV — Aelfhere
 
 **Aelfhere** was born in year 1, killed the Darkness in year 21, and died in
-year 60. He is the reason the word *Targaryen* is not spoken aloud in the Hollow
+year 60. He is the reason the word _Targaryen_ is not spoken aloud in the Hollow
 Dominion.
 
 He was not a king. He had no army worth the name. He simply met the Darkness
@@ -110,7 +110,7 @@ and **Edmund** (835–930) are the best-recorded of the medieval ancestors. Ever
 one of them carried the same two things without knowing why: **platinum-white
 hair**, and a recurring dream of something enormous sleeping under the earth.
 
-This is the central problem of the mod, and it is a problem of *administration*:
+This is the central problem of the mod, and it is a problem of _administration_:
 the Hollow hunt a family, and the family is not one house.
 
 > **In script:** the scattered houses are consolidated. Members are moved into a
@@ -128,7 +128,7 @@ The Hollow have a doctrine about the Targaryens, and it is not simply revenge.
 
 They believe that when the last of Aelfhere's blood either submits or is
 extinguished, the Dominion will be able to rise into the world permanently. So
-the Hollow are looking for something: a Targaryen who is *enough*. Not the
+the Hollow are looking for something: a Targaryen who is _enough_. Not the
 strongest. The one the bloodline converges on.
 
 That person is the **Chosen Emperor** — hidden, marked, and unaware, until the
@@ -153,7 +153,7 @@ to.
 The world's answer is the **Great Wall**: five stages of construction, upkeep,
 and repair, held by the **Last Watch**, a commander recruited for exactly this
 purpose. The wall does not make the world safe. It makes the Reckoning
-*survivable*.
+_survivable_.
 
 > **In script:** the Reckoning is a real war with a custom casus belli, fought in
 > three bounded waves against a Host that retreats on schedule. The wall gates
@@ -183,12 +183,12 @@ thresholds the world rises, and at the higher threshold the dark breaks.
 
 ## How it plays, in one page
 
-| You are | What the mod asks of you |
-|---|---|
-| A ruler near the British Isles | Survive the Reckoning. Build the wall. Do not lose on every front. |
-| A Targaryen | You are being hunted by something that does not die. Consolidate, or be picked off. |
-| Anyone else, anywhere | The Host reaches you too. The pale riders, the Hollow winter, and the world tick do not care where you are. |
-| Playing the Hollow | You cannot — they are AI rulers. Nothing in normal play lets you switch to them. |
+| You are                        | What the mod asks of you                                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| A ruler near the British Isles | Survive the Reckoning. Build the wall. Do not lose on every front.                                          |
+| A Targaryen                    | You are being hunted by something that does not die. Consolidate, or be picked off.                         |
+| Anyone else, anywhere          | The Host reaches you too. The pale riders, the Hollow winter, and the world tick do not care where you are. |
+| Playing the Hollow             | You cannot — they are AI rulers. Nothing in normal play lets you switch to them.                            |
 
 ### A note on that last line
 

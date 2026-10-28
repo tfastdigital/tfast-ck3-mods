@@ -11,13 +11,13 @@
 
 ## Supported game version
 
-| | |
-|---|---|
-| **Crusader Kings III** | `1.20.x` |
-| **Built against** | `1.20.0.3` ("Crozier") |
-| **Descriptor field** | `supported_version="1.20.*"` in every mod |
-| **DLC required** | None. All mods run on the base game. |
-| **Load order** | Anywhere after the base game. See [load order](#load-order--known-conflicts). |
+|                        |                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| **Crusader Kings III** | `1.20.x`                                                                      |
+| **Built against**      | `1.20.0.3` ("Crozier")                                                        |
+| **Descriptor field**   | `supported_version="1.20.*"` in every mod                                     |
+| **DLC required**       | None. All mods run on the base game.                                          |
+| **Load order**         | Anywhere after the base game. See [load order](#load-order--known-conflicts). |
 
 When Paradox ships a new major patch, `supported_version` is bumped **only after** the scripts have been re-checked against the new data files. A stale version number is better than a false promise.
 
@@ -25,18 +25,18 @@ When Paradox ships a new major patch, `supported_version` is bumped **only after
 
 ## The mods
 
-| Mod | Version | What it is |
-|---|---|---|
-| **[TFAST Shattered Crowns](mods/tfast_shattered_crowns)** | `1.0.0` | The flagship. An immortal Hollow Dominion beneath the world, the Great Wall, the Chosen Emperor, the Great Reckoning, and the Targaryen prophecy. |
-| **[TFAST Africa — Historical Depth](mods/tfast_africa)** | `1.0.0` | 12 decisions, 6 traits, 12 modifiers built from documented African history — the content vanilla never shipped. |
-| **[TFAST History — Historic Acts & Institutions](mods/tfast_history)** | `1.0.0` | 35 decisions modelled on real medieval institutions: the Hanseatic League, the Golden Bull, Magna Carta, the Kalmar Union. |
-| **[TFAST Fun Pack — Court Life & Character](mods/tfast_funpack)** | `1.0.0` | 6 court decisions with real costs and lasting marks. Nothing is pure upside. |
-| **[TFAST AI Suite — Cheats & Automation](mods/tfast_ai_suite)** | `1.1.0` | A flag-gated cheat menu (5 pages, 23 cheats) plus realm automation. Single-player convenience. |
-| **[TFAST Late Game — Stability](mods/tfast_lategame)** | `1.0.0` | Slows character-population growth so long campaigns stay playable. Honest about what it cannot fix. |
-| **[TFAST Performance — Lean AI](mods/tfast_performance)** | `1.0.0` | Makes the AI recalculate less often. A deliberate trade: faster, dumber. |
-| **[TFAST Smarter AI](mods/tfast_smarter_ai)** | `1.0.0` | The opposite trade: 16 AI keys retuned for faster reactions and better choices. Harder game. |
-| **[TFAST UI Readable Fonts](mods/tfast_ui_readable)** | `1.0.0` | Raises all four CK3 font templates by ~11% for high-DPI displays. |
-| **[TFAST Template Mod](mods/tfast_template)** | `1.0.0` | A clean, empty starting point for your own TFAST-style mod. |
+| Mod                                                                    | Version | What it is                                                                                                                                        |
+| ---------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[TFAST Shattered Crowns](mods/tfast_shattered_crowns)**              | `1.0.0` | The flagship. An immortal Hollow Dominion beneath the world, the Great Wall, the Chosen Emperor, the Great Reckoning, and the Targaryen prophecy. |
+| **[TFAST Africa — Historical Depth](mods/tfast_africa)**               | `1.0.0` | 12 decisions, 6 traits, 12 modifiers built from documented African history — the content vanilla never shipped.                                   |
+| **[TFAST History — Historic Acts & Institutions](mods/tfast_history)** | `1.0.0` | 35 decisions modelled on real medieval institutions: the Hanseatic League, the Golden Bull, Magna Carta, the Kalmar Union.                        |
+| **[TFAST Fun Pack — Court Life & Character](mods/tfast_funpack)**      | `1.0.0` | 6 court decisions with real costs and lasting marks. Nothing is pure upside.                                                                      |
+| **[TFAST AI Suite — Cheats & Automation](mods/tfast_ai_suite)**        | `1.1.0` | A flag-gated cheat menu (5 pages, 23 cheats) plus realm automation. Single-player convenience.                                                    |
+| **[TFAST Late Game — Stability](mods/tfast_lategame)**                 | `1.0.0` | Slows character-population growth so long campaigns stay playable. Honest about what it cannot fix.                                               |
+| **[TFAST Performance — Lean AI](mods/tfast_performance)**              | `1.0.0` | Makes the AI recalculate less often. A deliberate trade: faster, dumber.                                                                          |
+| **[TFAST Smarter AI](mods/tfast_smarter_ai)**                          | `1.0.0` | The opposite trade: 16 AI keys retuned for faster reactions and better choices. Harder game.                                                      |
+| **[TFAST UI Readable Fonts](mods/tfast_ui_readable)**                  | `1.0.0` | Raises all four CK3 font templates by ~11% for high-DPI displays.                                                                                 |
+| **[TFAST Template Mod](mods/tfast_template)**                          | `1.0.0` | A clean, empty starting point for your own TFAST-style mod.                                                                                       |
 
 Full version table, tags, and per-mod file counts: **[docs/MOD_VERSIONS.md](docs/MOD_VERSIONS.md)**.
 
@@ -63,13 +63,14 @@ The full narrative, the cast, and the timeline: **[docs/STORY.md](docs/STORY.md)
 The `mods/` folder in this repository mirrors a CK3 mod directory exactly, so installation is a copy.
 
 1. Download or clone this repository.
-2. Copy **everything inside `mods/`** (the folders *and* the `.mod` files) into:
+2. Copy **everything inside `mods/`** (the folders _and_ the `.mod` files) into:
 
    ```
    Documents/Paradox Interactive/Crusader Kings III/mod/
    ```
 
    On Windows that is usually `C:\Users\<you>\Documents\Paradox Interactive\Crusader Kings III\mod\`.
+
 3. Launch CK3 → **Playsets** → add the mods you want → **Play**.
 
 The `.mod` files in this repository use **relative paths** (`path="mod/tfast_shattered_crowns"`), so they work on any machine and any drive. If the launcher still cannot see a mod, open the `.mod` file and confirm the `path=` line points at the folder you actually copied.
@@ -86,11 +87,11 @@ Copy over the old folders. Your saves are unaffected; new scripted content is pi
 
 Most of these mods only **add** content and can be enabled in any combination.
 
-| Pair | Verdict |
-|---|---|
-| Everything except the two AI mods | Compatible. No shared IDs. |
-| `tfast_performance` + `tfast_smarter_ai` | **Conflict by design.** They tune the same `common/defines/ai/` keys in opposite directions. Enable exactly one. |
-| `tfast_shattered_crowns` + large total-conversion mods | Expect title-history and character-ID collisions. Test in a new save. |
+| Pair                                                   | Verdict                                                                                                          |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| Everything except the two AI mods                      | Compatible. No shared IDs.                                                                                       |
+| `tfast_performance` + `tfast_smarter_ai`               | **Conflict by design.** They tune the same `common/defines/ai/` keys in opposite directions. Enable exactly one. |
+| `tfast_shattered_crowns` + large total-conversion mods | Expect title-history and character-ID collisions. Test in a new save.                                            |
 
 Details and the reasoning behind each call: **[docs/COMPATIBILITY.md](docs/COMPATIBILITY.md)**.
 
@@ -100,11 +101,11 @@ Details and the reasoning behind each call: **[docs/COMPATIBILITY.md](docs/COMPA
 
 Read this before you install, and read it again before you file a bug.
 
-| Status | Meaning |
-|---|---|
+| Status                 | Meaning                                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `STATICALLY_VALIDATED` | Every effect, trigger, scope, modifier key and database field was checked against the installed 1.20 data files. No validator or load errors. **Not played.** |
-| `RUNTIME_TESTED` | Observed working in a launched game. |
-| `VERIFIED` | Played through to the intended outcome, on a clean save, more than once. |
+| `RUNTIME_TESTED`       | Observed working in a launched game.                                                                                                                          |
+| `VERIFIED`             | Played through to the intended outcome, on a clean save, more than once.                                                                                      |
 
 **Almost everything in this repository is `STATICALLY_VALIDATED`, not `VERIFIED`.** The mods load and parse cleanly; the recent features have not all been played through. That is the honest state, and the per-system table says so line by line:
 

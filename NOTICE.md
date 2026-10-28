@@ -13,9 +13,9 @@ The following files were produced during development using artwork from
 community mods as a **visual placeholder**. They have been renamed into the
 `tfast_*` namespace, but the underlying picture may not be original work:
 
-| File | Placeholder derived from |
-|---|---|
-| `mods/tfast_shattered_crowns/gfx/interface/icons/modifiers/tfast_sct_dragon_egg.dds` | Dragon-egg iconography from the **AGOT** mod |
+| File                                                                                                     | Placeholder derived from                      |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `mods/tfast_shattered_crowns/gfx/interface/icons/modifiers/tfast_sct_dragon_egg.dds`                     | Dragon-egg iconography from the **AGOT** mod  |
 | `mods/tfast_shattered_crowns/gfx/interface/illustrations/decisions/tfast_sct_dragon_throne_decision.dds` | Dragon decision artwork from the **AGOT** mod |
 
 **If you intend to redistribute these files outside GitHub, or publish this
@@ -42,7 +42,7 @@ required to use these mods.
 
 Every mod in this repository reads and overrides data files belonging to
 **Crusader Kings III**, © Paradox Interactive. Where a file under
-`common/defines/` is overridden, it is a *partial* override of specific keys —
+`common/defines/` is overridden, it is a _partial_ override of specific keys —
 see each mod's README for exactly which keys and why.
 
 Crusader Kings III is a trademark of Paradox Interactive AB. These mods are
@@ -53,5 +53,5 @@ Paradox Interactive in any way.
 
 ## Fonts
 
-`tfast_ui_readable` does not ship any font files. It changes the *sizes* of the
+`tfast_ui_readable` does not ship any font files. It changes the _sizes_ of the
 font templates that reference the fonts already installed with the game.

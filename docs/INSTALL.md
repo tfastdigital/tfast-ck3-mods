@@ -58,7 +58,7 @@ Documents/Paradox Interactive/Crusader Kings III/mod/
 
 ## 3. Why the `.mod` files work on your machine
 
-Each launcher file contains a *relative* path:
+Each launcher file contains a _relative_ path:
 
 ```txt
 path="mod/tfast_shattered_crowns"
@@ -93,15 +93,15 @@ order. See [COMPATIBILITY.md](COMPATIBILITY.md) for the one real conflict
 
 In game, open the **Decisions** tab.
 
-| Mod | What you should see |
-|---|---|
-| Shattered Crowns | Hollow Host, Great Wall, Last Watch and prophecy decisions; the **Hollow Tide** situation in the Situations window after the first yearly tick |
-| AI Suite | **TFAST Cheat Menu: Open** under Major Decisions |
-| Africa | Twelve African-history decisions |
-| History | Thirty-five historic-act decisions |
-| Fun Pack | Six court decisions |
-| Late Game / Performance / Smarter AI | No decisions — they change defines only |
-| UI Readable | Immediately larger interface text |
+| Mod                                  | What you should see                                                                                                                            |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shattered Crowns                     | Hollow Host, Great Wall, Last Watch and prophecy decisions; the **Hollow Tide** situation in the Situations window after the first yearly tick |
+| AI Suite                             | **TFAST Cheat Menu: Open** under Major Decisions                                                                                               |
+| Africa                               | Twelve African-history decisions                                                                                                               |
+| History                              | Thirty-five historic-act decisions                                                                                                             |
+| Fun Pack                             | Six court decisions                                                                                                                            |
+| Late Game / Performance / Smarter AI | No decisions — they change defines only                                                                                                        |
+| UI Readable                          | Immediately larger interface text                                                                                                              |
 
 If a mod's decisions are missing, the most common cause is that the `.mod` file
 did not get copied, or the `path=` inside it points at the wrong folder.
@@ -117,7 +117,7 @@ did not get copied, or the `path=` inside it points at the wrong folder.
 - Open the `.mod` file and check `path=` — it must point at the folder that
   actually exists.
 - Confirm the file ends in `.mod`, not `.mod.txt` (Windows hides extensions by
-  default: turn on *File name extensions* in Explorer's View menu).
+  default: turn on _File name extensions_ in Explorer's View menu).
 
 ### The mod appears, but its content does not
 

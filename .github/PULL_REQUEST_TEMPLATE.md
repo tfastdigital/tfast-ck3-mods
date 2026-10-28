@@ -3,6 +3,7 @@
 <!-- One paragraph. What behaviour changes, and for which mod. -->
 
 Mod(s) touched:
+
 - [ ] `tfast_shattered_crowns`
 - [ ] `tfast_africa`
 - [ ] `tfast_history`
@@ -42,7 +43,7 @@ If you tested in game, say what you did:
 - [ ] New localization `.yml` files are UTF-8 **with BOM**
 - [ ] New game-object IDs use the `tfast_` / `tfast_sc_` / `tfast_sct_` namespace
 - [ ] No new `root` references inside `on_action` effects without `save_scope_as`
-- [ ] `CHANGELOG.md` updated under *Unreleased*
+- [ ] `CHANGELOG.md` updated under _Unreleased_
 - [ ] `docs/TESTING_STATUS.md` updated if a system's validation state changed
 - [ ] No save files, logs, `.bak` files or absolute paths committed
 

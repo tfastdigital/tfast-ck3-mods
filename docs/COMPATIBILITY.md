@@ -6,18 +6,18 @@ What each mod touches, and what it will fight with.
 
 ## At a glance
 
-| Mod | Files touched | Kind of change |
-|---|---|---|
+| Mod                      | Files touched                                                                                                          | Kind of change                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | `tfast_shattered_crowns` | Many — characters, titles, faith, culture, decisions, events, on_actions, situations, men-at-arms, modifiers, GUI, art | **Additive, plus heavy use of the British Isles** |
-| `tfast_africa` | Decisions, traits, modifiers, localization | Purely additive |
-| `tfast_history` | Decisions, events, localization | Purely additive |
-| `tfast_funpack` | Decisions, traits, modifiers, localization | Purely additive |
-| `tfast_ai_suite` | Decisions, events, GUI, localization | Purely additive; player-only |
-| `tfast_lategame` | `common/defines/` — 4 population-growth keys | Partial define override |
-| `tfast_performance` | `common/defines/ai/zz_tfast_performance_ai.txt` — 16 AI keys | Partial define override |
-| `tfast_smarter_ai` | `common/defines/ai/00_ai.txt` — 16 AI keys | **Rewrites a vanilla file** |
-| `tfast_ui_readable` | `gui/preload/fonts.gui` — 4 templates | **Rewrites a vanilla file** |
-| `tfast_template` | Nothing meaningful | Scaffold |
+| `tfast_africa`           | Decisions, traits, modifiers, localization                                                                             | Purely additive                                   |
+| `tfast_history`          | Decisions, events, localization                                                                                        | Purely additive                                   |
+| `tfast_funpack`          | Decisions, traits, modifiers, localization                                                                             | Purely additive                                   |
+| `tfast_ai_suite`         | Decisions, events, GUI, localization                                                                                   | Purely additive; player-only                      |
+| `tfast_lategame`         | `common/defines/` — 4 population-growth keys                                                                           | Partial define override                           |
+| `tfast_performance`      | `common/defines/ai/zz_tfast_performance_ai.txt` — 16 AI keys                                                           | Partial define override                           |
+| `tfast_smarter_ai`       | `common/defines/ai/00_ai.txt` — 16 AI keys                                                                             | **Rewrites a vanilla file**                       |
+| `tfast_ui_readable`      | `gui/preload/fonts.gui` — 4 templates                                                                                  | **Rewrites a vanilla file**                       |
+| `tfast_template`         | Nothing meaningful                                                                                                     | Scaffold                                          |
 
 "Partial define override" means the file redefines specific keys and leaves
 everything else to vanilla. Defines are merged at the key level, so a partial
@@ -31,12 +31,12 @@ override is safe and does not wipe the rest of the file.
 
 These two tune **the same 16 AI keys in opposite directions**.
 
-| | `tfast_performance` | `tfast_smarter_ai` |
-|---|---|---|
-| Recalculation timers | Longer | Shorter |
-| Options weighed | Fewer | More |
-| Effect on the game | Faster, dumber AI | Slower, sharper AI |
-| Difficulty | Lower | **Higher** |
+|                      | `tfast_performance` | `tfast_smarter_ai` |
+| -------------------- | ------------------- | ------------------ |
+| Recalculation timers | Longer              | Shorter            |
+| Options weighed      | Fewer               | More               |
+| Effect on the game   | Faster, dumber AI   | Slower, sharper AI |
+| Difficulty           | Lower               | **Higher**         |
 
 Enabling both produces whichever one merges last, which is not something you
 want to reason about. **Enable exactly one.**
@@ -71,12 +71,12 @@ gives them history at multiple start dates.
 
 ### What that collides with
 
-| Collision | Result |
-|---|---|
+| Collision                                                                      | Result                                                                             |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | Any mod that also rewrites Welsh or English title history at 866 / 1066 / 1178 | Last one loaded wins, and the loser's characters may end up landless or duplicated |
-| Any mod that adds characters with the same IDs | Duplicate definitions; one silently overwrites the other |
-| Total conversions (AGOT, LotR, etc.) | Expect title-history and character-ID collisions. **Test in a new save.** |
-| Mods that redefine `house_british_isles_mathrafal` | The Targaryen consolidation targets that house; redefining it breaks the merge |
+| Any mod that adds characters with the same IDs                                 | Duplicate definitions; one silently overwrites the other                           |
+| Total conversions (AGOT, LotR, etc.)                                           | Expect title-history and character-ID collisions. **Test in a new save.**          |
+| Mods that redefine `house_british_isles_mathrafal`                             | The Targaryen consolidation targets that house; redefining it breaks the merge     |
 
 The mod does **not** require AGOT or any other mod. Those were read as reference
 only — see [NOTICE.md](../NOTICE.md).
@@ -85,13 +85,13 @@ only — see [NOTICE.md](../NOTICE.md).
 
 ## Saves
 
-| Situation | Safe? |
-|---|---|
-| Adding an additive mod to an existing save | Yes |
-| Removing an additive mod | Yes, though events in progress may linger |
-| Adding Shattered Crowns to an existing save | **Mostly** — the situation director starts itself once per world and covers existing saves. Permanent seats are asserted on the next quarterly tick |
-| Removing Shattered Crowns | Not recommended. Hollow characters and titles are now in the save |
-| Changing between `tfast_performance` and `tfast_smarter_ai` mid-campaign | Yes; defines are re-read on load |
+| Situation                                                                | Safe?                                                                                                                                               |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Adding an additive mod to an existing save                               | Yes                                                                                                                                                 |
+| Removing an additive mod                                                 | Yes, though events in progress may linger                                                                                                           |
+| Adding Shattered Crowns to an existing save                              | **Mostly** — the situation director starts itself once per world and covers existing saves. Permanent seats are asserted on the next quarterly tick |
+| Removing Shattered Crowns                                                | Not recommended. Hollow characters and titles are now in the save                                                                                   |
+| Changing between `tfast_performance` and `tfast_smarter_ai` mid-campaign | Yes; defines are re-read on load                                                                                                                    |
 
 Ironman saves behave like any other save with mods — but mods disable
 achievements regardless.
@@ -122,4 +122,4 @@ There is no required order. If you want to be careful:
 
 Include the full mod list from your playset, in order, plus the relevant
 `error.log` lines. "It crashed with 40 mods" is not actionable; "it crashed when
-`tfast_shattered_crowns` and *X* were both enabled, here is the log" is.
+`tfast_shattered_crowns` and _X_ were both enabled, here is the log" is.

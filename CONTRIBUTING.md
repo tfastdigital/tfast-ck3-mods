@@ -13,14 +13,14 @@ unplayed.
 
 ## Ways to contribute
 
-| | |
-|---|---|
+|                     |                                                                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Play and report** | Start a campaign, enable a mod, and tell us what happened. Screenshots of `Documents/Paradox Interactive/Crusader Kings III/logs/error.log` are gold. |
-| **Localization** | Typos, tone, missing keys, better prose. These files are plain text. |
-| **Balance** | Any decision whose cost, cooldown, or reward feels wrong. Bring numbers. |
-| **Bug fixes** | Script bugs, scope errors, invalid modifiers, missing loc keys. |
-| **New content** | New decisions, events, traits, systems. Open an issue first so nobody duplicates work. |
-| **Art** | Replacing the placeholder icons in [NOTICE.md](NOTICE.md) with original work would be a real improvement. |
+| **Localization**    | Typos, tone, missing keys, better prose. These files are plain text.                                                                                  |
+| **Balance**         | Any decision whose cost, cooldown, or reward feels wrong. Bring numbers.                                                                              |
+| **Bug fixes**       | Script bugs, scope errors, invalid modifiers, missing loc keys.                                                                                       |
+| **New content**     | New decisions, events, traits, systems. Open an issue first so nobody duplicates work.                                                                |
+| **Art**             | Replacing the placeholder icons in [NOTICE.md](NOTICE.md) with original work would be a real improvement.                                             |
 
 ---
 
@@ -54,7 +54,7 @@ launcher sees everything. Never add a level of nesting there.
 3. Make the change. Bump the mod's `version` in **both** `descriptor.mod` and
    `tfast_<name>.mod` if you changed behaviour.
 4. Run the validator: `python tools/validate.py`
-5. Add an entry to [CHANGELOG.md](CHANGELOG.md) under *Unreleased*.
+5. Add an entry to [CHANGELOG.md](CHANGELOG.md) under _Unreleased_.
 6. Open a pull request. Describe **what you tested and how**, or say plainly
    that you did not test it.
 
@@ -66,7 +66,7 @@ These are the mistakes this project has already made, so you do not have to.
 
 ### Encoding
 
-- **Localization `.yml` files must be saved as UTF-8 *with BOM*.** Without the
+- **Localization `.yml` files must be saved as UTF-8 _with BOM_.** Without the
   BOM, every key in the file silently fails to load and the game shows raw
   `tfast_sc_...` keys. This is the single most common cause of "my text does not
   appear".
@@ -114,12 +114,12 @@ These are the mistakes this project has already made, so you do not have to.
 
 ### Naming
 
-| Prefix | Used for |
-|---|---|
-| `tfast_` | All game-object IDs in the TFAST mods |
-| `tfast_sc_` | Shattered Crowns scripts and objects |
-| `tfast_sct_` | Shattered Crowns Targaryen / world-tier content |
-| namespace | `tfast_sc` and `tfast_sct` are reserved; pick your own |
+| Prefix       | Used for                                               |
+| ------------ | ------------------------------------------------------ |
+| `tfast_`     | All game-object IDs in the TFAST mods                  |
+| `tfast_sc_`  | Shattered Crowns scripts and objects                   |
+| `tfast_sct_` | Shattered Crowns Targaryen / world-tier content        |
+| namespace    | `tfast_sc` and `tfast_sct` are reserved; pick your own |
 
 Never reuse a vanilla ID unless you are deliberately overriding it, and say so
 in the pull request.
