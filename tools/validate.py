@@ -337,6 +337,51 @@ def check_loc_references() -> None:
                         f"{rel(script)}:{lineno}: no localization for '{key}' "
                         f"(the raw key will show in game)"
                     )
+def _block_end(lines: list[str], start: int) -> int:
+    """Index one past the closing brace of the block opened on `start`."""
+    depth = 0
+    for idx in range(start, len(lines)):
+        code = COMMENT.sub("", lines[idx])
+        depth += code.count("{") - code.count("}")
+        if depth <= 0 and idx > start:
+            return idx
+        if depth <= 0 and idx == start and "}" in code:
+            return idx
+    return len(lines)
+
+
+def check_event_descriptions() -> None:
+    """A visible event with no `desc` renders an empty story panel.
+
+    `hidden = yes` events never draw a window, so they legitimately have no
+    text. Everything else must carry a description, whether as a plain key or
+    as a `desc = { triggered_desc = ... }` block.
+    """
+    desc_line = re.compile(r"^\s*desc\s*=")
+    for mod_dir in sorted(p for p in MODS.iterdir() if p.is_dir()):
+        d = mod_dir / "events"
+        if not d.is_dir():
+            continue
+        for script in sorted(d.rglob("*.txt")):
+            try:
+                text = script.read_text(encoding="utf-8-sig")
+            except (UnicodeDecodeError, OSError):
+                continue
+            lines = text.splitlines()
+            for idx, line in enumerate(lines):
+                m = EVENT_DECL.match(line)
+                if not m:
+                    continue
+                if _is_hidden_event(lines, idx):
+                    continue
+                end = _block_end(lines, idx)
+                body = (COMMENT.sub("", ln) for ln in lines[idx + 1 : end])
+                if any(desc_line.match(ln) for ln in body):
+                    continue
+                err(
+                    f"{rel(script)}:{idx + 1}: event '{m.group(1)}' has no desc "
+                    f"and is not hidden (it would show an empty story panel)"
+                )
 
 
 def main() -> int:
@@ -346,6 +391,7 @@ def main() -> int:
 
     check_localization()
     check_loc_references()
+    check_event_descriptions()
     check_braces()
     check_descriptors()
     check_assets()
