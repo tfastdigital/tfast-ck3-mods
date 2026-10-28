@@ -28,12 +28,12 @@ All mods declare `supported_version="1.20.*"`.
 
 ## Version history
 
-| Date    | Mod                      | From → To                        | Reason                                                                |
-| ------- | ------------------------ | -------------------------------- | --------------------------------------------------------------------- |
-| 2026-10 | `tfast_shattered_crowns` | `0.x` → `1.0.0`                  | First public release: Hollow Dominion, walls, prophecy, the Reckoning |
-| 2026-10 | `tfast_ai_suite`         | `1.0.0` → `1.1.0`                | Flag-gated cheat menu replaces the flat list of decisions             |
-| 2026-10 | `tfast_shattered_crowns` | `1.0.0` → `1.1.0`                | Targaryen consolidation, Hollow war support, world-level events       |
-| 2026-10 | `tfast_ai_suite`         | `1.1.0` → `1.2.0`                | Create-an-army, one-step men-at-arms, upgrade-everything cheats       |
+| Date    | Mod                      | From → To         | Reason                                                                |
+| ------- | ------------------------ | ----------------- | --------------------------------------------------------------------- |
+| 2026-10 | `tfast_shattered_crowns` | `0.x` → `1.0.0`   | First public release: Hollow Dominion, walls, prophecy, the Reckoning |
+| 2026-10 | `tfast_ai_suite`         | `1.0.0` → `1.1.0` | Flag-gated cheat menu replaces the flat list of decisions             |
+| 2026-10 | `tfast_shattered_crowns` | `1.0.0` → `1.1.0` | Targaryen consolidation, Hollow war support, world-level events       |
+| 2026-10 | `tfast_ai_suite`         | `1.1.0` → `1.2.0` | Create-an-army, one-step men-at-arms, upgrade-everything cheats       |
 
 ---
 

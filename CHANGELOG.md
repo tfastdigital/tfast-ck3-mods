@@ -10,7 +10,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 
 ---
 
-## Unreleased
+## 1.1.0 — cheats, situation scope fixes
 
 ### tfast_shattered_crowns — 1.1.0
 
@@ -111,7 +111,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
   `scope:character`; the holder is now saved before every building is placed.
 - `refill_maa_regiment` (not a real effect) replaced with
   `change_maa_troops_count` and the `maa_max_troops_count −
-  maa_current_troops_count` script value.
+maa_current_troops_count` script value.
 
 ---
 
