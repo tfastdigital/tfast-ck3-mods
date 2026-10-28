@@ -31,15 +31,15 @@ One page is open at a time. Menu state is plain character flags (`tfast_menu_ope
 
 **Resources** — Windfall of Gold (+10000 gold) · Legendary Renown (+10000 prestige) · Divine Favour (+10000 piety) · Dynasty Renown (+10000 renown, or prestige if you carry no dynasty) · Unquestioned Right (+1000 legitimacy) · A Terrifying Reputation (+100 dread) · Political Influence (+1000 influence, *administrative governments only*) · **Golden Age** (all of it at once: +10000 gold/prestige/piety/renown, +1000 legitimacy, +150 dread, +2 development realm-wide, and a 20-year realm boon).
 
-**Domain** — Enrich the Capital (+1 development there) · Develop the Realm (+1 development in every county you rule) · Auto: Develop Your Domain (+1 development in the counties you personally hold, without enriching your vassals) · Add Building Slots (+1 permanent slot per province in your held counties, repeatable, caps at 10) · Instant Building (finishes one brand-new building in every held barony that has a free slot).
+**Domain** — Enrich the Capital (+1 development there) · Develop the Realm (+1 development in every county you rule) · Auto: Develop Your Domain (+1 development in the counties you personally hold, without enriching your vassals) · Add Building Slots (+1 permanent slot per province in your held counties, repeatable, caps at 10) · Instant Building (finishes one brand-new building in every held barony that has a free slot) · **Upgrade Everything You Rule** (walks every county in your realm and drives each holding through its whole building chain — `castle_01`→`04`, `city_01`→`04`, `temple_01`→`04`, `temple_citadel_01`→`04` — then fills any free slots).
 
-**Military** — Expand Men-at-Arms (+3 size to every regiment) · Raise a Host (2500 levies, footmen, and bowmen in the capital, plus a permanent armored horsemen regiment, levies refilled).
+**Military** — **Expand Men-at-Arms, in one step** (every empty regiment slot is filled from a fixed type list, then every regiment is pushed to its maximum size; no repeat clicking) · **Create an Army** (a 4000-levy host with six men-at-arms regiments at your capital, existing regiments topped back up, levies refilled) · Raise a Host (2500 levies, footmen, and bowmen in the capital, plus a permanent armored horsemen regiment, levies refilled).
 
 **Character** — Sharpen Every Skill (+2 to all five skills and prowess) · Peace of Mind (clears all stress) · Absolved of Tyranny (clears all tyranny).
 
 **Realm** — Auto: Grant Excess Titles (hands surplus counties to freshly generated local nobles until you are back inside your domain limit, keeping your capital) · Become Feudal / Tribal / Clan / Administrative.
 
-**Outside the menu** — the right-click grants (Grant Gold, Grant an Army, Grant a Building, Grant Standing, Grant Skill) stay on the character interaction menu, where the target belongs.
+**Outside the menu** — the right-click grants (Grant Gold, Grant an Army, Grant a Building, Grant Standing, Grant Skill) stay on the character interaction menu, where the target belongs. So do the targeted cheats: **Cheat: Create an Army** and **Cheat: Upgrade Everything They Rule** can be aimed at a vassal instead of yourself.
 
 ### Fixed
 
@@ -53,6 +53,11 @@ One page is open at a time. Menu state is plain character flags (`tfast_menu_ope
   so if a title grant ever failed to reduce `domain_limit_available` it would
   spin forever. It now carries a 60-iteration guard, matching the counter pattern
   vanilla uses for its own while loops.
+* **Building placement no longer logs `(no character)`.** Every vanilla building
+  has an `on_complete` block, and several of them read `scope:character` — which
+  nothing sets when script places a building directly. The county holder is now
+  saved as `scope:character` before each `add_building` / `generate_building`,
+  which is what the vanilla blocks expect.
 
 ## Harvested from the mods this replaced
 

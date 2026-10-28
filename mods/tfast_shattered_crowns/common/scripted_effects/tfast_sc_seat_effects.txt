@@ -172,6 +172,15 @@ tfast_sc_ensure_one_seat_effect = {
 }
 
 tfast_sc_raise_permanent_castle_effect = {
+	# Placing a building runs its vanilla on_complete block, and several of
+	# those read scope:character (00_castle_buildings.txt does
+	# scope:character = { creator_mandala_upgraded_regular_holding_piety_effect }).
+	# Nothing in script sets it, so the log filled with "(no character)"
+	# errors. Saving the holder supplies it.
+	if = {
+		limit = { exists = county.holder }
+		county.holder = { save_temporary_scope_as = character }
+	}
 	if = {
 		limit = { NOT = { has_holding_type = castle_holding } }
 		set_holding_type = castle_holding
@@ -215,6 +224,12 @@ tfast_sc_raise_permanent_castle_effect = {
 
 # Scope is the province. Fills a free slot with the top level of a chain not yet built.
 tfast_sc_max_building_effect = {
+	# See tfast_sc_raise_permanent_castle_effect: the vanilla on_complete
+	# blocks of the buildings below expect scope:character to exist.
+	if = {
+		limit = { exists = county.holder }
+		county.holder = { save_temporary_scope_as = character }
+	}
 	if = {
 		limit = {
 			free_building_slots > 0

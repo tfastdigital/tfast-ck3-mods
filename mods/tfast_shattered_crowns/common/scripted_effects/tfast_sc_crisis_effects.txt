@@ -60,7 +60,14 @@ tfast_sc_crisis_watch_effect = {
 		}
 		set_global_variable = { name = tfast_sc_crisis_phase value = 2 }
 		tfast_sc_warning_sent_effect = yes
-		trigger_situation_catalyst = catalyst_tfast_sc_escalation
+		# trigger_situation_catalyst only works from SITUATION scope; called from
+		# character scope it logs "Wrong scope for effect" and does nothing.
+		if = {
+			limit = { exists = situation:tfast_sc_hollow_tide }
+			situation:tfast_sc_hollow_tide = {
+				trigger_situation_catalyst = catalyst_tfast_sc_escalation
+			}
+		}
 	}
 
 	# When the warning window expires, the Reckoning begins.
@@ -87,7 +94,12 @@ tfast_sc_crisis_watch_effect = {
 			remove_character_flag = tfast_sc_overlord_dormant
 		}
 		tfast_sc_hollow_returns_effect = yes
-		trigger_situation_catalyst = catalyst_tfast_sc_peace
+		if = {
+			limit = { exists = situation:tfast_sc_hollow_tide }
+			situation:tfast_sc_hollow_tide = {
+				trigger_situation_catalyst = catalyst_tfast_sc_peace
+			}
+		}
 	}
 
 	# ------------------------------------------------------------------
@@ -124,7 +136,12 @@ tfast_sc_warning_sent_effect = {
 tfast_sc_reckoning_begins_effect = {
 	set_global_variable = { name = tfast_sc_crisis_phase value = 3 }
 	set_global_variable = { name = tfast_sc_reckoning_waves value = 0 }
-	trigger_situation_catalyst = catalyst_tfast_sc_reckoning
+	if = {
+		limit = { exists = situation:tfast_sc_hollow_tide }
+		situation:tfast_sc_hollow_tide = {
+			trigger_situation_catalyst = catalyst_tfast_sc_reckoning
+		}
+	}
 
 	if = {
 		limit = { tfast_sc_overlord_valid_trigger = yes }
@@ -194,7 +211,12 @@ tfast_sc_reckoning_begins_effect = {
 	else = {
 		# No overlord: there is no Reckoning.
 		set_global_variable = { name = tfast_sc_crisis_phase value = 1 }
-		trigger_situation_catalyst = catalyst_tfast_sc_peace
+		if = {
+			limit = { exists = situation:tfast_sc_hollow_tide }
+			situation:tfast_sc_hollow_tide = {
+				trigger_situation_catalyst = catalyst_tfast_sc_peace
+			}
+		}
 	}
 }
 
@@ -393,7 +415,12 @@ tfast_sc_reckoning_end_effect = {
 	# The tide turns one way or the other in the world's ledger.
 	if = {
 		limit = { NOT = { global_var:tfast_sc_crisis_phase = 6 } }
-		trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+		if = {
+			limit = { exists = situation:tfast_sc_hollow_tide }
+			situation:tfast_sc_hollow_tide = {
+				trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+			}
+		}
 	}
 
 	# The world remembers what happened here.
@@ -445,7 +472,12 @@ tfast_sc_seal_overlord_effect = {
 		if = {
 			limit = { global_var:tfast_sc_crisis_phase = 3 }
 			set_global_variable = { name = tfast_sc_crisis_phase value = 5 }
-			trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+			if = {
+				limit = { exists = situation:tfast_sc_hollow_tide }
+				situation:tfast_sc_hollow_tide = {
+					trigger_situation_catalyst = catalyst_tfast_sc_aftermath
+				}
+			}
 		}
 		every_player = {
 			trigger_event = { id = tfast_sc.0502 days = { 5 20 } }

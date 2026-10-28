@@ -215,11 +215,35 @@ tfast_cheat_max_maa = {
 		has_character_flag = tfast_menu_open
 		has_character_flag = tfast_menu_page_military
 	}
-	is_valid = { any_maa_regiment = { always = yes } }
+	is_valid = { is_alive = yes }
 
 	effect = {
 		tfast_debug_note_effect = { NOTE = tfast_cheat_max_maa }
-		every_maa_regiment = { change_maa_regiment_size = 3 }
+		tfast_max_maa_effect = yes
+	}
+}
+
+
+# --------------------------------------------------------- CREATE ARMY ---
+# A full host in one click, on top of whatever the ruler already fields.
+tfast_cheat_create_army = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_levy_outcasts.dds" }
+	decision_group_type = major
+	sort_order = 9013
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_military
+	}
+	is_valid = {
+		is_landed = yes
+		exists = capital_province
+	}
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_create_army }
+		tfast_create_army_effect = yes
 	}
 }
 
@@ -262,6 +286,28 @@ tfast_cheat_clear_tyranny = {
 }
 
 
+# ------------------------------------------------- UPGRADE ALL YOU RULE ---
+# Every holding in the realm, held directly or through a vassal, is pushed to
+# its highest level and topped up with finished buildings. Free.
+tfast_cheat_upgrade_realm = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	sort_order = 9014
+	ai_check_interval = 0
+
+	is_shown = { always = no is_ai = no  is_landed = yes
+		has_character_flag = tfast_menu_open
+		has_character_flag = tfast_menu_page_domain
+	}
+	is_valid = { is_landed = yes }
+
+	effect = {
+		tfast_debug_note_effect = { NOTE = tfast_cheat_upgrade_realm }
+		tfast_upgrade_realm_effect = yes
+	}
+}
+
+
 # -------------------------------------------------------------- GOLDEN AGE --
 # Everything at once, plus a strong but temporary realm-wide boon.
 tfast_cheat_golden_age = {
@@ -295,7 +341,7 @@ tfast_cheat_golden_age = {
 			limit = { is_landed = yes }
 			every_sub_realm_county = { change_development_level = 2 }
 		}
-		every_maa_regiment = { change_maa_regiment_size = 3 }
+		tfast_max_maa_effect = yes
 		add_character_modifier = {
 			modifier = tfast_golden_age_modifier
 			years = 20

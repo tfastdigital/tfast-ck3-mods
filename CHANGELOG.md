@@ -12,7 +12,7 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 
 ## Unreleased
 
-### tfast_shattered_crowns — 1.1.0 (in progress)
+### tfast_shattered_crowns — 1.1.0
 
 #### Added
 
@@ -67,22 +67,51 @@ See [docs/TESTING_STATUS.md](docs/TESTING_STATUS.md).
 - `hostile_scheme_resistance_mult` → `enemy_hostile_scheme_success_chance_add`.
 - ~1,500 trait-description log errors (`ROOT.GetHerHis` → `CHARACTER.GetHerHis`).
 - Great Wall planning scope mismatch in `on_plan_build`.
+- `(no character)` errors from vanilla building `on_complete` blocks, which read
+  `scope:character` — unset whenever script places a building. The holder is now
+  saved as `scope:character` before every `add_building` / `generate_building`.
+- Every `trigger_situation_catalyst` call (12 sites) now runs inside
+  `situation:tfast_sc_hollow_tide = { ... }` guarded by
+  `exists = situation:tfast_sc_hollow_tide`. Called from character scope the
+  engine only logged `Wrong scope for effect: character, expected situation`
+  and the Hollow Tide never changed phase.
+- `has_dynasty_perk` / `dynasty_prestige` wrapped in `dynasty ?= { ... }` — they
+  are dynasty triggers and error out in character scope.
 - 15 files missing the UTF-8 BOM.
 
 ---
 
-### tfast_ai_suite — 1.1.0
+### tfast_ai_suite — 1.2.0
 
 #### Added
 
 - Exportable flag-menu framework: open, page, back, close — 23 cheats across five
   pages (Resources, Domain, Military, Character, Realm).
 - Landless-adventurer path for the full usable kit.
+- **Cheat: Create an Army** — spawns a 4,000-levy host at your capital with six
+  regiments of men-at-arms, tops up every existing regiment, and refills levies.
+- **Cheat: Upgrade Everything You Rule** — walks every county you hold and
+  drives each holding through its full building chain (`castle_01`→`04`,
+  `city_01`→`04`, `temple_01`→`04`, `temple_citadel_01`→`04`), then fills any
+  free building slots.
+- Matching targeted interactions for **Create an Army** and **Upgrade
+  Everything You Rule**, so both can be aimed at a vassal.
 
 #### Changed
 
 - All cheats gated behind a single menu flag so the Decisions tab stays clean
   while the menu is closed.
+- **Max Men-at-Arms is now one step.** It fills every empty regiment slot from a
+  fixed type list and then pushes each regiment to its maximum size, instead of
+  requiring repeated clicks. It is also used by Golden Age.
+
+#### Fixed
+
+- `(no character)` errors from vanilla building `on_complete` blocks that read
+  `scope:character`; the holder is now saved before every building is placed.
+- `refill_maa_regiment` (not a real effect) replaced with
+  `change_maa_troops_count` and the `maa_max_troops_count −
+  maa_current_troops_count` script value.
 
 ---
 

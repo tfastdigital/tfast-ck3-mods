@@ -26,6 +26,9 @@ BOM = b"\xef\xbb\xbf"
 errors: list[str] = []
 warnings: list[str] = []
 
+# Filled by check_localization(), consumed by check_loc_references().
+LOC_KEYS: set[str] = set()
+
 
 def err(msg: str) -> None:
     errors.append(msg)
@@ -48,8 +51,16 @@ def rel(p: Path) -> str:
 
 LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+)\s*:\d*\s*"')
 
+# A language header must occupy its line on its own. CK3 does NOT accept
+#     l_english: some_key:0 "text"
+# on one line: it fails to open the language block, and every key after it is
+# rejected with "Trying to import a localization key outside of a language".
+# The result is raw keys showing in game, with no error about the header itself.
+LANG_HEADER = re.compile(r"^\s*l_[a-z]{2,}(?:_[A-Za-z]+)?\s*:\s*(?P<rest>\S.*)?$")
+
 
 def check_localization() -> None:
+    global LOC_KEYS
     for mod_dir in sorted(p for p in MODS.iterdir() if p.is_dir()):
         first_seen: dict[str, Path] = {}
 
@@ -77,15 +88,28 @@ def check_localization() -> None:
             if not header.startswith("l_english:"):
                 warn(f"{rel(yml)}: no 'l_english:' header found (first content line is {header!r})")
 
+            headers = 0
             for lineno, line in enumerate(text.splitlines(), 1):
                 if line.lstrip().startswith("#"):
                     continue
+
+                # --- language header must be alone on its line ---------------
+                hm = None if LOC_LINE.match(line) else LANG_HEADER.match(line)
+                if hm:
+                    headers += 1
+                    if hm.group("rest"):
+                        err(
+                            f"{rel(yml)}:{lineno}: language header must be alone on its "
+                            f"line, found {hm.group('rest')!r} after it. CK3 then rejects "
+                            f"every key in this file and the raw keys show in game."
+                        )
+                    continue
+
                 m = LOC_LINE.match(line)
                 if not m:
                     continue
                 key = m.group(1)
-                if key.lower() == "l_english":
-                    continue
+                LOC_KEYS.add(key)
                 if key in first_seen:
                     other = first_seen[key]
                     if other != yml:
@@ -97,6 +121,9 @@ def check_localization() -> None:
                         err(f"{rel(yml)}:{lineno}: duplicate localization key '{key}' in same file")
                 else:
                     first_seen[key] = yml
+
+            if headers > 1:
+                warn(f"{rel(yml)}: {headers} language header lines (expected exactly 1)")
 
 
 # --------------------------------------------------------------------------
@@ -223,12 +250,102 @@ def check_stray_files() -> None:
             err(f"{rel(path)}: should not be committed")
 
 
+# --------------------------------------------------------------------------
+# 6. Localization references: every key a script asks for must exist
+# --------------------------------------------------------------------------
+# A missing key does not break the load, it just renders the raw key in game
+# (an event with no story, a decision titled "tfast_thing"). That is invisible
+# in error.log on a release build, so it is checked statically here.
+
+EVENT_DECL = re.compile(r"^\s*([a-z][a-z0-9_]*\.\d+)\s*=\s*\{\s*$")
+EVENT_OPTION = re.compile(r"^\s*name\s*=\s*([a-z][a-z0-9_]*\.\d+\.[a-z0-9]+)\b")
+TOOLTIP_KEY = re.compile(r"^\s*custom_tooltip\s*=\s*(?:key\s*=\s*)?([A-Za-z0-9_.\-]+)")
+DESC_TITLE = re.compile(r"^\s*(?:desc|title|desc_extra|selection_tooltip|effect_desc|cooldown_desc)\s*=\s*([A-Za-z0-9_.\-]+)\s*$")
+SCRIPT_DIRS = ("events", "common/decisions", "common/character_interactions",
+               "common/modifiers", "common/on_action", "common/scripted_triggers",
+               "common/scripted_effects", "common/decisions_groups")
+
+
+def _referenced_keys(path: Path, text: str):
+    """Yield (lineno, key) pairs a script file references by name."""
+    lines = text.splitlines()
+    for lineno, line in enumerate(lines, 1):
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+
+        m = EVENT_DECL.match(line)
+        if m:
+            ev = m.group(1)
+            # A hidden event is never drawn, so it needs no title.
+            if not _is_hidden_event(lines, lineno - 1):
+                yield lineno, f"{ev}.t"
+            continue
+
+        m = EVENT_OPTION.match(line)
+        if m:
+            yield lineno, m.group(1)
+            continue
+
+        m = TOOLTIP_KEY.match(line)
+        if m and m.group(1) not in ("yes", "no"):
+            yield lineno, m.group(1)
+            continue
+
+        m = DESC_TITLE.match(line)
+        if m:
+            key = m.group(1)
+            if key and key not in ("yes", "no") and not key.isdigit():
+                yield lineno, key
+
+
+def _is_hidden_event(lines: list[str], start: int) -> bool:
+    """True when the event block opening at `start` declares hidden = yes."""
+    depth = 0
+    for line in lines[start:]:
+        code = COMMENT.sub("", line)
+        if re.match(r"^\s*hidden\s*=\s*yes\s*$", code):
+            return True
+        depth += code.count("{") - code.count("}")
+        if depth <= 0 and line is not lines[start]:
+            return False
+    return False
+
+
+def check_loc_references() -> None:
+    seen: set[tuple[str, str]] = set()
+    for mod_dir in sorted(p for p in MODS.iterdir() if p.is_dir()):
+        for sub in SCRIPT_DIRS:
+            d = mod_dir / sub
+            if not d.is_dir():
+                continue
+            for script in sorted(d.rglob("*.txt")):
+                try:
+                    text = script.read_text(encoding="utf-8-sig")
+                except (UnicodeDecodeError, OSError):
+                    continue
+                for lineno, key in _referenced_keys(script, text):
+                    if key in LOC_KEYS:
+                        continue
+                    # Only flag mod-owned keys; vanilla keys are defined elsewhere.
+                    if not key.startswith("tfast"):
+                        continue
+                    if (str(script), key) in seen:
+                        continue
+                    seen.add((str(script), key))
+                    err(
+                        f"{rel(script)}:{lineno}: no localization for '{key}' "
+                        f"(the raw key will show in game)"
+                    )
+
+
 def main() -> int:
     if not MODS.is_dir():
         print(f"error: {MODS} not found — run this from the repository root", file=sys.stderr)
         return 1
 
     check_localization()
+    check_loc_references()
     check_braces()
     check_descriptors()
     check_assets()

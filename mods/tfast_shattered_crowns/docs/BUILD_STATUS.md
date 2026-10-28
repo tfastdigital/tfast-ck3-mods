@@ -18,7 +18,7 @@ Statuses mean what they say. STATICALLY_VALIDATED is not VERIFIED.
 | Population ledger | LEFT TO POPULATION FOUNDATION | Workshop mod pdx_162659, already installed, version 1.20. Not copied |
 | Workforce, famine, roads, currency, espionage | POSTPONED | Phase 7 or rejected where noted |
 | Economy artwork | POSTPONED | No images were generated for this pass |
-| TFAST AI Suite cheat menu | STATICALLY_VALIDATED | Daddy Pika-style flag menu in `tfast_ai_suite` (`04_tfast_menu.txt`): Open → five pages → Back/Close. All 23 cheats gated behind `tfast_menu_open` + page flag. Validator exit 0; not clicked in a running game. Full map: `HANDOFF.md` |
+| TFAST AI Suite cheat menu | STATICALLY_VALIDATED | Daddy Pika-style flag menu in `tfast_ai_suite` (`04_tfast_menu.txt`): Open → five pages → Back/Close. All 25 cheats gated behind `tfast_menu_open` + page flag. Validator exit 0; not clicked in a running game. Full map: `HANDOFF.md` |
 | The Long Dark (crisis phase 6) | STATICALLY_VALIDATED | A Reckoning lost on any front (game rule permitting): bounded yearly world decay (plague/famine/poverty, development and control loss, occasional deaths), the Hollow tithe, the fever year, wall blockades. `tfast_sc_dark_age_effects.txt`, `tfast_sc.0900-0908` |
 | The uprising (resistance → comeback) | STATICALLY_VALIDATED | Deeds feed `tfast_sc_dark_resistance` (rise +2, seat +3, defended raid +1, wall holds +1, tithe refused +1). At 8 the world rises, at 14 the dark breaks: Host retreats, prophecy reopens, Spirit of the Uprising |
 | Wall projects: reinforce / dismantle / Hollow demolition | STATICALLY_VALIDATED | Two refit levels (fort level + defender advantage), sponsor dismantle (−100 prestige), staged dark assaults down to "the wall is unmade" |

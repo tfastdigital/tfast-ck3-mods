@@ -121,7 +121,12 @@ tfast_sc_create_special_merc_effect = {
 			save_scope_as = tfast_sc_new_merc_title
 		}
 		change_government = landless_adventurer_government
-		add_realm_law = landless_adventurer_succession_law
+		# change_government already installs the adventurer succession law, so
+		# add_realm_law here logged "already has this realm law" on every call.
+		if = {
+			limit = { NOT = { has_realm_law = landless_adventurer_succession_law } }
+			add_realm_law = landless_adventurer_succession_law
+		}
 		spawn_army = {
 			name = $TITLE$
 			levies = { value = $LEVIES$ }

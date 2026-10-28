@@ -51,7 +51,9 @@ tfast_sc_hollow_war_support_effect = {
 tfast_sc_hollow_send_gold_effect = {
 	if = {
 		limit = { gold >= 150 }
-		add_gold = -100
+		# add_gold refuses negative values ("Negative value in: {}. {}") and
+		# logs an error; vanilla always uses remove_gold to take gold away.
+		remove_gold = 100
 		scope:tfast_sc_war_leader = { add_gold = 100 }
 	}
 }

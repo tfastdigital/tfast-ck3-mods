@@ -13,11 +13,11 @@ All mods declare `supported_version="1.20.*"`.
 
 | Mod                      | Launcher name                                | Version   | Games                                                         | Content                                                                                |
 | ------------------------ | -------------------------------------------- | --------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `tfast_shattered_crowns` | TFAST Shattered Crowns                       | **1.0.0** | Gameplay, Events, Character Interactions, Decisions, Religion | Survival epic: Hollow Dominion, Great Wall, Great Reckoning, Long Dark, Chosen Emperor |
+| `tfast_shattered_crowns` | TFAST Shattered Crowns                       | **1.1.0** | Gameplay, Events, Character Interactions, Decisions, Religion | Survival epic: Hollow Dominion, Great Wall, Great Reckoning, Long Dark, Chosen Emperor |
 | `tfast_africa`           | TFAST Africa — Historical Depth              | **1.0.0** | Gameplay, Events, Decisions, Culture, Religion                | 12 decisions, 6 traits, 12 modifiers                                                   |
 | `tfast_history`          | TFAST History — Historic Acts & Institutions | **1.0.0** | Gameplay, Events, Decisions                                   | 35 historically grounded decisions                                                     |
 | `tfast_funpack`          | TFAST Fun Pack — Court Life & Character      | **1.0.0** | Gameplay, Events, Character Interactions                      | 6 court decisions with real trade-offs                                                 |
-| `tfast_ai_suite`         | TFAST AI Suite — Cheats & Automation         | **1.1.0** | Gameplay, Utilities, Fixes                                    | 5-page flag cheat menu (23 cheats) + automation                                        |
+| `tfast_ai_suite`         | TFAST AI Suite — Cheats & Automation         | **1.2.0** | Gameplay, Utilities, Fixes                                    | 5-page flag cheat menu (25 cheats) + automation                                        |
 | `tfast_lategame`         | TFAST Late Game — Stability                  | **1.0.0** | Gameplay, Balance, Utilities                                  | 4 population-growth defines                                                            |
 | `tfast_performance`      | TFAST Performance — Lean AI                  | **1.0.0** | Gameplay, Utilities                                           | 16 AI defines, cheaper AI                                                              |
 | `tfast_smarter_ai`       | TFAST Smarter AI                             | **1.0.0** | Gameplay, Balance                                             | 16 AI defines, sharper AI                                                              |
@@ -32,7 +32,8 @@ All mods declare `supported_version="1.20.*"`.
 | ------- | ------------------------ | -------------------------------- | --------------------------------------------------------------------- |
 | 2026-10 | `tfast_shattered_crowns` | `0.x` → `1.0.0`                  | First public release: Hollow Dominion, walls, prophecy, the Reckoning |
 | 2026-10 | `tfast_ai_suite`         | `1.0.0` → `1.1.0`                | Flag-gated cheat menu replaces the flat list of decisions             |
-| 2026-10 | `tfast_shattered_crowns` | `1.0.0` → `1.1.0` _(unreleased)_ | Targaryen consolidation, Hollow war support, world-level events       |
+| 2026-10 | `tfast_shattered_crowns` | `1.0.0` → `1.1.0`                | Targaryen consolidation, Hollow war support, world-level events       |
+| 2026-10 | `tfast_ai_suite`         | `1.1.0` → `1.2.0`                | Create-an-army, one-step men-at-arms, upgrade-everything cheats       |
 
 ---
 
@@ -47,7 +48,7 @@ All mods declare `supported_version="1.20.*"`.
 | **PATCH** | Bug fixes, localization, balance, typo — no new IDs                                         |
 
 A mod's version is independent of the others'. `tfast_ai_suite` can be at
-`1.1.0` while everything else is at `1.0.0`.
+`1.2.0` while everything else is at `1.0.0`.
 
 ### Claiming game-version support
 

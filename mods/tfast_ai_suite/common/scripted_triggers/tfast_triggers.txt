@@ -39,7 +39,7 @@ tfast_build_budget_open_trigger = {
 }
 
 # This barony can take one paid improvement: a holding level, or a new
-# building in a free slot. Expects a province scope. root is the player.
+# building in a free slot. Expects a province scope. scope:tfast_ruler is the player.
 tfast_province_can_build_trigger = {
 	OR = {
 		has_holding_type = castle_holding
@@ -47,11 +47,11 @@ tfast_province_can_build_trigger = {
 		has_holding_type = church_holding
 		has_holding_type = temple_citadel_holding
 	}
-	root = { tfast_build_budget_open_trigger = yes }
+	scope:tfast_ruler = { tfast_build_budget_open_trigger = yes }
 	OR = {
 		has_free_building_slot = yes
 		AND = {
-			root = { gold >= 600 }
+			scope:tfast_ruler = { gold >= 600 }
 			OR = {
 				AND = {
 					has_holding_type = castle_holding
@@ -80,8 +80,20 @@ tfast_province_can_build_trigger = {
 
 # Renown covers the next legacy. Cost is 250 plus 500 for each perk already
 # counted on this dynasty. Expects a character scope.
+#
+# dynasty_prestige is a DYNASTY trigger: used in character scope CK3 logs
+#     "Wrong scope for trigger: character, expected dynasty"
+# and the whole condition silently evaluates to false. Vanilla uses the
+# dynasty ?= { ... } form, which is what we do here.
 tfast_can_afford_legacy_trigger = {
 	exists = dynasty
 	has_variable = tfast_legacy_owned
-	dynasty_prestige >= tfast_next_legacy_cost
+	dynasty ?= { dynasty_prestige >= tfast_next_legacy_cost }
+}
+
+# has_dynasty_perk is also a DYNASTY trigger. Every perk check in the mod goes
+# through this so the scope is correct and no character-scope error is logged.
+tfast_has_legacy_perk_trigger = {
+	exists = dynasty
+	dynasty ?= { has_dynasty_perk = $PERK$ }
 }

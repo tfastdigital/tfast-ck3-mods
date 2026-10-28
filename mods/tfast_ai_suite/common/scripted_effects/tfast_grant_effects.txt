@@ -32,7 +32,216 @@ tfast_instant_buildings_effect = {
 	every_held_title = {
 		limit = { tier = tier_barony }
 		title_province = {
+			# Placing a building runs its vanilla on_complete block, and
+			# several of those read scope:character, which is unset when
+			# script places the building. Saving the holder fills it in.
+			if = {
+				limit = { exists = county.holder }
+				county.holder = { save_temporary_scope_as = character }
+			}
 			generate_building = yes
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+#  ONE-CLICK ARMY
+# ---------------------------------------------------------------------------
+# Player only (every caller is guarded by is_ai = no). Spawns a full host at
+# the capital on each activation and tops the standing regiments up, so a
+# single click leaves the ruler with a usable army instead of one regiment.
+tfast_create_army_effect = {
+	spawn_army = {
+		name = tfast_grant_army_name
+		levies = 4000
+		men_at_arms = {
+			type = armored_footmen
+			stacks = 6
+		}
+		men_at_arms = {
+			type = bowmen
+			stacks = 6
+		}
+		men_at_arms = {
+			type = armored_horsemen
+			stacks = 4
+		}
+		men_at_arms = {
+			type = onager
+			stacks = 2
+		}
+		location = capital_province
+		uses_supply = yes
+		inheritable = no
+	}
+	refill_levy = yes
+	# Regiments already in the field are topped up to full strength. There is
+	# no "refill" effect; vanilla adjusts the troop count directly, so the
+	# missing troops are added back.
+	every_maa_regiment = {
+		change_maa_troops_count = tfast_maa_missing_troops_value
+	}
+}
+
+# ---------------------------------------------------------------------------
+#  ONE-CLICK MEN-AT-ARMS
+# ---------------------------------------------------------------------------
+# The old cheat added a flat +3 size per click, so reaching the cap took
+# several activations. Vanilla grows a regiment with the pair below (see
+# can_upgrade_maa in 06_ep3_interactions.txt); can_upgrade_maa turns false
+# once the regiment is at its maximum, so this loop always terminates and one
+# activation leaves every regiment at full size.
+tfast_max_maa_effect = {
+	# Fill empty regiment slots first. check_can_recruit = yes makes the game
+	# skip any regiment it would not accept, so the cap cannot be exceeded.
+	create_maa_regiment = {
+		type = armored_footmen
+		size = 1
+		check_can_recruit = yes
+	}
+	create_maa_regiment = {
+		type = bowmen
+		size = 1
+		check_can_recruit = yes
+	}
+	create_maa_regiment = {
+		type = armored_horsemen
+		size = 1
+		check_can_recruit = yes
+	}
+	create_maa_regiment = {
+		type = light_horsemen
+		size = 1
+		check_can_recruit = yes
+	}
+	create_maa_regiment = {
+		type = armored_footmen
+		size = 1
+		check_can_recruit = yes
+	}
+	create_maa_regiment = {
+		type = bowmen
+		size = 1
+		check_can_recruit = yes
+	}
+	# Then push every regiment to its maximum size.
+	while = {
+		count = 50 # Hard bound, in case a regiment can never reach its cap.
+		limit = { any_maa_regiment = { can_upgrade_maa = yes } }
+		every_maa_regiment = {
+			limit = { can_upgrade_maa = yes }
+			change_maa_regiment_size = {
+				size = 1
+				reinforce = yes
+			}
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+#  ONE-CLICK UPGRADE OF EVERYTHING YOU RULE
+# ---------------------------------------------------------------------------
+# Province scope. add_building replaces the lower level of the same chain, and
+# the levels are requested bottom-up because a higher level expects the one
+# below it. The guards keep a level from being added twice.
+tfast_upgrade_province_effect = {
+	if = {
+		limit = {
+			has_holding_type = castle_holding
+			has_building_or_higher = castle_01
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = castle_02 } }
+			add_building = castle_02
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = castle_03 } }
+			add_building = castle_03
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = castle_04 } }
+			add_building = castle_04
+		}
+	}
+	else_if = {
+		limit = {
+			has_holding_type = city_holding
+			has_building_or_higher = city_01
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = city_02 } }
+			add_building = city_02
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = city_03 } }
+			add_building = city_03
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = city_04 } }
+			add_building = city_04
+		}
+	}
+	else_if = {
+		limit = {
+			has_holding_type = church_holding
+			has_building_or_higher = temple_01
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_02 } }
+			add_building = temple_02
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_03 } }
+			add_building = temple_03
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_04 } }
+			add_building = temple_04
+		}
+	}
+	else_if = {
+		limit = {
+			has_holding_type = temple_citadel_holding
+			has_building_or_higher = temple_citadel_01
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_citadel_02 } }
+			add_building = temple_citadel_02
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_citadel_03 } }
+			add_building = temple_citadel_03
+		}
+		if = {
+			limit = { NOT = { has_building_or_higher = temple_citadel_04 } }
+			add_building = temple_citadel_04
+		}
+	}
+	# Finally fill the remaining slots with finished buildings. Capped at three
+	# so a holding whose slots are all taken cannot loop.
+	if = {
+		limit = { has_free_building_slot = yes }
+		generate_building = yes
+	}
+	if = {
+		limit = { has_free_building_slot = yes }
+		generate_building = yes
+	}
+	if = {
+		limit = { has_free_building_slot = yes }
+		generate_building = yes
+	}
+}
+
+# Every province in the realm, whether held directly or by a vassal.
+tfast_upgrade_realm_effect = {
+	every_sub_realm_county = {
+		every_county_province = {
+			if = {
+				limit = { exists = county.holder }
+				county.holder = { save_temporary_scope_as = character }
+			}
+			tfast_upgrade_province_effect = yes
 		}
 	}
 }

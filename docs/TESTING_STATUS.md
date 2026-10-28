@@ -104,7 +104,7 @@ intended outcome. That is the honest state of the project, and it is why
 
 | Mod                 | Status                 | Notes                                                                   |
 | ------------------- | ---------------------- | ----------------------------------------------------------------------- |
-| `tfast_ai_suite`    | `STATICALLY_VALIDATED` | Validator exit 0; the 23 cheats have not been clicked in a running game |
+| `tfast_ai_suite`    | `STATICALLY_VALIDATED` | Validator exit 0; the 25 cheats have not been clicked in a running game |
 | `tfast_africa`      | `STATICALLY_VALIDATED` | 12 decisions parse; not clicked                                         |
 | `tfast_history`     | `STATICALLY_VALIDATED` | 35 decisions parse; not clicked                                         |
 | `tfast_funpack`     | `STATICALLY_VALIDATED` | 6 decisions parse; not clicked                                          |
@@ -129,6 +129,10 @@ Things that are known to be wrong or unconfirmed. These are not hidden.
 | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- |
 | `tfast_sc_reckoning_war` CB against a Targaryen target            | Medium   | Declares and resolves against non-Targaryens; the Targaryen-specific path is unverified |
 | `tcastle_03` / `tcastle_04` build errors on holder-less provinces | Low      | Appears in `error.log` on some starts; cosmetic but noisy                               |
+| `scope:character` breaks in vanilla building `on_complete`        | Fixed    | Holder is now saved as `scope:character` before every building is placed                |
+| `spawn_army` `men_at_arms` accepts both `men` and `stacks`        | Verified | Both forms exist in 1.20 vanilla script                                                 |
+| `trigger_situation_catalyst` wrong scope (12 sites)               | Fixed    | Every call now runs inside `situation:tfast_sc_hollow_tide = { ... }`                   |
+| `has_dynasty_perk` / `dynasty_prestige` in character scope        | Fixed    | Wrapped in `dynasty ?= { ... }` at every site                                            |
 | `norse_building_gfx` sequence warning in Hollow culture           | Low      | Cosmetic                                                                                |
 | `tfast_sct_dragon_egg.dds` modifier icon dimensions               | Low      | May not match the expected modifier icon size                                           |
 | No benchmarking of any defines-only mod                           | Medium   | Unknown whether the performance mods actually help                                      |

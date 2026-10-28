@@ -14,7 +14,11 @@
 # ---------------------------------------------------------------------------
 #  BUILDINGS
 # ---------------------------------------------------------------------------
+# `root` is NOT set when these effects are reached from a character
+# interaction's on_send, so the ruler is saved explicitly instead. Every
+# nested check below uses scope:tfast_ruler.
 tfast_auto_build_effect = {
+	save_scope_as = tfast_ruler
 	if = {
 		limit = { NOT = { has_variable = tfast_build_budget } }
 		set_variable = { name = tfast_build_budget value = 500 }
@@ -54,7 +58,7 @@ tfast_auto_build_effect = {
 			tfast_build_budget_open_trigger = yes
 			primary_title = {
 				any_de_jure_county = {
-					holder = { top_liege = root }
+					holder = { top_liege = scope:tfast_ruler }
 					any_county_province = { tfast_province_can_build_trigger = yes }
 				}
 			}
@@ -62,7 +66,7 @@ tfast_auto_build_effect = {
 		primary_title = {
 			random_de_jure_county = {
 				limit = {
-					holder = { top_liege = root }
+					holder = { top_liege = scope:tfast_ruler }
 					any_county_province = { tfast_province_can_build_trigger = yes }
 				}
 				random_county_province = {
@@ -96,11 +100,18 @@ tfast_auto_build_effect = {
 }
 
 # One improvement on this barony. Holding levels cost 400. A new building
-# in a free slot costs 150. Province scope; root is the player.
+# in a free slot costs 150. Province scope; scope:tfast_ruler is the player.
 tfast_auto_build_one_effect = {
+	# Placing a building runs its vanilla on_complete block, and some of those
+	# read scope:character, which nothing in script sets. Saving the holder
+	# here covers every add_building and generate_building below.
+	if = {
+		limit = { exists = county.holder }
+		county.holder = { save_temporary_scope_as = character }
+	}
 	if = {
 		limit = {
-			root = { gold >= 600 }
+			scope:tfast_ruler = { gold >= 600 }
 			has_holding_type = castle_holding
 			has_building_or_higher = castle_01
 			NOT = { has_building_or_higher = castle_04 }
@@ -109,7 +120,7 @@ tfast_auto_build_one_effect = {
 	}
 	else_if = {
 		limit = {
-			root = { gold >= 600 }
+			scope:tfast_ruler = { gold >= 600 }
 			has_holding_type = city_holding
 			has_building_or_higher = city_01
 			NOT = { has_building_or_higher = city_04 }
@@ -118,7 +129,7 @@ tfast_auto_build_one_effect = {
 	}
 	else_if = {
 		limit = {
-			root = { gold >= 600 }
+			scope:tfast_ruler = { gold >= 600 }
 			has_holding_type = church_holding
 			has_building_or_higher = temple_01
 			NOT = { has_building_or_higher = temple_04 }
@@ -127,7 +138,7 @@ tfast_auto_build_one_effect = {
 	}
 	else_if = {
 		limit = {
-			root = { gold >= 600 }
+			scope:tfast_ruler = { gold >= 600 }
 			has_holding_type = temple_citadel_holding
 			has_building_or_higher = temple_citadel_01
 			NOT = { has_building_or_higher = temple_citadel_04 }
@@ -137,10 +148,10 @@ tfast_auto_build_one_effect = {
 	else_if = {
 		limit = {
 			has_free_building_slot = yes
-			root = { gold >= 350 }
+			scope:tfast_ruler = { gold >= 350 }
 		}
 		generate_building = yes
-		root = {
+		scope:tfast_ruler = {
 			remove_short_term_gold = 150
 			change_variable = { name = tfast_build_spent add = 150 }
 		}
@@ -162,7 +173,7 @@ tfast_raise_castle_effect = {
 		add_building = castle_03
 	}
 	else = { add_building = castle_04 }
-	root = { tfast_pay_holding_upgrade_effect = yes }
+	scope:tfast_ruler = { tfast_pay_holding_upgrade_effect = yes }
 }
 
 tfast_raise_city_effect = {
@@ -175,7 +186,7 @@ tfast_raise_city_effect = {
 		add_building = city_03
 	}
 	else = { add_building = city_04 }
-	root = { tfast_pay_holding_upgrade_effect = yes }
+	scope:tfast_ruler = { tfast_pay_holding_upgrade_effect = yes }
 }
 
 tfast_raise_temple_effect = {
@@ -188,7 +199,7 @@ tfast_raise_temple_effect = {
 		add_building = temple_03
 	}
 	else = { add_building = temple_04 }
-	root = { tfast_pay_holding_upgrade_effect = yes }
+	scope:tfast_ruler = { tfast_pay_holding_upgrade_effect = yes }
 }
 
 tfast_raise_citadel_effect = {
@@ -201,7 +212,7 @@ tfast_raise_citadel_effect = {
 		add_building = temple_citadel_03
 	}
 	else = { add_building = temple_citadel_04 }
-	root = { tfast_pay_holding_upgrade_effect = yes }
+	scope:tfast_ruler = { tfast_pay_holding_upgrade_effect = yes }
 }
 
 
@@ -209,6 +220,7 @@ tfast_raise_citadel_effect = {
 #  COUNCIL
 # ---------------------------------------------------------------------------
 tfast_auto_council_effect = {
+	save_scope_as = tfast_ruler
 	tfast_fill_steward_effect = yes
 	tfast_fill_marshal_effect = yes
 	tfast_fill_chancellor_effect = yes
@@ -225,6 +237,10 @@ tfast_fill_steward_effect = {
 				is_adult = yes
 				is_imprisoned = no
 				NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_steward_trigger = { COURT_OWNER = scope:tfast_ruler }
 				stewardship >= 8
 			}
 			save_scope_as = tfast_pick_steward
@@ -236,6 +252,10 @@ tfast_fill_steward_effect = {
 					is_adult = yes
 					is_imprisoned = no
 					NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_steward_trigger = { COURT_OWNER = scope:tfast_ruler }
 				}
 				save_scope_as = tfast_pick_steward
 			}
@@ -258,6 +278,10 @@ tfast_fill_marshal_effect = {
 				is_adult = yes
 				is_imprisoned = no
 				NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_marshal_trigger = { COURT_OWNER = scope:tfast_ruler }
 				martial >= 8
 			}
 			save_scope_as = tfast_pick_marshal
@@ -269,6 +293,10 @@ tfast_fill_marshal_effect = {
 					is_adult = yes
 					is_imprisoned = no
 					NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_marshal_trigger = { COURT_OWNER = scope:tfast_ruler }
 				}
 				save_scope_as = tfast_pick_marshal
 			}
@@ -291,6 +319,10 @@ tfast_fill_chancellor_effect = {
 				is_adult = yes
 				is_imprisoned = no
 				NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_chancellor_trigger = { COURT_OWNER = scope:tfast_ruler }
 				diplomacy >= 8
 			}
 			save_scope_as = tfast_pick_chancellor
@@ -302,6 +334,10 @@ tfast_fill_chancellor_effect = {
 					is_adult = yes
 					is_imprisoned = no
 					NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_chancellor_trigger = { COURT_OWNER = scope:tfast_ruler }
 				}
 				save_scope_as = tfast_pick_chancellor
 			}
@@ -324,6 +360,10 @@ tfast_fill_spymaster_effect = {
 				is_adult = yes
 				is_imprisoned = no
 				NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_spymaster_trigger = { COURT_OWNER = scope:tfast_ruler }
 				intrigue >= 8
 			}
 			save_scope_as = tfast_pick_spymaster
@@ -335,6 +375,10 @@ tfast_fill_spymaster_effect = {
 					is_adult = yes
 					is_imprisoned = no
 					NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_spymaster_trigger = { COURT_OWNER = scope:tfast_ruler }
 				}
 				save_scope_as = tfast_pick_spymaster
 			}
@@ -357,8 +401,12 @@ tfast_fill_chaplain_effect = {
 				is_adult = yes
 				is_imprisoned = no
 				NOT = { is_councillor = yes }
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_court_chaplain_trigger = { COURT_OWNER = scope:tfast_ruler }
 				learning >= 8
-				faith = root.faith
+				faith = scope:tfast_ruler.faith
 			}
 			save_scope_as = tfast_pick_chaplain
 		}
@@ -369,7 +417,11 @@ tfast_fill_chaplain_effect = {
 					is_adult = yes
 					is_imprisoned = no
 					NOT = { is_councillor = yes }
-					faith = root.faith
+				# Vanilla eligibility: adult, not imprisoned, not a hostage, no other council
+				# seat, and the right gender for this faith's council law. A pick that fails
+				# this makes assign_councillor_type log 'position is not valid' and do nothing.
+				can_be_court_chaplain_trigger = { COURT_OWNER = scope:tfast_ruler }
+					faith = scope:tfast_ruler.faith
 				}
 				save_scope_as = tfast_pick_chaplain
 			}
@@ -430,14 +482,14 @@ tfast_direct_council_effect = {
 # county you hold. Councillor scope.
 tfast_direct_steward_effect = {
 	if = {
-		limit = { root = { gold < 400 } }
+		limit = { scope:tfast_ruler = { gold < 400 } }
 		if = {
 			limit = { NOT = { is_performing_council_task = task_collect_taxes } }
 			set_council_task = { task_type = task_collect_taxes }
 		}
 	}
 	else = {
-		root = {
+		scope:tfast_ruler = {
 			random_held_county = {
 				limit = { development_level < 25 }
 				save_scope_as = tfast_dev_county
@@ -461,7 +513,7 @@ tfast_direct_steward_effect = {
 }
 
 tfast_direct_marshal_effect = {
-	root = {
+	scope:tfast_ruler = {
 		random_held_county = {
 			limit = { county_control < 80 }
 			save_scope_as = tfast_control_county
@@ -484,9 +536,9 @@ tfast_direct_marshal_effect = {
 }
 
 tfast_direct_chaplain_effect = {
-	root = {
+	scope:tfast_ruler = {
 		random_sub_realm_county = {
-			limit = { NOT = { faith = root.faith } }
+			limit = { NOT = { faith = scope:tfast_ruler.faith } }
 			save_scope_as = tfast_convert_county
 		}
 	}
@@ -511,6 +563,7 @@ tfast_direct_chaplain_effect = {
 #  COURT
 # ---------------------------------------------------------------------------
 tfast_auto_court_effect = {
+	save_scope_as = tfast_ruler
 	set_variable = { name = tfast_court_guard value = 0 }
 	while = {
 		limit = {
@@ -546,9 +599,9 @@ tfast_recruit_courtier_effect = {
 	create_character = {
 		age = { 20 35 }
 		gender_female_chance = 50
-		culture = root.culture
-		faith = root.faith
-		location = root.capital_province
+		culture = scope:tfast_ruler.culture
+		faith = scope:tfast_ruler.faith
+		location = scope:tfast_ruler.capital_province
 		trait = $TEACH$
 		save_scope_as = tfast_new_courtier
 	}
@@ -575,7 +628,7 @@ tfast_appoint_position_effect = {
 				$SKILL$ >= 8
 			}
 			save_scope_as = tfast_court_pick
-			root = { set_variable = { name = tfast_court_found value = yes } }
+			scope:tfast_ruler = { set_variable = { name = tfast_court_found value = yes } }
 		}
 		if = {
 			limit = { has_variable = tfast_court_found }
@@ -599,7 +652,7 @@ tfast_auto_legacy_effect = {
 
 tfast_count_perk_effect = {
 	if = {
-		limit = { has_dynasty_perk = $PERK$ }
+		limit = { tfast_has_legacy_perk_trigger = { PERK = $PERK$ } }
 		change_variable = { name = tfast_legacy_owned add = 1 }
 	}
 }
@@ -641,6 +694,12 @@ tfast_recount_legacies_effect = {
 	tfast_count_perk_effect = { PERK = kin_legacy_3 }
 	tfast_count_perk_effect = { PERK = kin_legacy_4 }
 	tfast_count_perk_effect = { PERK = kin_legacy_5 }
+	# tfast_next_legacy_cost is evaluated inside a dynasty scope, where this
+	# character's variables are not visible, so mirror the count globally.
+	set_global_variable = {
+		name = tfast_legacy_perk_count
+		value = var:tfast_legacy_owned
+	}
 }
 
 tfast_pay_legacy_cost_effect = {
@@ -663,273 +722,273 @@ tfast_buy_next_legacy_effect = {
 	if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = warfare_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = warfare_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = warfare_legacy_1
-			NOT = { has_dynasty_perk = warfare_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = warfare_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = warfare_legacy_2
-			NOT = { has_dynasty_perk = warfare_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = warfare_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = warfare_legacy_3
-			NOT = { has_dynasty_perk = warfare_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = warfare_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = warfare_legacy_4
-			NOT = { has_dynasty_perk = warfare_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = warfare_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = warfare_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = law_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = law_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = law_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = law_legacy_1
-			NOT = { has_dynasty_perk = law_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = law_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = law_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = law_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = law_legacy_2
-			NOT = { has_dynasty_perk = law_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = law_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = law_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = law_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = law_legacy_3
-			NOT = { has_dynasty_perk = law_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = law_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = law_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = law_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = law_legacy_4
-			NOT = { has_dynasty_perk = law_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = law_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = law_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = law_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = glory_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = glory_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = glory_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = glory_legacy_1
-			NOT = { has_dynasty_perk = glory_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = glory_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = glory_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = glory_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = glory_legacy_2
-			NOT = { has_dynasty_perk = glory_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = glory_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = glory_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = glory_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = glory_legacy_3
-			NOT = { has_dynasty_perk = glory_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = glory_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = glory_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = glory_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = glory_legacy_4
-			NOT = { has_dynasty_perk = glory_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = glory_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = glory_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = glory_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = guile_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = guile_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = guile_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = guile_legacy_1
-			NOT = { has_dynasty_perk = guile_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = guile_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = guile_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = guile_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = guile_legacy_2
-			NOT = { has_dynasty_perk = guile_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = guile_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = guile_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = guile_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = guile_legacy_3
-			NOT = { has_dynasty_perk = guile_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = guile_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = guile_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = guile_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = guile_legacy_4
-			NOT = { has_dynasty_perk = guile_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = guile_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = guile_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = guile_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = erudition_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = erudition_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = erudition_legacy_1
-			NOT = { has_dynasty_perk = erudition_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = erudition_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = erudition_legacy_2
-			NOT = { has_dynasty_perk = erudition_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = erudition_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = erudition_legacy_3
-			NOT = { has_dynasty_perk = erudition_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = erudition_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = erudition_legacy_4
-			NOT = { has_dynasty_perk = erudition_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = erudition_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = erudition_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = blood_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = blood_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = blood_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = blood_legacy_1
-			NOT = { has_dynasty_perk = blood_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = blood_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = blood_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = blood_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = blood_legacy_2
-			NOT = { has_dynasty_perk = blood_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = blood_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = blood_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = blood_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = blood_legacy_3
-			NOT = { has_dynasty_perk = blood_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = blood_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = blood_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = blood_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = blood_legacy_4
-			NOT = { has_dynasty_perk = blood_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = blood_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = blood_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = blood_legacy_5 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			NOT = { has_dynasty_perk = kin_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = kin_legacy_1 } }
 		}
 		tfast_take_legacy_effect = { PERK = kin_legacy_1 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = kin_legacy_1
-			NOT = { has_dynasty_perk = kin_legacy_2 }
+			tfast_has_legacy_perk_trigger = { PERK = kin_legacy_1 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = kin_legacy_2 } }
 		}
 		tfast_take_legacy_effect = { PERK = kin_legacy_2 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = kin_legacy_2
-			NOT = { has_dynasty_perk = kin_legacy_3 }
+			tfast_has_legacy_perk_trigger = { PERK = kin_legacy_2 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = kin_legacy_3 } }
 		}
 		tfast_take_legacy_effect = { PERK = kin_legacy_3 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = kin_legacy_3
-			NOT = { has_dynasty_perk = kin_legacy_4 }
+			tfast_has_legacy_perk_trigger = { PERK = kin_legacy_3 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = kin_legacy_4 } }
 		}
 		tfast_take_legacy_effect = { PERK = kin_legacy_4 }
 	}
 	else_if = {
 		limit = {
 			tfast_can_afford_legacy_trigger = yes
-			has_dynasty_perk = kin_legacy_4
-			NOT = { has_dynasty_perk = kin_legacy_5 }
+			tfast_has_legacy_perk_trigger = { PERK = kin_legacy_4 }
+			NOT = { tfast_has_legacy_perk_trigger = { PERK = kin_legacy_5 } }
 		}
 		tfast_take_legacy_effect = { PERK = kin_legacy_5 }
 	}

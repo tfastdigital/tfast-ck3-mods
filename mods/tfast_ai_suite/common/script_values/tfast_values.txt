@@ -1,9 +1,27 @@
-﻿# Next dynasty legacy, in renown. 250 for the first perk, then 500 more
-# for every perk already counted on this character.
+﻿# Next dynasty legacy, in renown. 250 for the first perk, then 500 more for
+# every perk already counted.
+#
+# This value is read from INSIDE a dynasty scope (dynasty_prestige is a
+# dynasty trigger), where character variables are not visible. So the perk
+# count is mirrored into a global variable by tfast_recount_legacies_effect
+# just before the cost is checked.
 tfast_next_legacy_cost = {
 	value = 250
-	add = {
-		value = var:tfast_legacy_owned
-		multiply = 500
+	if = {
+		limit = { has_global_variable = tfast_legacy_perk_count }
+		add = {
+			value = global_var:tfast_legacy_perk_count
+			multiply = 500
+		}
 	}
+}
+
+# Missing troops of a men-at-arms regiment. Used in regiment scope by
+# tfast_create_army_effect to bring existing regiments back to full strength:
+# change_maa_troops_count adds to the current count, so the difference is what
+# is needed rather than the maximum. Vanilla builds the same sum in
+# replenishable_troops_value (07_ep3_values.txt).
+tfast_maa_missing_troops_value = {
+	value = maa_max_troops_count
+	subtract = maa_current_troops_count
 }

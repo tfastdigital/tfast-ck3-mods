@@ -22,25 +22,46 @@ tfast_sc_ensure_long_night_effect = {
 }
 
 tfast_sc_advance_long_night_effect = {
+	# trigger_situation_catalyst is a SITUATION effect. Called from character
+	# scope it logs "Wrong scope for effect: character, expected situation"
+	# and nothing happens, so the Long Night never advanced past its first
+	# phase. Vanilla drives situations with situation:<type> = { ... }.
 	if = {
-		limit = { NOT = { has_global_variable = tfast_sc_cold_wait } }
-		if = {
-			limit = {
-				OR = {
-					NOT = { exists = global_var:tfast_sc_cold_step }
-					global_var:tfast_sc_cold_step = 0
+		limit = {
+			exists = situation:tfast_sc_long_night
+			NOT = { has_global_variable = tfast_sc_cold_wait }
+		}
+		situation:tfast_sc_long_night = {
+			if = {
+				limit = {
+					OR = {
+						NOT = { exists = global_var:tfast_sc_cold_step }
+						global_var:tfast_sc_cold_step = 0
+					}
 				}
+				trigger_situation_catalyst = catalyst_tfast_sc_cold_winter
 			}
-			trigger_situation_catalyst = catalyst_tfast_sc_cold_winter
+			else_if = {
+				limit = { global_var:tfast_sc_cold_step = 1 }
+				trigger_situation_catalyst = catalyst_tfast_sc_cold_long_night
+			}
+			else = {
+				trigger_situation_catalyst = catalyst_tfast_sc_cold_thaw
+			}
+		}
+		if = {
+			limit = { NOT = { has_global_variable = tfast_sc_cold_step } }
+			set_global_variable = { name = tfast_sc_cold_step value = 1 }
+		}
+		else_if = {
+			limit = { global_var:tfast_sc_cold_step = 0 }
 			set_global_variable = { name = tfast_sc_cold_step value = 1 }
 		}
 		else_if = {
 			limit = { global_var:tfast_sc_cold_step = 1 }
-			trigger_situation_catalyst = catalyst_tfast_sc_cold_long_night
 			set_global_variable = { name = tfast_sc_cold_step value = 2 }
 		}
 		else = {
-			trigger_situation_catalyst = catalyst_tfast_sc_cold_thaw
 			set_global_variable = { name = tfast_sc_cold_step value = 0 }
 		}
 		set_global_variable = { name = tfast_sc_cold_wait value = yes years = 3 }

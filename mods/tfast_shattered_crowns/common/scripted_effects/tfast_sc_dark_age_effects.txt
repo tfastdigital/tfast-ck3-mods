@@ -44,7 +44,14 @@ tfast_sc_dark_reign_begin_effect = {
 	set_global_variable = { name = tfast_sc_crisis_phase value = 6 }
 	set_global_variable = { name = tfast_sc_dark_years value = 0 }
 	set_global_variable = { name = tfast_sc_dark_resistance value = 0 }
-	trigger_situation_catalyst = catalyst_tfast_sc_dark
+	# Situation effects need situation scope; from character scope the engine
+	# logs "Wrong scope for effect: character, expected situation" and skips it.
+	if = {
+		limit = { exists = situation:tfast_sc_hollow_tide }
+		situation:tfast_sc_hollow_tide = {
+			trigger_situation_catalyst = catalyst_tfast_sc_dark
+		}
+	}
 
 	# The Dominion is already cracked if the Ten fought among themselves.
 	if = {
@@ -247,7 +254,12 @@ tfast_sc_dark_player_yearly_effect = {
 # ---------------------------------------------------------------------------
 tfast_sc_uprising_begin_effect = {
 	if = { limit = { NOT = { exists = global_var:tfast_sc_uprising } } set_global_variable = { name = tfast_sc_uprising value = yes } }
-	trigger_situation_catalyst = catalyst_tfast_sc_uprising
+	if = {
+		limit = { exists = situation:tfast_sc_hollow_tide }
+		situation:tfast_sc_hollow_tide = {
+			trigger_situation_catalyst = catalyst_tfast_sc_uprising
+		}
+	}
 
 	# Those who swore the pledge raise their banners.
 	every_player = {
@@ -279,7 +291,12 @@ tfast_sc_uprising_win_effect = {
 	remove_global_variable = tfast_sc_uprising
 	remove_global_variable = tfast_sc_seat_recovery_news
 	set_global_variable = { name = tfast_sc_crisis_phase value = 5 }
-	trigger_situation_catalyst = catalyst_tfast_sc_dawnbreak
+	if = {
+		limit = { exists = situation:tfast_sc_hollow_tide }
+		situation:tfast_sc_hollow_tide = {
+			trigger_situation_catalyst = catalyst_tfast_sc_dawnbreak
+		}
+	}
 	set_global_variable = { name = tfast_sc_reckoning_cooldown value = yes years = 30 }
 	set_global_variable = { name = tfast_sc_prophecy_open value = yes years = 10 }
 

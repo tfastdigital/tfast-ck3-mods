@@ -628,13 +628,11 @@ tfast_cheat_i_max_maa = {
 
 	is_shown = {
 		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
-		scope:recipient = { any_maa_regiment = { always = yes } }
+		scope:recipient = { is_landed = yes }
 	}
 
 	on_send = {
-		scope:recipient = {
-			every_maa_regiment = { change_maa_regiment_size = 3 }
-		}
+		scope:recipient = { tfast_max_maa_effect = yes }
 	}
 }
 
@@ -658,6 +656,29 @@ tfast_cheat_i_raise_host = {
 	}
 }
 
+tfast_cheat_i_create_army = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_create_army_desc
+	common_interaction = yes
+	icon = icon_scheme_murder
+	interface_priority = 50
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = {
+			is_landed = yes
+			exists = capital_province
+		}
+	}
+
+	on_send = {
+		scope:recipient = { tfast_create_army_effect = yes }
+	}
+}
+
 tfast_cheat_i_instant_build = {
 	category = interaction_category_tfast
 	desc = tfast_cheat_i_instant_build_desc
@@ -678,6 +699,26 @@ tfast_cheat_i_instant_build = {
 
 	on_send = {
 		scope:recipient = { tfast_instant_buildings_effect = yes }
+	}
+}
+
+tfast_cheat_i_upgrade_realm = {
+	category = interaction_category_tfast
+	desc = tfast_cheat_i_upgrade_realm_desc
+	common_interaction = yes
+	icon = grant_titles_interaction
+	interface_priority = 49
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no has_character_flag = tfast_cheat_open }
+		scope:recipient = { is_landed = yes }
+	}
+
+	on_send = {
+		scope:recipient = { tfast_upgrade_realm_effect = yes }
 	}
 }
 
