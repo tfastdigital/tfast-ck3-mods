@@ -4,8 +4,11 @@
 
 [![Game Version](https://img.shields.io/badge/CK3-1.20.x-502C97?style=flat-square)](docs/MOD_VERSIONS.md)
 [![License](https://img.shields.io/badge/license-MIT-2ea44f?style=flat-square)](LICENSE)
+[![Validate](https://github.com/tfastdigital/tfast-ck3-mods/actions/workflows/validate.yml/badge.svg)](https://github.com/tfastdigital/tfast-ck3-mods/actions/workflows/validate.yml)
 [![Status](https://img.shields.io/badge/status-in%20development-orange?style=flat-square)](docs/TESTING_STATUS.md)
 [![Contributions](https://img.shields.io/badge/contributions-welcome-blue?style=flat-square)](CONTRIBUTING.md)
+
+**[Download the latest release](https://github.com/tfastdigital/tfast-ck3-mods/releases/latest)** — each mod is packaged as its own zip.
 
 ---
 
@@ -62,7 +65,15 @@ The full narrative, the cast, and the timeline: **[docs/STORY.md](docs/STORY.md)
 
 The `mods/` folder in this repository mirrors a CK3 mod directory exactly, so installation is a copy.
 
-1. Download or clone this repository.
+**Option A — download only what you want.** Grab a mod's zip from the [latest release](https://github.com/tfastdigital/tfast-ck3-mods/releases/latest), then unzip it into the `mod/` folder below. Each zip contains the mod folder **and** its `.mod` launcher file.
+
+**Option B — clone everything.**
+
+```
+git clone https://github.com/tfastdigital/tfast-ck3-mods.git
+```
+
+1. Download a release, or clone this repository.
 2. Copy **everything inside `mods/`** (the folders _and_ the `.mod` files) into:
 
    ```
@@ -79,7 +90,7 @@ Step-by-step with screenshots-free troubleshooting: **[docs/INSTALL.md](docs/INS
 
 ### Updating
 
-Copy over the old folders. Your saves are unaffected; new scripted content is picked up on load. If a mod changes a save-visible key, the changelog says so.
+Copy over the old folders. Your saves are unaffected; new scripted content is picked up on load. If a mod changes a save-visible key, the changelog says so. **Releases are tagged** (`v1.0.0`, `v1.0.1`, …) so you can see exactly which snapshot you are running.
 
 ---
 

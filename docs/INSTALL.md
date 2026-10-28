@@ -27,10 +27,17 @@ A quick way to open it: press `Win+R`, paste
 
 ## 2. Copy the mods
 
-Download this repository (**Code → Download ZIP**, then extract), or clone it:
+**Option A — one mod at a time.** Open
+[releases/latest](https://github.com/tfastdigital/tfast-ck3-mods/releases/latest)
+and download the zip for the mod you want. Each zip contains the mod folder
+**and** its `.mod` launcher file — unzip it straight into your CK3 `mod` folder
+and skip to step 3.
+
+**Option B — everything.** Download the repository
+(**Code → Download ZIP**, then extract), or clone it:
 
 ```bash
-git clone https://github.com/<owner>/tfast-ck3-mods.git
+git clone https://github.com/tfastdigital/tfast-ck3-mods.git
 ```
 
 Then copy **the entire contents of the `mods/` folder** into your CK3 `mod`
