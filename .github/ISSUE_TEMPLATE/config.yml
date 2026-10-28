@@ -1,8 +1,3 @@
+# Read docs/TESTING_STATUS.md before opening an issue: many newer systems are
+# statically validated but have never been played, and that is already known.
 blank_issues_enabled: false
-contact_links:
-  - name: Documentation
-    url: https://github.com/
-    about: Install steps, compatibility, versions, story and roadmap are all in docs/.
-  - name: How much is tested?
-    url: https://github.com/
-    about: Read docs/TESTING_STATUS.md before reporting — most newer systems are statically validated but unplayed.
